@@ -10,24 +10,21 @@
         body {
             font-family: 'Inter', sans-serif;
             color: #333;
-            background-image: url('https://images.unsplash.com/photo-1542435503-956c469947f6?q=80&w=2168&auto=format&fit=crop');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
+            background-color: #e0e7eb; /* Matte light blue-gray */
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
         .section-title { font-size: 2.25rem; font-weight: 700; color: #1a202c; margin-bottom: 2rem; text-align: center; }
-        .card { background-color: rgba(255, 255, 255, 0.9); border-radius: 0.75rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); padding: 2rem; margin-bottom: 1.5rem; }
-        .btn-primary { background-color: #4c51bf; color: #ffffff; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; }
-        .btn-primary:hover { background-color: #3c418c; }
-        .language-switcher button { background-color: #e2e8f0; color: #4a5568; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 500; transition: background-color 0.3s ease; font-size: 0.875rem; }
-        .language-switcher button.active { background-color: #4c51bf; color: #ffffff; }
-        .language-switcher button:hover:not(.active) { background-color: #cbd5e0; }
+        .card { background-color: #fcfdff; /* Matte off-white */ border-radius: 0.75rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 2rem; margin-bottom: 1.5rem; }
+        .btn-primary { background-color: #5f6ac4; /* Matte indigo */ color: #ffffff; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; }
+        .btn-primary:hover { background-color: #4c559c; /* Darker matte indigo */ }
+        .language-switcher button { background-color: #cbd2d8; /* Matte gray */ color: #4a5568; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 500; transition: background-color 0.3s ease; font-size: 0.875rem; }
+        .language-switcher button.active { background-color: #5f6ac4; /* Matte indigo */ color: #ffffff; }
+        .language-switcher button:hover:not(.active) { background-color: #aeb9c3; /* Lighter matte gray */ }
         .nav-link.active { font-weight: 700; }
     </style>
 </head>
 <body class="leading-relaxed">
-    <header class="bg-gradient-to-r from-indigo-700 to-purple-800 text-white py-6 shadow-md rounded-b-xl">
+    <header class="bg-gradient-to-r from-[#5f6ac4] to-[#7d6dbf] text-white py-6 shadow-md rounded-b-xl">
         <div class="container flex flex-col md:flex-row justify-between items-center">
             <div class="text-center md:text-left mb-4 md:mb-0">
                 <h1 class="text-5xl font-extrabold tracking-tight" data-en="Eigen" data-es="Eigen">Eigen</h1>
@@ -40,17 +37,16 @@
         </div>
     </header>
 
-    <nav class="bg-indigo-600 text-white py-4 shadow-md">
+    <nav class="bg-[#4c559c] text-white py-4 shadow-md">
         <div class="container flex flex-wrap justify-center space-x-4 md:space-x-8">
-            <a href="index.html" class="nav-link hover:text-gray-300 font-medium transition-colors" data-en="Home" data-es="Inicio">Home</a>
-            <a href="who-we-are.html" class="nav-link hover:text-gray-300 font-medium transition-colors active" data-en="Who we are" data-es="Quiénes somos">Who we are</a>
-            <a href="examples.html" class="nav-link hover:text-gray-300 font-medium transition-colors" data-en="Examples" data-es="Ejemplos">Examples</a>
-            <a href="contact.html" class="nav-link hover:text-gray-300 font-medium transition-colors" data-en="Contact" data-es="Contacto">Contact</a>
+            <a href="index.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Home" data-es="Inicio">Home</a>
+            <a href="who-we-are.html" class="nav-link hover:text-gray-200 font-medium transition-colors active" data-en="Who we are" data-es="Quiénes somos">Who we are</a>
+            <a href="examples.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Examples" data-es="Ejemplos">Examples</a>
+            <a href="contact.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Contact" data-es="Contacto">Contact</a>
         </div>
     </nav>
     
-    <section class="py-16" style="background-color: rgba(240, 244, 248, 0.9);">
-        <div class="container">
+    <section class="py-16" style="background-color: #cbd2d8;"> <div class="container">
             <h2 class="section-title" data-en="Who We Are" data-es="Quiénes somos">Who We Are</h2>
             <div class="card text-center mb-8">
                 <p class="text-lg mb-4" data-en="FMP is a team of three scientific researchers from CONICET (National Scientific and Technical Research Council of Argentina) dedicated to providing advanced numerical solutions for complex problems." data-es="FMP es un equipo de tres investigadores científicos del CONICET (Consejo Nacional de Investigaciones Científicas y Técnicas de Argentina) dedicado a proporcionar soluciones numéricas avanzadas para problemas complejos."></p>
@@ -70,42 +66,4 @@
                 </div>
                 <div class="card text-center">
                     <h4 class="text-2xl font-semibold mb-2" data-en="Pablo" data-es="Pablo">Pablo</h4>
-                    <p class="text-md" data-en="Specialist in Game Theory, Auctions, and Probability." data-es="Especialista en Teoría de Juegos, Subastas y Probabilidad."></p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-gray-900 text-white py-8 mt-16 rounded-t-xl">
-        <div class="container text-center">
-            <p class="text-md mb-2" data-en="Contact us for a consultation." data-es="Contáctenos para una consulta.">Contact us for a consultation.</p>
-            <div class="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-8 text-sm">
-                <a href="mailto:info@fmp.com" class="hover:text-gray-400 transition-colors" data-en="Email: info@fmp.com" data-es="Correo: info@fmp.com">Email: info@fmp.com</a>
-                <a href="tel:+541112345678" class="hover:text-gray-400 transition-colors" data-en="Phone: +54 11 1234 5678" data-es="Teléfono: +54 11 1234 5678">Phone: +54 11 1234 5678</a>
-            </div>
-            <p class="mt-4 text-xs text-gray-500" data-en="&copy; 2024 Eigen Solutions. All rights reserved." data-es="&copy; 2024 Eigen Soluciones. Todos los derechos reservados.">&copy; 2024 Eigen Solutions. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        // Language switching script (common to all pages)
-        function setLanguage(lang) {
-            const elements = document.querySelectorAll('[data-en], [data-es]');
-            elements.forEach(element => {
-                const translation = element.dataset[lang];
-                if (translation) {
-                    element.textContent = translation;
-                }
-            });
-            document.getElementById('lang-en').classList.remove('active');
-            document.getElementById('lang-es').classList.remove('active');
-            document.getElementById(`lang-${lang}`).classList.add('active');
-            document.documentElement.lang = lang;
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            setLanguage('en');
-        });
-    </script>
-</body>
-</html>
+                    <p class="text-md" data-en="Specialist in Game Theory, Auctions, and Probability." data-es="Especialista en Teoría de
