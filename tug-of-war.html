@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eigen Soluciones - Tug of War Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+        .section-title { font-size: 2.25rem; font-weight: 700; color: #1a202c; margin-bottom: 2rem; text-align: center; }
+        .card { background-color: #ffffff; border-radius: 0.75rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); padding: 2rem; margin-bottom: 1.5rem; }
+        .btn-primary { background-color: #4c51bf; color: #ffffff; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; }
+        .btn-primary:hover { background-color: #3c418c; }
+        .language-switcher button { background-color: #e2e8f0; color: #4a5568; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 500; transition: background-color 0.3s ease; font-size: 0.875rem; }
+        .language-switcher button.active { background-color: #4c51bf; color: #ffffff; }
+        .language-switcher button:hover:not(.active) { background-color: #cbd5e0; }
+        .nav-link.active { font-weight: 700; }
+    </style>
+</head>
+<body class="leading-relaxed">
+    <header class="bg-gradient-to-r from-indigo-700 to-purple-800 text-white py-6 shadow-md rounded-b-xl">
+        <div class="container flex flex-col md:flex-row justify-between items-center">
+            <div class="text-center md:text-left mb-4 md:mb-0">
+                <h1 class="text-5xl font-extrabold tracking-tight" data-en="Eigen" data-es="Eigen">Eigen</h1>
+                <p class="text-2xl mt-2" data-en="Solutions" data-es="Soluciones">Solutions</p>
+            </div>
+            <div class="language-switcher flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-3">
+                <button id="lang-en" class="active" onclick="setLanguage('en')">English</button>
+                <button id="lang-es" onclick="setLanguage('es')">Español</button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="bg-indigo-600 text-white py-4 shadow-md">
+        <div class="container flex flex-wrap justify-center space-x-4 md:space-x-8">
+            <a href="index.html" class="nav-link hover:text-gray-300 font-medium transition-colors" data-en="Main page" data-es="Página principal">Main page</a>
+            <a href="who-we-are.html" class="nav-link hover:text-gray-300 font-medium transition-colors" data-en="Who we are" data-es="Quiénes somos">Who we are</a>
+            <a href="black-scholes.html" class="nav-link hover:text-gray-300 font-medium transition-colors" data-en="Black Scholes" data-es="Black Scholes">Black Scholes</a>
+            <a href="engineering-work.html" class="nav-link hover:text-gray-300 font-medium transition-colors" data-en="Engineering Work" data-es="Trabajo de Ingeniería">Engineering Work</a>
+            <a href="tug-of-war.html" class="nav-link hover:text-gray-300 font-medium transition-colors active" data-en="Tug of War" data-es="Juego de la Soga">Tug of War</a>
+            <a href="contact.html" class="nav-link hover:text-gray-300 font-medium transition-colors" data-en="Contact" data-es="Contacto">Contact</a>
+        </div>
+    </nav>
+    
+    <section class="py-16">
+        <div class="container">
+            <h2 class="section-title" data-en="Tug of War Game" data-es="Juego de la Soga">Tug of War Game</h2>
+            <div class="card">
+                <p class="text-lg" data-en="Based on the information provided on the website, the 'Tug of War' is a digital game where a player competes against a computer. The objective is to move a black token inside a green circle to reach a high value, while the computer tries to push it toward a low value. The game is played in multiple rounds, with a coin toss determining who moves the token in each round. The game ends when the token hits the boundary of the green circle. A high score is considered to be 10. The article also mentions the possibility of 'cheating' by viewing the 'infinite harmonic function' and that the boundary values can be reset with a button." data-es="Basado en la información proporcionada en el sitio web, 'el juego de la soga' es un juego digital donde un jugador compite contra una computadora. El objetivo es mover una ficha negra dentro de un círculo verde para alcanzar un valor alto, mientras que la computadora intenta empujarla hacia un valor bajo. El juego se juega en varias rondas, con un lanzamiento de moneda que determina quién mueve la ficha en cada ronda. El juego termina cuando la ficha golpea el límite del círculo verde. Una puntuación alta se considera un 10. El artículo también menciona la posibilidad de 'hacer trampa' viendo la 'función armónica infinita' y que los valores del límite se pueden reiniciar con un botón."></p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-8 mt-16 rounded-t-xl">
+        <div class="container text-center">
+            <p class="text-md mb-2" data-en="Contact us for a consultation." data-es="Contáctenos para una consulta.">Contact us for a consultation.</p>
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-8 text-sm">
+                <a href="mailto:info@fmp.com" class="hover:text-gray-400 transition-colors" data-en="Email: info@fmp.com" data-es="Correo: info@fmp.com">Email: info@fmp.com</a>
+                <a href="tel:+541112345678" class="hover:text-gray-400 transition-colors" data-en="Phone: +54 11 1234 5678" data-es="Teléfono: +54 11 1234 5678">Phone: +54 11 1234 5678</a>
+            </div>
+            <p class="mt-4 text-xs text-gray-500" data-en="&copy; 2024 Eigen Solutions. All rights reserved." data-es="&copy; 2024 Eigen Soluciones. Todos los derechos reservados.">&copy; 2024 Eigen Solutions. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Language switching script (common to all pages)
+        function setLanguage(lang) {
+            const elements = document.querySelectorAll('[data-en], [data-es]');
+            elements.forEach(element => {
+                const translation = element.dataset[lang];
+                if (translation) {
+                    element.textContent = translation;
+                }
+            });
+            document.getElementById('lang-en').classList.remove('active');
+            document.getElementById('lang-es').classList.remove('active');
+            document.getElementById(`lang-${lang}`).classList.add('active');
+            document.documentElement.lang = lang;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage('en');
+        });
+    </script>
+</body>
+</html>
