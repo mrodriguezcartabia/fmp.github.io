@@ -66,4 +66,42 @@
                 </div>
                 <div class="card text-center">
                     <h4 class="text-2xl font-semibold mb-2" data-en="Pablo" data-es="Pablo">Pablo</h4>
-                    <p class="text-md" data-en="Specialist in Game Theory, Auctions, and Probability." data-es="Especialista en Teoría de
+                    <p class="text-md" data-en="Specialist in Game Theory, Auctions, and Probability." data-es="Especialista en Teoría de Juegos, Subastas y Probabilidad."></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-8 mt-16 rounded-t-xl">
+        <div class="container text-center">
+            <p class="text-md mb-2" data-en="Contact us for a consultation." data-es="Contáctenos para una consulta.">Contact us for a consultation.</p>
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-8 text-sm">
+                <a href="mailto:info@fmp.com" class="hover:text-gray-400 transition-colors" data-en="Email: info@fmp.com" data-es="Correo: info@fmp.com">Email: info@fmp.com</a>
+                <a href="tel:+541112345678" class="hover:text-gray-400 transition-colors" data-en="Phone: +54 11 1234 5678" data-es="Teléfono: +54 11 1234 5678">Phone: +54 11 1234 5678</a>
+            </div>
+            <p class="mt-4 text-xs text-gray-500" data-en="&copy; 2024 Eigen Solutions. All rights reserved." data-es="&copy; 2024 Eigen Soluciones. Todos los derechos reservados.">&copy; 2024 Eigen Solutions. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Language switching script (common to all pages)
+        function setLanguage(lang) {
+            const elements = document.querySelectorAll('[data-en], [data-es]');
+            elements.forEach(element => {
+                const translation = element.dataset[lang];
+                if (translation) {
+                    element.textContent = translation;
+                }
+            });
+            document.getElementById('lang-en').classList.remove('active');
+            document.getElementById('lang-es').classList.remove('active');
+            document.getElementById(`lang-${lang}`).classList.add('active');
+            document.documentElement.lang = lang;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage('en');
+        });
+    </script>
+</body>
+</html>
