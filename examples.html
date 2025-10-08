@@ -3,100 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eigen Soluciones - Examples</title>
+    <title>Gamma Solutions - Examples</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            color: #333;
+            color: #e2e8f0; /* Light text for dark background */
             background-image: url('https://images.unsplash.com/photo-1542435503-956c469947f6?q=80&w=2168&auto=format&fit=crop');
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
-        .section-title { font-size: 2.25rem; font-weight: 700; color: #1a202c; margin-bottom: 2rem; text-align: center; }
-        .card { background-color: rgba(252, 253, 255, 0.9); /* Matte off-white with transparency */ border-radius: 0.75rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 2rem; margin-bottom: 1.5rem; }
-        .btn-primary { background-color: #5f6ac4; /* Matte indigo */ color: #ffffff; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; }
-        .btn-primary:hover { background-color: #4c559c; /* Darker matte indigo */ }
-        .language-switcher button { background-color: #cbd2d8; /* Matte gray */ color: #4a5568; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 500; transition: background-color 0.3s ease; font-size: 0.875rem; }
+        .section-title { font-size: 2.25rem; font-weight: 700; color: #f8fafc; /* Lighter title */ margin-bottom: 2rem; text-align: center; }
+        .card { background-color: rgba(30, 41, 59, 0.9); /* Dark blue-gray with transparency */ border-radius: 0.75rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); padding: 2rem; margin-bottom: 1.5rem; color: #e2e8f0; }
+        .btn-primary { background-color: #5f6ac4; /* Matte indigo (keep) */ color: #ffffff; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; }
+        .btn-primary:hover { background-color: #7d6dbf; /* Lighter hover */ }
+        .language-switcher button { background-color: #475569; /* Darker gray */ color: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 500; transition: background-color 0.3s ease; font-size: 0.875rem; }
         .language-switcher button.active { background-color: #5f6ac4; /* Matte indigo */ color: #ffffff; }
-        .language-switcher button:hover:not(.active) { background-color: #aeb9c3; /* Lighter matte gray */ }
+        .language-switcher button:hover:not(.active) { background-color: #64748b; /* Lighter gray for hover */ }
         .nav-link.active { font-weight: 700; }
     </style>
 </head>
 <body class="leading-relaxed">
-    <header class="bg-gradient-to-r from-[#5f6ac4] to-[#7d6dbf] text-white py-6 shadow-md rounded-b-xl">
+    <header class="bg-gradient-to-r from-[#1f2937] to-[#374151] text-white py-6 shadow-md rounded-b-xl">
         <div class="container flex flex-col md:flex-row justify-between items-center">
             <div class="text-center md:text-left mb-4 md:mb-0">
-                <h1 class="text-5xl font-extrabold tracking-tight" data-en="Eigen" data-es="Eigen">Eigen</h1>
-                <p class="text-2xl mt-2" data-en="Solutions" data-es="Soluciones">Solutions</p>
+                <h1 class="text-5xl font-extrabold tracking-tight" data-en="Gamma" data-es="Gamma" data-pt="Gamma">Gamma</h1>
+                <p class="text-2xl mt-2" data-en="Solutions" data-es="Soluciones" data-pt="Soluções">Solutions</p>
             </div>
             <div class="language-switcher flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-3">
                 <button id="lang-en" class="active" onclick="setLanguage('en')">English</button>
                 <button id="lang-es" onclick="setLanguage('es')">Español</button>
+                <button id="lang-pt" onclick="setLanguage('pt')">Português</button>
             </div>
         </div>
     </header>
 
-    <nav class="bg-[#4c559c] text-white py-4 shadow-md">
+    <nav class="bg-[#111827] text-white py-4 shadow-md">
         <div class="container flex flex-wrap justify-center space-x-4 md:space-x-8">
-            <a href="index.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Home" data-es="Inicio">Home</a>
-            <a href="who-we-are.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Who we are" data-es="Quiénes somos">Who we are</a>
-            <a href="examples.html" class="nav-link hover:text-gray-200 font-medium transition-colors active" data-en="Examples" data-es="Ejemplos">Examples</a>
-            <a href="contact.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Contact" data-es="Contacto">Contact</a>
+            <a href="index.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
+            <a href="who-we-are.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
+            <a href="examples.html" class="nav-link hover:text-gray-200 font-medium transition-colors active" data-en="Examples" data-es="Ejemplos" data-pt="Exemplos">Examples</a>
+            <a href="contact.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
         </div>
     </nav>
 
     <section class="py-16">
         <div class="container">
-            <h2 class="section-title" data-en="Some Examples" data-es="Algunos Ejemplos">Some Examples</h2>
+            <h2 class="section-title" data-en="Some Examples" data-es="Algunos Ejemplos" data-pt="Alguns Exemplos">Some Examples</h2>
             
             <div id="black-scholes" class="card mb-8">
-                <h3 class="text-2xl font-semibold mb-4" data-en="Black Scholes Model" data-es="Modelo de Black Scholes">Black Scholes Model</h3>
-                <p class="text-lg" data-en="This section will contain detailed information about our work with the Black-Scholes model for financial solutions. Please check back later for more content." data-es="Esta sección contendrá información detallada sobre nuestro trabajo con el modelo de Black-Scholes para soluciones financieras. Por favor, vuelva más tarde para ver más contenido."></p>
-                <a href="black-scholes.html" class="inline-block mt-4 btn-primary" data-en="Learn more" data-es="Saber más">Learn more</a>
+                <h3 class="text-2xl font-semibold mb-4" data-en="Black Scholes Model" data-es="Modelo de Black Scholes" data-pt="Modelo Black Scholes">Black Scholes Model</h3>
+                <p class="text-lg" data-en="This section will contain detailed information about our work with the Black-Scholes model for financial solutions. Please check back later for more content." data-es="Esta sección contendrá información detallada sobre nuestro trabajo con el modelo de Black-Scholes para soluciones financieras. Por favor, vuelva más tarde para ver más contenido." data-pt="Esta seção conterá informações detalhadas sobre nosso trabalho com o modelo de Black-Scholes para soluções financeiras. Por favor, volte mais tarde para mais conteúdo."></p>
+                <a href="black-scholes.html" class="inline-block mt-4 btn-primary" data-en="Learn more" data-es="Saber más" data-pt="Saiba mais">Learn more</a>
             </div>
             
             <div id="engineering-work" class="card mb-8">
-                <h3 class="text-2xl font-semibold mb-4" data-en="Engineering Work" data-es="Trabajo de Ingeniería">Engineering Work</h3>
-                <p class="text-lg" data-en="This section will contain detailed examples of our engineering work and how we apply numerical solutions to real-world problems. Please check back later for more content." data-es="Esta sección contendrá ejemplos detallados de nuestro trabajo de ingeniería y cómo aplicamos soluciones numéricas a problemas del mundo real. Por favor, vuelva más tarde para ver más contenido."></p>
-                <a href="engineering-work.html" class="inline-block mt-4 btn-primary" data-en="Learn more" data-es="Saber más">Learn more</a>
+                <h3 class="text-2xl font-semibold mb-4" data-en="Engineering Work" data-es="Trabajo de Ingeniería" data-pt="Trabalho de Engenharia">Engineering Work</h3>
+                <p class="text-lg" data-en="This section will contain detailed examples of our engineering work and how we apply numerical solutions to real-world problems. Please check back later for more content." data-es="Esta sección contendrá ejemplos detallados de nuestro trabajo de ingeniería y cómo aplicamos soluciones numéricas a problemas del mundo real. Por favor, vuelva más tarde para ver más contenido." data-pt="Esta seção conterá exemplos detalhados de nosso trabalho de engenharia e como aplicamos soluções numéricas a problemas do mundo real. Por favor, volte mais tarde para mais conteúdo."></p>
+                <a href="engineering-work.html" class="inline-block mt-4 btn-primary" data-en="Learn more" data-es="Saber más" data-pt="Saiba mais">Learn more</a>
             </div>
             
             <div id="tug-of-war" class="card">
-                <h3 class="text-2xl font-semibold mb-4" data-en="Tug of War Game" data-es="Juego de la Soga">Tug of War Game</h3>
-                <p class="text-lg" data-en="Based on the information provided on the website, the 'Tug of War' is a digital game where a player competes against a computer. The objective is to move a black token inside a green circle to reach a high value, while the computer tries to push it toward a low value. The game is played in multiple rounds, with a coin toss determining who moves the token in each round. The game ends when the token hits the boundary of the green circle. A high score is considered to be 10. The article also mentions the possibility of 'cheating' by viewing the 'infinite harmonic function' and that the boundary values can be reset with a button." data-es="Basado en la información proporcionada en el sitio web, 'el juego de la soga' es un juego digital donde un jugador compite contra una computadora. El objetivo es mover una ficha negra dentro de un círculo verde para alcanzar un valor alto, mientras que la computadora intenta empujarla hacia un valor bajo. El juego se juega en varias rondas, con un lanzamiento de moneda que determina quién mueve la ficha en cada ronda. El juego termina cuando la ficha golpea el límite del círculo verde. Una puntuación alta se considera un 10. El artículo también menciona la posibilidad de 'hacer trampa' viendo la 'función armónica infinita' y que los valores del límite se pueden reiniciar con un botón."></p>
-                <a href="tug-of-war.html" class="inline-block mt-4 btn-primary" data-en="Learn more" data-es="Saber más">Learn more</a>
+                <h3 class="text-2xl font-semibold mb-4" data-en="Tug of War Game" data-es="Juego de la Soga" data-pt="Jogo do Cabo de Guerra">Tug of War Game</h3>
+                <p class="text-lg" data-en="Based on the information provided on the website, the 'Tug of War' is a digital game where a player competes against a computer. The objective is to move a black token inside a green circle to reach a high value, while the computer tries to push it toward a low value. The game is played in multiple rounds, with a coin toss determining who moves the token in each round. The game ends when the token hits the boundary of the green circle. A high score is considered to be 10. The article also mentions the possibility of 'cheating' by viewing the 'infinite harmonic function' and that the boundary values can be reset with a button." data-es="Basado en la información proporcionada en el sitio web, 'el juego de la soga' es un juego digital donde un jugador compite contra una computadora. El objetivo es mover una ficha negra dentro de un círculo verde para alcanzar un valor alto, mientras que la computadora intenta empujarla hacia un valor bajo. El juego se juega en varias rondas, con un lanzamiento de moneda que determina quién mueve la ficha en cada ronda. El juego termina cuando la ficha golpea el límite del círculo verde. Una puntuación alta se considera un 10. El artículo también menciona la posibilidad de 'hacer trampa' viendo la 'función armónica infinita' y que los valores del límite se pueden reiniciar con un botón." data-pt="Com base nas informações fornecidas no site, o 'Jogo do Cabo de Guerra' é um jogo digital onde um jogador compete contra um computador. O objetivo é mover uma ficha preta dentro de um círculo verde para atingir um valor alto, enquanto o computador tenta empurrá-la para um valor baixo. O jogo é jogado em várias rodadas, com um lançamento de moeda determinando quem move a ficha em cada rodada. O jogo termina quando a ficha atinge o limite do círculo verde. Uma pontuação alta é considerada 10. O artigo também menciona a possibilidade de 'trapacear' visualizando a 'função harmônica infinita' e que os valores do limite podem ser redefinidos com um botão."></p>
+                <a href="tug-of-war.html" class="inline-block mt-4 btn-primary" data-en="Learn more" data-es="Saber más" data-pt="Saiba mais">Learn more</a>
             </div>
         </div>
     </section>
 
     <footer class="bg-gray-800 text-white py-8 mt-16 rounded-t-xl">
         <div class="container text-center">
-            <p class="text-md mb-2" data-en="Contact us for a consultation." data-es="Contáctenos para una consulta.">Contact us for a consultation.</p>
+            <p class="text-md mb-2" data-en="Contact us for a consultation." data-es="Contáctenos para una consulta." data-pt="Entre em contato para uma consulta.">Contact us for a consultation.</p>
             <div class="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-8 text-sm">
-                <a href="mailto:info@fmp.com" class="hover:text-gray-400 transition-colors" data-en="Email: info@fmp.com" data-es="Correo: info@fmp.com">Email: info@fmp.com</a>
-                <a href="tel:+541112345678" class="hover:text-gray-400 transition-colors" data-en="Phone: +54 11 1234 5678" data-es="Teléfono: +54 11 1234 5678">Phone: +54 11 1234 5678</a>
+                <a href="mailto:info@fmp.com" class="hover:text-gray-400 transition-colors" data-en="Email: info@fmp.com" data-es="Correo: info@fmp.com" data-pt="E-mail: info@fmp.com">Email: info@fmp.com</a>
+                <a href="tel:+541112345678" class="hover:text-gray-400 transition-colors" data-en="Phone: +54 11 1234 5678" data-es="Teléfono: +54 11 1234 5678" data-pt="Telefone: +54 11 1234 5678">Phone: +54 11 1234 5678</a>
             </div>
-            <p class="mt-4 text-xs text-gray-500" data-en="&copy; 2024 Eigen Solutions. All rights reserved." data-es="&copy; 2024 Eigen Soluciones. Todos los derechos reservados.">&copy; 2024 Eigen Solutions. All rights reserved.</p>
+            <p class="mt-4 text-xs text-gray-500" data-en="&copy; 2024 Gamma Solutions. All rights reserved." data-es="&copy; 2024 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2024 Gamma Soluções. Todos os direitos reservados.">&copy; 2024 Eigen Solutions. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
         // Language switching script (common to all pages)
         function setLanguage(lang) {
-            const elements = document.querySelectorAll('[data-en], [data-es]');
+            const elements = document.querySelectorAll('[data-en], [data-es], [data-pt]');
             elements.forEach(element => {
                 const translation = element.dataset[lang];
+                // Update the text content of the element itself
                 if (translation) {
                     element.textContent = translation;
+                }
+                
+                // Update specific HTML attributes for links/form elements that are hardcoded
+                if (element.tagName === 'A' && element.href && element.dataset[`href${lang.toUpperCase()}`]) {
+                     element.href = element.dataset[`href${lang.toUpperCase()}`];
                 }
             });
             document.getElementById('lang-en').classList.remove('active');
             document.getElementById('lang-es').classList.remove('active');
-            document.getElementById(`lang-${lang}`).classList.add('active');
+            // Check for pt button before trying to remove active class
+            const langPtButton = document.getElementById('lang-pt');
+            if (langPtButton) {
+                langPtButton.classList.remove('active');
+            }
+            
+            // Activate the button for the current language
+            const activeButton = document.getElementById(`lang-${lang}`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
             document.documentElement.lang = lang;
         }
 
