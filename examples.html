@@ -6,7 +6,6 @@
     <title>Gamma Solutions - Examples</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -19,17 +18,19 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
         .section-title { font-size: 2.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 2rem; text-align: center; }
         .card { background-color: rgba(30, 41, 59, 0.9); border-radius: 0.75rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); padding: 2rem; margin-bottom: 1.5rem; color: #e2e8f0; }
-        .btn-primary { background-color: #5f6ac4; color: #ffffff; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; }
+        .btn-primary { background-color: #5f6ac4; color: #ffffff; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; text-decoration: none; display: inline-block; }
         .btn-primary:hover { background-color: #7d6dbf; }
-        .language-switcher button { background-color: #475569; color: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 500; transition: background-color 0.3s ease; font-size: 0.875rem; }
+        
+        /* Botones de idioma pequeños y profesionales */
+        .language-switcher button { background-color: #475569; color: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; font-size: 0.75rem; text-transform: uppercase; }
         .language-switcher button.active { background-color: #5f6ac4; color: #ffffff; }
-        .language-switcher button:hover:not(.active) { background-color: #64748b; }
-        .nav-link.active { font-weight: 700; }
+        
+        .nav-link.active { font-weight: 700; border-bottom: 2px solid #5f6ac4; }
         
         .iframe-container {
             position: relative;
             width: 100%;
-            height: 700px; /* Ajustado para el tamaño del juego */
+            height: 700px;
             overflow: hidden;
             border-radius: 0.5rem;
             background: #ffffff; 
@@ -40,23 +41,25 @@
     <header class="bg-gradient-to-r from-[#1f2937] to-[#374151] text-white py-6 shadow-md rounded-b-xl">
         <div class="container flex flex-col md:flex-row justify-between items-center">
             <div class="text-center md:text-left mb-4 md:mb-0">
-                <h1 class="text-5xl font-extrabold tracking-tight" data-en="Gamma" data-es="Gamma" data-pt="Gamma">Gamma</h1>
-                <p class="text-2xl mt-2" data-en="Solutions" data-es="Soluciones" data-pt="Soluções">Solutions</p>
+                <a href="index.html" class="hover:opacity-90 transition-opacity">
+                    <h1 class="text-5xl font-extrabold tracking-tight" data-en="Gamma" data-es="Gamma" data-pt="Gamma">Gamma</h1>
+                    <p class="text-2xl mt-2 font-light" data-en="Solutions" data-es="Soluciones" data-pt="Soluções">Solutions</p>
+                </a>
             </div>
-            <div class="language-switcher flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-3">
-                <button id="lang-en" class="active" onclick="setLanguage('en')">English</button>
-                <button id="lang-es" onclick="setLanguage('es')">Español</button>
-                <button id="lang-pt" onclick="setLanguage('pt')">Português</button>
+            <div class="language-switcher flex space-x-2">
+                <button id="lang-en" onclick="setLanguage('en')">EN</button>
+                <button id="lang-es" onclick="setLanguage('es')">ES</button>
+                <button id="lang-pt" onclick="setLanguage('pt')">PT</button>
             </div>
         </div>
     </header>
 
-    <nav class="bg-[#111827] text-white py-4 shadow-md">
+    <nav class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
         <div class="container flex flex-wrap justify-center space-x-4 md:space-x-8">
             <a href="index.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
             <a href="who-we-are.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
             <a href="examples.html" class="nav-link hover:text-gray-200 font-medium transition-colors active" data-en="Examples" data-es="Ejemplos" data-pt="Exemplos">Examples</a>
-            <a href="contact.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
+            <a href="index.html#contact-section" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
         </div>
     </nav>
 
@@ -94,34 +97,28 @@
                     ></iframe>
                 </div>
             </div>
-
-            <div id="black-scholes" class="card mb-8">
-                <h3 class="text-2xl font-semibold mb-4" data-en="Black Scholes Model" data-es="Modelo de Black Scholes" data-pt="Modelo Black Scholes">Black Scholes Model</h3>
-                <p class="text-lg" data-en="This section will contain detailed information about our work with the Black-Scholes model." data-es="Esta sección contendrá información detallada sobre nuestro trabajo con el modelo de Black-Scholes." data-pt="Esta seção conterá informações detalhadas sobre nosso trabalho com o modelo de Black-Scholes."></p>
-                <a href="black-scholes.html" class="inline-block mt-4 btn-primary" data-en="Learn more" data-es="Saber más" data-pt="Saiba mais">Learn more</a>
-            </div>
-            
-            <div id="engineering-work" class="card mb-8">
-                <h3 class="text-2xl font-semibold mb-4" data-en="Engineering Work" data-es="Trabajo de Ingeniería" data-pt="Trabalho de Engenharia">Engineering Work</h3>
-                <p class="text-lg" data-en="Detailed examples of our engineering work and numerical solutions." data-es="Ejemplos detallados de nuestro trabajo de ingeniería y soluciones numéricas." data-pt="Exemplos detalhados de nosso trabalho de engenharia e soluções numéricas."></p>
-                <a href="engineering-work.html" class="inline-block mt-4 btn-primary" data-en="Learn more" data-es="Saber más" data-pt="Saiba mais">Learn more</a>
-            </div>
         </div>
     </section>
 
-    <footer class="bg-gray-800 text-white py-8 mt-16 rounded-t-xl">
+    <footer class="bg-gray-900 text-white py-12 rounded-t-xl">
         <div class="container text-center">
-            <p class="text-md mb-2" data-en="Contact us for a consultation." data-es="Contáctenos para una consulta." data-pt="Entre em contato para uma consulta.">Contact us for a consultation.</p>
-            <div class="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-8 text-sm">
-                <a href="mailto:info@fmp.com" class="hover:text-gray-400 transition-colors" data-en="Email: info@fmp.com" data-es="Correo: info@fmp.com" data-pt="E-mail: info@fmp.com">Email: info@fmp.com</a>
-                <a href="tel:+541112345678" class="hover:text-gray-400 transition-colors" data-en="Phone: +54 11 1234 5678" data-es="Teléfono: +54 11 1234 5678" data-pt="Telefone: +54 11 1234 5678">Phone: +54 11 1234 5678</a>
+            <p class="text-md mb-4" data-en="Contact us for a consultation." data-es="Contáctenos para una consulta." data-pt="Entre em contato para uma consulta.">Contact us for a consultation.</p>
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-12 mb-8">
+                <a href="mailto:info@fmp.com" class="hover:text-[#5f6ac4] transition-colors flex items-center">
+                    <span class="mr-2 italic" data-en="Email:" data-es="Correo:" data-pt="E-mail:">Email:</span> info@fmp.com
+                </a>
+                <a href="tel:+541112345678" class="hover:text-[#5f6ac4] transition-colors flex items-center">
+                    <span class="mr-2 italic" data-en="Phone:" data-es="Teléfono:" data-pt="Telefone:">Phone:</span> +54 11 1234 5678
+                </a>
             </div>
-            <p class="mt-4 text-xs text-gray-500" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os direitos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
+            <p class="text-gray-500 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os direitos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
+        // Punto 2: Script con LocalStorage para persistencia de idioma
         function setLanguage(lang) {
+            localStorage.setItem('preferredLang', lang);
             const elements = document.querySelectorAll('[data-en], [data-es], [data-pt]');
             elements.forEach(element => {
                 const translation = element.dataset[lang];
@@ -129,21 +126,16 @@
                     element.textContent = translation;
                 }
             });
-            document.getElementById('lang-en').classList.remove('active');
-            document.getElementById('lang-es').classList.remove('active');
-            const langPtButton = document.getElementById('lang-pt');
-            if (langPtButton) {
-                langPtButton.classList.remove('active');
-            }
-            const activeButton = document.getElementById(`lang-${lang}`);
-            if (activeButton) {
-                activeButton.classList.add('active');
-            }
+
+            document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`lang-${lang}`);
+            if (activeBtn) activeBtn.classList.add('active');
             document.documentElement.lang = lang;
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            setLanguage('en');
+            const savedLang = localStorage.getItem('preferredLang') || 'en';
+            setLanguage(savedLang);
         });
     </script>
 </body>
