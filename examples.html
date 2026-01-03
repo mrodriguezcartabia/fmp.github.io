@@ -6,6 +6,7 @@
     <title>Gamma Solutions - Examples</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -25,14 +26,13 @@
         .language-switcher button:hover:not(.active) { background-color: #64748b; }
         .nav-link.active { font-weight: 700; }
         
-        /* Estilo para que el iframe se vea integrado */
         .iframe-container {
             position: relative;
             width: 100%;
-            height: 450px;
+            height: 700px; /* Ajustado para el tamaño del juego */
             overflow: hidden;
             border-radius: 0.5rem;
-            background: #ffffff; /* Fondo blanco para que la app de Streamlit se lea bien */
+            background: #ffffff; 
         }
     </style>
 </head>
@@ -67,8 +67,7 @@
             <div id="calculator-section" class="card mb-8">
                 <h3 class="text-2xl font-semibold mb-4" data-en="Interactive Calculator" data-es="Calculadora Interactiva" data-pt="Calculadora Interativa">Interactive Calculator</h3>
                 <p class="text-lg mb-6" data-en="Use our Python-powered tool to perform instant calculations." data-es="Utilice nuestra herramienta impulsada por Python para realizar cálculos instantáneos." data-pt="Use nossa ferramenta baseada em Python para realizar cálculos instantâneos."></p>
-                
-                <div class="iframe-container">
+                <div class="iframe-container" style="height: 450px;">
                     <iframe
                         src="https://mi-suma-app-dsocevh367afc6t2akttgv.streamlit.app/?embed=true"
                         style="width: 100%; height: 100%; border: none;"
@@ -77,22 +76,35 @@
                 </div>
             </div>
 
+            <div id="tug-of-war-game" class="card mb-8">
+                <h3 class="text-2xl font-semibold mb-4" data-en="Tug of War Game" data-es="Juego de la Soga" data-pt="Jogo do Cabo de Guerra">Tug of War Game</h3>
+                <p class="text-lg mb-6" 
+                   data-en="Play Tug of War against the computer. The goal is to reach high values while the computer pushes to low values." 
+                   data-es="Juega al juego de la soga contra la computadora. El objetivo es alcanzar valores altos mientras la computadora empuja hacia valores bajos." 
+                   data-pt="Jogue Cabo de Guerra contra o computador. O objetivo é alcançar valores altos enquanto o computador empurra para valores baixos.">
+                </p>
+                
+                <div class="iframe-container">
+                    <iframe 
+                        src="https://pablobce.github.io/TugOfWar/index.html" 
+                        style="width: 100%; height: 100%; border: none;"
+                        scrolling="no" 
+                        allowfullscreen="true"
+                        allow="autoplay; fullscreen"
+                    ></iframe>
+                </div>
+            </div>
+
             <div id="black-scholes" class="card mb-8">
                 <h3 class="text-2xl font-semibold mb-4" data-en="Black Scholes Model" data-es="Modelo de Black Scholes" data-pt="Modelo Black Scholes">Black Scholes Model</h3>
-                <p class="text-lg" data-en="This section will contain detailed information about our work with the Black-Scholes model for financial solutions. Please check back later for more content." data-es="Esta sección contendrá información detallada sobre nuestro trabajo con el modelo de Black-Scholes para soluciones financieras. Por favor, vuelva más tarde para ver más contenido." data-pt="Esta seção conterá informações detalhadas sobre nosso trabalho com o modelo de Black-Scholes para soluções financeiras. Por favor, volte mais tarde para mais conteúdo."></p>
+                <p class="text-lg" data-en="This section will contain detailed information about our work with the Black-Scholes model." data-es="Esta sección contendrá información detallada sobre nuestro trabajo con el modelo de Black-Scholes." data-pt="Esta seção conterá informações detalhadas sobre nosso trabalho com o modelo de Black-Scholes."></p>
                 <a href="black-scholes.html" class="inline-block mt-4 btn-primary" data-en="Learn more" data-es="Saber más" data-pt="Saiba mais">Learn more</a>
             </div>
             
             <div id="engineering-work" class="card mb-8">
                 <h3 class="text-2xl font-semibold mb-4" data-en="Engineering Work" data-es="Trabajo de Ingeniería" data-pt="Trabalho de Engenharia">Engineering Work</h3>
-                <p class="text-lg" data-en="This section will contain detailed examples of our engineering work and how we apply numerical solutions to real-world problems. Please check back later for more content." data-es="Esta sección contendrá ejemplos detallados de nuestro trabajo de ingeniería y cómo aplicamos soluciones numéricas a problemas del mundo real. Por favor, vuelva más tarde para ver más contenido." data-pt="Esta seção conterá exemplos detalhados de nosso trabalho de engenharia e como aplicamos soluções numéricas a problemas do mundo real. Por favor, volte mais tarde para mais conteúdo."></p>
+                <p class="text-lg" data-en="Detailed examples of our engineering work and numerical solutions." data-es="Ejemplos detallados de nuestro trabajo de ingeniería y soluciones numéricas." data-pt="Exemplos detalhados de nosso trabalho de engenharia e soluções numéricas."></p>
                 <a href="engineering-work.html" class="inline-block mt-4 btn-primary" data-en="Learn more" data-es="Saber más" data-pt="Saiba mais">Learn more</a>
-            </div>
-            
-            <div id="tug-of-war" class="card">
-                <h3 class="text-2xl font-semibold mb-4" data-en="Tug of War Game" data-es="Juego de la Soga" data-pt="Jogo do Cabo de Guerra">Tug of War Game</h3>
-                <p class="text-lg" data-en="Based on the information provided on the website, the 'Tug of War' is a digital game where a player competes against a computer..." data-es="Basado en la información proporcionada en el sitio web, 'el juego de la soga' es un juego digital donde un jugador compite contra una computadora..." data-pt="Com base nas informações fornecidas no site, o 'Jogo do Cabo de Guerra' é um jogo digital onde um jogador compete contra um computador..."></p>
-                <a href="tug-of-war.html" class="inline-block mt-4 btn-primary" data-en="Learn more" data-es="Saber más" data-pt="Saiba mais">Learn more</a>
             </div>
         </div>
     </section>
@@ -104,7 +116,7 @@
                 <a href="mailto:info@fmp.com" class="hover:text-gray-400 transition-colors" data-en="Email: info@fmp.com" data-es="Correo: info@fmp.com" data-pt="E-mail: info@fmp.com">Email: info@fmp.com</a>
                 <a href="tel:+541112345678" class="hover:text-gray-400 transition-colors" data-en="Phone: +54 11 1234 5678" data-es="Teléfono: +54 11 1234 5678" data-pt="Telefone: +54 11 1234 5678">Phone: +54 11 1234 5678</a>
             </div>
-            <p class="mt-4 text-xs text-gray-500" data-en="&copy; 2024 Gamma Solutions. All rights reserved." data-es="&copy; 2024 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2024 Gamma Soluções. Todos os direitos reservados.">&copy; 2024 Eigen Solutions. All rights reserved.</p>
+            <p class="mt-4 text-xs text-gray-500" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os direitos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
         </div>
     </footer>
 
