@@ -57,4 +57,85 @@
     
     <section class="py-16">
         <div class="container">
-            <h2 class="section-title" data-en="Advanced Numerical Solutions for Complex Problems" data-es="Soluciones Numéricas Avanzadas para Problemas Complejos"
+            <h2 class="section-title" data-en="Advanced Numerical Solutions for Complex Problems" data-es="Soluciones Numéricas Avanzadas para Problemas Complejos" data-pt="Soluções Numéricas Avançadas para Problemas Complejos">Advanced Numerical Solutions for Complex Problems</h2>
+            <div class="card text-center">
+                <p class="text-lg mb-4" data-en="We tackle a wide range of complex problems requiring sophisticated numerical and mathematical approaches. Our expertise allows us to provide innovative solutions in areas such as:" data-es="Abordamos una amplia gama de problemas complejos que requieren enfoques numéricos y matemáticos sofisticados. Nuestra experiencia nos permite ofrecer soluciones innovadoras en áreas como:" data-pt="Abordamos uma ampla gama de problemas complexos que exigem abordagens numéricas e matemáticas sofisticadas. Nossa experiência nos permite oferecer soluções inovadoras em áreas como:"></p>
+                <ul class="list-disc list-inside text-lg mb-6 space-y-2 text-left inline-block list-disc-dark">
+                    <li data-en="Optimization and decision-making under uncertainty." data-es="Optimización y toma de decisiones bajo incertidumbre." data-pt="Otimização e tomada de decisiones sob incerteza.">Optimization and decision-making under uncertainty.</li>
+                    <li data-en="Modeling and simulation of dynamic systems." data-es="Modelado y simulación de sistemas dinámicos." data-pt="Modelagem e simulação de sistemas dinâmicos.">Modeling and simulation of dynamic systems.</li>
+                    <li data-en="Data analysis and predictive modeling." data-es="Análisis de datos y modelado predictivo." data-pt="Análise de datos e modelagem preditiva.">Data analysis and predictive modeling.</li>
+                    <li data-en="Strategic analysis for competitive environments." data-es="Análisis estratégico para entornos competitivos." data-pt="Análise estratégica para ambientes competitivos.">Strategic analysis for competitive environments.</li>
+                    <li data-en="Financial and actuarial risk assessment." data-es="Evaluación de riesgos financieros y actuariales." data-pt="Avaliação de riscos financeiros e atuariais.">Financial and actuarial risk assessment.</li>
+                </ul>
+                <div class="mt-6">
+                    <a href="#contact-section" class="btn-primary inline-block" data-en="Contact Us" data-es="Contáctenos" data-pt="Fale Conosco">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact-section" class="py-16 bg-[#1f2937] bg-opacity-80">
+        <div class="container">
+            <h2 class="section-title" data-en="Contact Us" data-es="Contáctenos" data-pt="Fale Conosco">Contact Us</h2>
+            <div class="card max-w-2xl mx-auto border border-gray-700">
+                <form action="#" method="POST" class="space-y-6">
+                    <div>
+                        <label for="name" class="block text-lg font-medium text-gray-200" data-en="Name" data-es="Nombre" data-pt="Nome">Name</label>
+                        <input type="text" id="name" name="name" required class="mt-1 block w-full px-4 py-2 rounded-md shadow-sm input-dark">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-lg font-medium text-gray-200" data-en="Email" data-es="Correo Electrónico" data-pt="E-mail">Email</label>
+                        <input type="email" id="email" name="email" required class="mt-1 block w-full px-4 py-2 rounded-md shadow-sm input-dark">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-lg font-medium text-gray-200" data-en="Message" data-es="Mensaje" data-pt="Mensagem">Message</label>
+                        <textarea id="message" name="message" rows="4" required class="mt-1 block w-full px-4 py-2 rounded-md shadow-sm input-dark"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary w-full py-3" data-en="Send Message" data-es="Enviar Mensaje" data-pt="Enviar Mensagem">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-12 rounded-t-xl">
+        <div class="container text-center">
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-12 mb-8">
+                <a href="mailto:info@fmp.com" class="hover:text-[#5f6ac4] transition-colors flex items-center">
+                    <span class="mr-2 italic" data-en="Email:" data-es="Correo:" data-pt="E-mail:">Email:</span> info@fmp.com
+                </a>
+                <a href="tel:+541112345678" class="hover:text-[#5f6ac4] transition-colors flex items-center">
+                    <span class="mr-2 italic" data-en="Phone:" data-es="Teléfono:" data-pt="Telefone:">Phone:</span> +54 11 1234 5678
+                </a>
+            </div>
+            <p class="text-gray-500 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os direitos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function setLanguage(lang) {
+            localStorage.setItem('preferredLang', lang);
+            const elements = document.querySelectorAll('[data-en], [data-es], [data-pt]');
+            elements.forEach(element => {
+                const translation = element.dataset[lang];
+                if (translation) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        // Opcional: traducir placeholders si los añades
+                    } else {
+                        element.textContent = translation;
+                    }
+                }
+            });
+
+            document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`lang-${lang}`);
+            if (activeBtn) activeBtn.classList.add('active');
+            document.documentElement.lang = lang;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLang') || 'en';
+            setLanguage(savedLang);
+        });
+    </script>
+</body>
+</html>
