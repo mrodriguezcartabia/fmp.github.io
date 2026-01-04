@@ -10,34 +10,62 @@
         body {
             font-family: 'Inter', sans-serif;
             color: #e2e8f0; 
-            background-image: url('https://images.unsplash.com/photo-1542435503-956c469947f6?q=80&w=2168&auto=format&fit=crop');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
+            background-color: #0f172a;
+            margin: 0;
+            overflow-x: hidden;
         }
+
+        /* Efecto de fondo opaco y Parallax (Igual al Index) */
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), 
+                        url('https://images.unsplash.com/photo-1542435503-956c469947f6?q=80&w=2168&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            transform: scale(1.1);
+            transition: transform 0.1s ease-out;
+        }
+
         .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
         .section-title { font-size: 2.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 2rem; text-align: center; }
-        .card { background-color: rgba(30, 41, 59, 0.9); border-radius: 0.75rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); padding: 2rem; margin-bottom: 1.5rem; color: #e2e8f0; }
         
-        /* Botones de idioma minimalistas */
+        .card { 
+            background-color: rgba(30, 41, 59, 0.6); 
+            backdrop-filter: blur(8px);
+            border-radius: 0.75rem; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); 
+            padding: 2.5rem; 
+            margin-bottom: 1.5rem; 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
         .language-switcher button { background-color: #475569; color: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; font-size: 0.75rem; text-transform: uppercase; }
         .language-switcher button.active { background-color: #5f6ac4; color: #ffffff; }
-        
         .nav-link.active { font-weight: 700; border-bottom: 2px solid #5f6ac4; }
 
-        .profile-photo {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto 1rem auto;
-            border: 4px solid #5f6ac4;
-            background-color: #374151;
+        /* Efecto Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
         }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        html { scroll-behavior: smooth; }
     </style>
 </head>
 <body class="leading-relaxed">
-    <header class="bg-gradient-to-r from-[#1f2937] to-[#374151] text-white py-6 shadow-md rounded-b-xl">
+    <div class="parallax-bg" id="parallax"></div>
+
+    <header class="bg-gradient-to-r from-[#1f2937] to-[#374151] text-white py-6 shadow-md rounded-b-xl relative z-10">
         <div class="container flex flex-col md:flex-row justify-between items-center">
             <div class="text-center md:text-left mb-4 md:mb-0">
                 <a href="index.html" class="hover:opacity-90 transition-opacity">
@@ -62,49 +90,46 @@
         </div>
     </nav>
     
-    <section class="py-16"> 
+    <section class="py-24 relative z-10"> 
         <div class="container">
-            <h2 class="section-title" data-en="Who We Are" data-es="Quiénes somos" data-pt="Quem Somos">Who We Are</h2>
-            <div class="card text-center mb-8">
+            <h2 class="section-title reveal" data-en="Who We Are" data-es="Quiénes somos" data-pt="Quem Somos">Who We Are</h2>
+            
+            <div class="card text-center mb-12 reveal">
                 <p class="text-lg mb-4" data-en="We are researchers at CONICET and we work with numerical solutions to complex problems." data-es="Somos investigadores de CONICET y trabajamos con soluciones numéricas para problemas complejos." data-pt="Somos pesquisadores do CONICET e trabalhamos com soluções numéricas para problemas complexos."></p>
                 <p class="text-lg" data-en="Our expertise lies in applying rigorous mathematical principles to real-world challenges, delivering precise and effective outcomes." data-es="Nuestra experiencia radica en aplicar principios matemáticos rigurosos a desafíos del mundo real, brindando resultados precisos y efectivos." data-pt="Nossa experiência reside na aplicação de princípios matemáticos rigorosos a desafios do mundo real, entregando resultados precisos e eficazes."></p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="card text-center">
-                    <img src="https://via.placeholder.com/120x120?text=Francisco" alt="Francisco" class="profile-photo">
-                    <h4 class="text-2xl font-semibold mb-2" data-en="Francisco" data-es="Francisco" data-pt="Francisco">Francisco</h4>
-                    <p class="text-md italic text-gray-300 mb-4" data-en="Specialist in Machine Learning and Numerical Analysis." data-es="Especialista en Aprendizaje Automático y Análisis Numérico." data-pt="Especialista em Aprendizado de Máquina e Análise Numérica.">Specialist in Machine Learning and Numerical Analysis.</p>
-                    <div class="mt-4 space-y-2">
-                        <a href="#" target="_blank" class="text-sm text-[#5f6ac4] hover:underline block" data-en="LinkedIn Profile" data-es="Perfil de LinkedIn" data-pt="Perfil do LinkedIn">LinkedIn Profile</a>
-                        <a href="#" target="_blank" class="text-sm text-[#5f6ac4] hover:underline block" data-en="Personal Page" data-es="Página Personal" data-pt="Página Pessoal">Personal Page</a>
+                <div class="card text-center reveal">
+                    <h4 class="text-3xl font-semibold mb-3 text-[#f8fafc]" data-en="Francisco" data-es="Francisco" data-pt="Francisco">Francisco</h4>
+                    <p class="text-lg italic text-gray-300 mb-6" data-en="Specialist in Machine Learning and Numerical Analysis." data-es="Especialista en Aprendizaje Automático y Análisis Numérico." data-pt="Especialista em Aprendizado de Máquina e Análise Numérica.">Specialist in Machine Learning and Numerical Analysis.</p>
+                    <div class="space-y-3">
+                        <a href="#" target="_blank" class="inline-block text-[#5f6ac4] hover:text-[#7d6dbf] font-medium transition-colors" data-en="LinkedIn Profile" data-es="Perfil de LinkedIn" data-pt="Perfil do LinkedIn">LinkedIn Profile</a>
+                        <span class="mx-2 text-gray-600">|</span>
+                        <a href="#" target="_blank" class="inline-block text-[#5f6ac4] hover:text-[#7d6dbf] font-medium transition-colors" data-en="Personal Page" data-es="Página Personal" data-pt="Página Pessoal">Personal Page</a>
                     </div>
                 </div>
-                <div class="card text-center">
-                    <img src="https://via.placeholder.com/120x120?text=Mauro" alt="Mauro" class="profile-photo">
-                    <h4 class="text-2xl font-semibold mb-2" data-en="Mauro" data-es="Mauro" data-pt="Mauro">Mauro</h4>
-                    <p class="text-md italic text-gray-300 mb-4" data-en="Specialist in Game Theory and Differential Equations." data-es="Especialista en Teoría de Juegos y Ecuaciones Diferenciales." data-pt="Especialista em Teoria dos Jogos e Equações Diferenciais.">Specialist in Game Theory and Differential Equations.</p>
-                    <div class="mt-4 space-y-2">
-                        <a href="https://www.linkedin.com/in/mrodriguezcartabia/" target="_blank" class="text-sm text-[#5f6ac4] hover:underline block" data-en="LinkedIn Profile" data-es="Perfil de LinkedIn" data-pt="Perfil do LinkedIn">LinkedIn Profile</a>
-                        <a href="https://mrodriguezcartabia.github.io/" target="_blank" class="text-sm text-[#5f6ac4] hover:underline block" data-en="Personal Page" data-es="Página Personal" data-pt="Página Pessoal">Personal Page</a>
+
+                <div class="card text-center reveal">
+                    <h4 class="text-3xl font-semibold mb-3 text-[#f8fafc]" data-en="Mauro" data-es="Mauro" data-pt="Mauro">Mauro</h4>
+                    <p class="text-lg italic text-gray-300 mb-6" data-en="Specialist in Game Theory and Differential Equations." data-es="Especialista en Teoría de Juegos y Ecuaciones Diferenciales." data-pt="Especialista em Teoria dos Jogos e Equações Diferenciais.">Specialist in Game Theory and Differential Equations.</p>
+                    <div class="space-y-3">
+                        <a href="https://www.linkedin.com/in/mrodriguezcartabia/" target="_blank" class="inline-block text-[#5f6ac4] hover:text-[#7d6dbf] font-medium transition-colors" data-en="LinkedIn Profile" data-es="Perfil de LinkedIn" data-pt="Perfil do LinkedIn">LinkedIn Profile</a>
+                        <span class="mx-2 text-gray-600">|</span>
+                        <a href="https://mrodriguezcartabia.github.io/" target="_blank" class="inline-block text-[#5f6ac4] hover:text-[#7d6dbf] font-medium transition-colors" data-en="Personal Page" data-es="Página Personal" data-pt="Página Pessoal">Personal Page</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-gray-900 text-white py-12 rounded-t-xl">
+    <footer class="bg-gray-900 text-white py-12 rounded-t-xl relative z-10">
         <div class="container text-center">
-            <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-12 mb-8 text-sm">
-                <a href="mailto:info@fmp.com" class="hover:text-[#5f6ac4] transition-colors"><span data-en="Email:" data-es="Correo:" data-pt="E-mail:">Email:</span> info@fmp.com</a>
-                <a href="tel:+541112345678" class="hover:text-[#5f6ac4] transition-colors"><span data-en="Phone:" data-es="Teléfono:" data-pt="Telefone:">Phone:</span> +54 11 1234 5678</a>
-            </div>
-            <p class="text-gray-500 text-xs" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os direitos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
+            <p class="text-gray-500 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os direitos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
-        // Punto 2: Persistencia de idioma
         function setLanguage(lang) {
             localStorage.setItem('preferredLang', lang);
             const elements = document.querySelectorAll('[data-en], [data-es], [data-pt]');
@@ -121,9 +146,31 @@
             document.documentElement.lang = lang;
         }
 
+        // Efecto Reveal
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+
+        // Efecto Parallax
+        window.addEventListener("scroll", () => {
+            const scrollValue = window.scrollY;
+            const parallax = document.getElementById("parallax");
+            parallax.style.transform = `translateY(${scrollValue * 0.3}px) scale(1.1)`;
+            reveal();
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('preferredLang') || 'en';
             setLanguage(savedLang);
+            reveal();
         });
     </script>
 </body>
