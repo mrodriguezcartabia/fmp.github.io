@@ -175,7 +175,9 @@
         window.addEventListener("scroll", () => {
             const scrollValue = window.scrollY;
             const parallax = document.getElementById("parallax");
+            if (parallax) {
             parallax.style.transform = `translateY(${scrollValue * 0.3}px) scale(1.1)`;
+            }
             reveal();
         });
 
