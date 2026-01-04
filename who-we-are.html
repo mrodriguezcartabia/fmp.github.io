@@ -15,7 +15,6 @@
             overflow-x: hidden;
         }
 
-        /* Efecto de fondo opaco y Parallax (Igual al Index) */
         .parallax-bg {
             position: fixed;
             top: 0;
@@ -48,7 +47,6 @@
         .language-switcher button.active { background-color: #5f6ac4; color: #ffffff; }
         .nav-link.active { font-weight: 700; border-bottom: 2px solid #5f6ac4; }
 
-        /* Efecto Reveal */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -86,17 +84,16 @@
             <a href="index.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
             <a href="who-we-are.html" class="nav-link hover:text-gray-200 font-medium transition-colors active" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
             <a href="games.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Games" data-es="Juegos" data-pt="Jogos">Games</a>
-            <a href="index.html#contact-section" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
+            
+            <a href="index.html?scroll=contact" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
         </div>
     </nav>
     
     <section class="py-24 relative z-10"> 
         <div class="container">
-            <!-- <h2 class="section-title reveal" data-en="Who We Are" data-es="Quiénes somos" data-pt="Quem Somos">Who We Are</h2> -->
-            
             <div class="card text-center mb-12 reveal">
-                <p class="text-lg mb-4" data-en="We are researchers at CONICET and we work with numerical solutions to complex problems." data-es="Somos investigadores de CONICET y trabajamos con soluciones numéricas para problemas complejos." data-pt="Somos pesquisadores do CONICET e trabalhamos com soluções numéricas para problemas complexos."></p>
-                <p class="text-lg" data-en="Our expertise lies in applying rigorous mathematical principles to real-world challenges, delivering precise and effective outcomes." data-es="Nuestra experiencia radica en aplicar principios matemáticos rigurosos a desafíos del mundo real, brindando resultados precisos y efectivos." data-pt="Nossa experiência reside na aplicação de princípios matemáticos rigorosos a desafios do mundo real, entregando resultados precisos e eficazes."></p>
+                <p class="text-lg mb-4" data-en="We are researchers at CONICET and we work with numerical solutions to complex problems." data-es="Somos investigadores de CONICET y trabajamos con soluciones numéricas para problemas complejos." data-pt="Somos pesquisadores do CONICET e trabajamos com soluções numéricas para problemas complexos."></p>
+                <p class="text-lg" data-en="Our expertise lies in applying rigorous mathematical principles to real-world challenges, delivering precise and effective outcomes." data-es="Nuestra experiencia radica en aplicar principios matemáticos rigurosos a desafíos del mundo real, brindando resultados precisos y efectivos." data-pt="Nossa experiência reside na aplicação de princípios matemáticos rigorosos a desafíos do mundo real, entregando resultados precisos e eficazes."></p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -125,7 +122,7 @@
 
     <footer class="bg-gray-900 text-white py-12 rounded-t-xl relative z-10">
         <div class="container text-center">
-            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os direitos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
+            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os derechos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
         </div>
     </footer>
 
@@ -146,7 +143,6 @@
             document.documentElement.lang = lang;
         }
 
-        // Efecto Reveal
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -159,11 +155,12 @@
             }
         }
 
-        // Efecto Parallax
         window.addEventListener("scroll", () => {
             const scrollValue = window.scrollY;
             const parallax = document.getElementById("parallax");
-            parallax.style.transform = `translateY(${scrollValue * 0.3}px) scale(1.1)`;
+            if (parallax) {
+                parallax.style.transform = `translateY(${scrollValue * 0.3}px) scale(1.1)`;
+            }
             reveal();
         });
 
