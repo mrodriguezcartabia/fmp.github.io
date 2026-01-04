@@ -9,28 +9,65 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            color: #e2e8f0; 
-            background-image: url('https://images.unsplash.com/photo-1542435503-956c469947f6?q=80&w=2168&auto=format&fit=crop');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
+            color: #e2e8f0;
+            background-color: #0f172a; /* Color de respaldo */
+            margin: 0;
+            overflow-x: hidden;
         }
+
+        /* Cambio 1 & 3: Fondo Parallax con Overlay Opaco */
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Imagen con filtro oscuro */
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), 
+                        url('https://images.unsplash.com/photo-1542435503-956c469947f6?q=80&w=2168&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            transform: scale(1.1); /* Para evitar bordes blancos al mover */
+            transition: transform 0.1s ease-out;
+        }
+
         .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
         .section-title { font-size: 2.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 2rem; text-align: center; }
-        .card { background-color: rgba(30, 41, 59, 0.9); border-radius: 0.75rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); padding: 2rem; margin-bottom: 1.5rem; color: #e2e8f0; }
-        .btn-primary { background-color: #5f6ac4; color: #ffffff; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; border: none; cursor: pointer; }
-        .btn-primary:hover { background-color: #7d6dbf; }
+        
+        /* Tarjetas más sutiles para que se vea el fondo */
+        .card { 
+            background-color: rgba(30, 41, 59, 0.6); 
+            backdrop-filter: blur(8px);
+            border-radius: 0.75rem; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); 
+            padding: 2rem; 
+            margin-bottom: 1.5rem; 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
         .language-switcher button { background-color: #475569; color: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; font-size: 0.75rem; text-transform: uppercase; }
         .language-switcher button.active { background-color: #5f6ac4; color: #ffffff; }
         .nav-link.active { font-weight: 700; border-bottom: 2px solid #5f6ac4; }
         .list-disc-dark li::marker { color: #5f6ac4; }
-        .input-dark { background-color: #1e293b; border: 1px solid #475569; color: #e2e8f0; transition: all 0.3s ease; }
-        .input-dark:focus { border-color: #5f6ac4; outline: none; ring: 1px solid #5f6ac4; }
         html { scroll-behavior: smooth; }
+
+        /* Efecto 1: Animación de Aparición (Reveal) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="leading-relaxed">
-    <header class="bg-gradient-to-r from-[#1f2937] to-[#374151] text-white py-6 shadow-md rounded-b-xl">
+    <div class="parallax-bg" id="parallax"></div>
+
+    <header class="bg-gradient-to-r from-[#1f2937] to-[#374151] text-white py-6 shadow-md rounded-b-xl relative z-10">
         <div class="container flex flex-col md:flex-row justify-between items-center">
             <div class="text-center md:text-left mb-4 md:mb-0">
                 <a href="index.html" class="hover:opacity-90 transition-opacity">
@@ -55,11 +92,16 @@
         </div>
     </nav>
     
-    <section class="py-16">
-        <div class="container">
+    <section class="py-24 relative z-10">
+        <div class="container reveal">
             <h2 class="section-title" data-en="Advanced Numerical Solutions for Complex Problems" data-es="Soluciones Numéricas Avanzadas para Problemas Complejos" data-pt="Soluções Numéricas Avançadas para Problemas Complejos">Advanced Numerical Solutions for Complex Problems</h2>
             <div class="card text-center">
-                <p class="text-lg mb-4" data-en="We tackle a wide range of complex problems requiring sophisticated numerical and mathematical approaches. Our expertise allows us to provide innovative solutions in areas such as:" data-es="Abordamos una amplia gama de problemas complejos que requieren enfoques numéricos y matemáticos sofisticados. Nuestra experiencia nos permite ofrecer soluciones innovadoras en áreas como:" data-pt="Abordamos uma ampla gama de problemas complexos que exigem abordagens numéricas e matemáticas sofisticadas. Nossa experiência nos permite oferecer soluções inovadoras em áreas como:"></p>
+                <p class="text-lg mb-4" 
+                   data-en="Our expertise allows us to provide innovative solutions:" 
+                   data-es="Nuestra experiencia nos permite ofrecer soluciones innovadoras:" 
+                   data-pt="Nossa experiência nos permite oferecer soluções inovadoras:">
+                   Nuestra experiencia nos permite ofrecer soluciones innovadoras:
+                </p>
                 <ul class="list-disc list-inside text-lg mb-6 space-y-2 text-left inline-block list-disc-dark">
                     <li data-en="Optimization and decision-making under uncertainty." data-es="Optimización y toma de decisiones bajo incertidumbre." data-pt="Otimização e tomada de decisiones sob incerteza.">Optimization and decision-making under uncertainty.</li>
                     <li data-en="Modeling and simulation of dynamic systems." data-es="Modelado y simulación de sistemas dinámicos." data-pt="Modelagem e simulação de sistemas dinâmicos.">Modeling and simulation of dynamic systems.</li>
@@ -67,62 +109,37 @@
                     <li data-en="Strategic analysis for competitive environments." data-es="Análisis estratégico para entornos competitivos." data-pt="Análise estratégica para ambientes competitivos.">Strategic analysis for competitive environments.</li>
                     <li data-en="Financial and actuarial risk assessment." data-es="Evaluación de riesgos financieros y actuariales." data-pt="Avaliação de riscos financeiros e atuariais.">Financial and actuarial risk assessment.</li>
                 </ul>
-                <div class="mt-6">
-                    <a href="#contact-section" class="btn-primary inline-block" data-en="Contact Us" data-es="Contáctenos" data-pt="Fale Conosco">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact-section" class="py-24 relative z-10">
+        <div class="container reveal">
+            <h2 class="section-title" data-en="Contact Us" data-es="Contáctenos" data-pt="Fale Conosco">Contact Us</h2>
+            <div class="card max-w-2xl mx-auto text-center">
+                <div class="text-xl space-y-6">
+                    <p><strong>Francisco:</strong> fran <span class="italic">arroba</span> dm <span class="italic">punto</span> uba <span class="italic">punto</span> ar</p>
+                    <p><strong>Mauro:</strong> mauro <span class="italic">arroba</span> dm <span class="italic">punto</span> uba <span class="italic">punto</span> ar</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact-section" class="py-16 bg-[#1f2937] bg-opacity-80">
-        <div class="container">
-            <h2 class="section-title" data-en="Contact Us" data-es="Contáctenos" data-pt="Fale Conosco">Contact Us</h2>
-            <div class="card max-w-2xl mx-auto border border-gray-700">
-                <form action="#" method="POST" class="space-y-6">
-                    <div>
-                        <label for="name" class="block text-lg font-medium text-gray-200" data-en="Name" data-es="Nombre" data-pt="Nome">Name</label>
-                        <input type="text" id="name" name="name" required class="mt-1 block w-full px-4 py-2 rounded-md shadow-sm input-dark">
-                    </div>
-                    <div>
-                        <label for="email" class="block text-lg font-medium text-gray-200" data-en="Email" data-es="Correo Electrónico" data-pt="E-mail">Email</label>
-                        <input type="email" id="email" name="email" required class="mt-1 block w-full px-4 py-2 rounded-md shadow-sm input-dark">
-                    </div>
-                    <div>
-                        <label for="message" class="block text-lg font-medium text-gray-200" data-en="Message" data-es="Mensaje" data-pt="Mensagem">Message</label>
-                        <textarea id="message" name="message" rows="4" required class="mt-1 block w-full px-4 py-2 rounded-md shadow-sm input-dark"></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary w-full py-3" data-en="Send Message" data-es="Enviar Mensaje" data-pt="Enviar Mensagem">Send Message</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-gray-900 text-white py-12 rounded-t-xl">
+    <footer class="bg-gray-900 text-white py-12 rounded-t-xl relative z-10">
         <div class="container text-center">
-            <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-12 mb-8">
-                <a href="mailto:info@fmp.com" class="hover:text-[#5f6ac4] transition-colors flex items-center">
-                    <span class="mr-2 italic" data-en="Email:" data-es="Correo:" data-pt="E-mail:">Email:</span> info@fmp.com
-                </a>
-                <a href="tel:+541112345678" class="hover:text-[#5f6ac4] transition-colors flex items-center">
-                    <span class="mr-2 italic" data-en="Phone:" data-es="Teléfono:" data-pt="Telefone:">Phone:</span> +54 11 1234 5678
-                </a>
-            </div>
             <p class="text-gray-500 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os direitos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
+        // Lógica de Idiomas
         function setLanguage(lang) {
             localStorage.setItem('preferredLang', lang);
             const elements = document.querySelectorAll('[data-en], [data-es], [data-pt]');
             elements.forEach(element => {
                 const translation = element.dataset[lang];
                 if (translation) {
-                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                        // Opcional: traducir placeholders si los añades
-                    } else {
-                        element.textContent = translation;
-                    }
+                    element.textContent = translation;
                 }
             });
 
@@ -132,9 +149,32 @@
             document.documentElement.lang = lang;
         }
 
+        // Efecto 1: Reveal al hacer scroll
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+
+        // Efecto 3: Parallax suave al mover el scroll
+        window.addEventListener("scroll", () => {
+            const scrollValue = window.scrollY;
+            const parallax = document.getElementById("parallax");
+            // Mueve el fondo un poco más lento que el scroll
+            parallax.style.transform = `translateY(${scrollValue * 0.3}px) scale(1.1)`;
+            reveal();
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('preferredLang') || 'en';
             setLanguage(savedLang);
+            reveal(); // Ejecutar una vez al cargar
         });
     </script>
 </body>
