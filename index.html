@@ -15,27 +15,30 @@
             overflow-x: hidden;
         }
 
-        /* Bloqueo de scroll durante la intro */
         body.loading { overflow: hidden; }
 
-        /* --- Animaciones de la Intro --- */
+        /* --- Intro Animation Styles --- */
         #intro-screen {
             position: fixed;
             inset: 0;
             z-index: 100;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             background-color: #0f172a;
-            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
+            transition: opacity 0.8s ease;
         }
 
-        #intro-screen.fade-out {
-            transform: translateY(-100%);
-            opacity: 0;
-            pointer-events: none;
+        .intro-container {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            transition: all 1s cubic-bezier(0.77, 0, 0.175, 1);
         }
+
+        /* Animaciones de salida divergentes */
+        .exit-left { transform: translateX(-150vw); opacity: 0; transition: all 1.2s cubic-bezier(0.77, 0, 0.175, 1); }
+        .exit-right { transform: translateX(150vw); opacity: 0; transition: all 1.2s cubic-bezier(0.77, 0, 0.175, 1); }
 
         .logo-wrapper {
             position: relative;
@@ -52,12 +55,7 @@
             left: -150%;
             width: 100%;
             height: 200%;
-            background: linear-gradient(
-                to right, 
-                transparent, 
-                rgba(255, 255, 255, 0.3) 50%, 
-                transparent
-            );
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3) 50%, transparent);
             transform: rotate(25deg);
         }
 
@@ -66,7 +64,6 @@
             transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        /* Resplandor sutil */
         .glow-subtle {
             filter: drop-shadow(0 0 15px rgba(95, 106, 196, 0.3));
             animation: pulseGlow 4s ease-in-out infinite;
@@ -77,19 +74,13 @@
             50% { filter: drop-shadow(0 0 25px rgba(95, 106, 196, 0.4)); }
         }
 
-        /* --- Estilos de la Página --- */
+        /* --- Page Layout --- */
         .parallax-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), url('photo.jpg');
-            background-size: cover;
-            background-position: center;
-            z-index: -1;
-            transform: scale(1.1);
-            transition: transform 0.1s ease-out;
+            background-size: cover; background-position: center;
+            z-index: -1; transform: scale(1.1);
         }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
@@ -100,54 +91,35 @@
             backdrop-filter: blur(8px);
             border-radius: 0.75rem; 
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); 
-            padding: 2rem; 
-            margin-bottom: 1.5rem; 
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem; border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .language-switcher button { background-color: #475569; color: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; font-size: 0.75rem; text-transform: uppercase; }
+        .language-switcher button { background-color: #475569; color: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; font-size: 0.75rem; }
         .language-switcher button.active { background-color: #5f6ac4; color: #ffffff; }
         .nav-link.active { font-weight: 700; border-bottom: 2px solid #5f6ac4; }
-        .list-disc-dark li::marker { color: #5f6ac4; }
         html { scroll-behavior: smooth; }
 
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s ease-out;
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
         .copy-feedback {
-            position: absolute;
-            top: -35px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #818cf8;
-            color: white;
-            padding: 2px 10px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            opacity: 0;
-            transition: all 0.2s ease;
-            pointer-events: none;
-            white-space: nowrap;
+            position: absolute; top: -35px; left: 50%; transform: translateX(-50%);
+            background: #818cf8; color: white; padding: 2px 10px; border-radius: 4px;
+            font-size: 0.75rem; opacity: 0; transition: all 0.2s ease;
         }
     </style>
 </head>
 <body class="leading-relaxed loading">
 
     <div id="intro-screen">
-        <div id="intro-content" class="text-center opacity-0 scale-95 transition-all duration-1000">
-            <div class="logo-wrapper mb-6" id="shimmer-container">
-                <img src="logo_bordeblanco.png" alt="Gamma Logo" class="w-32 h-auto glow-subtle">
+        <div class="intro-container">
+            <div id="intro-logo" class="logo-wrapper opacity-0 transition-opacity duration-1000">
+                <img src="logo_bordeblanco.png" alt="Gamma Logo" class="w-24 md:w-32 h-auto glow-subtle">
             </div>
-            <h1 class="text-5xl font-extrabold tracking-tight text-white mb-1">Gamma</h1>
-            <p class="text-2xl font-light text-indigo-400 tracking-[0.2em] uppercase">Solutions</p>
+            <div id="intro-text" class="opacity-0 transition-opacity duration-1000 text-left border-l border-white/20 pl-8">
+                <h1 class="text-5xl font-extrabold tracking-tight text-white mb-1">Gamma</h1>
+                <p class="text-2xl font-light text-indigo-400 tracking-[0.2em] uppercase">Solutions</p>
+            </div>
         </div>
     </div>
 
@@ -170,13 +142,11 @@
     </header>
 
     <nav class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
-        <div class="container flex items-center justify-between">
-            <div class="flex items-center space-x-3 opacity-0 -translate-x-4 transition-all duration-1000" id="nav-logo">
-                <img src="logo_bordeblanco.png" alt="Logo" class="h-9 w-auto">
-                <div class="hidden sm:flex flex-col leading-none">
-                    <span class="font-bold text-lg">Gamma</span>
-                    <span class="text-[10px] uppercase tracking-widest text-indigo-400">Solutions</span>
-                </div>
+        <div class="container relative flex items-center justify-center">
+            <div class="absolute left-6 opacity-0 -translate-x-4 transition-all duration-1000" id="nav-logo">
+                <a href="index.html" class="hover:opacity-80 transition-opacity block">
+                    <img src="logo_bordeblanco.png" alt="Logo" class="h-10 w-auto">
+                </a>
             </div>
 
             <div class="flex flex-wrap justify-center space-x-4 md:space-x-8">
@@ -192,18 +162,13 @@
         <div class="container reveal">
             <h2 class="section-title" data-en="Advanced numerical solutions for complex problems" data-es="Soluciones numéricas avanzadas para problemas complejos" data-pt="Soluções numéricas avanzadas para problemas complejos">Advanced numerical solutions for complex problems</h2>
             <div class="card text-center">
-                <p class="text-lg mb-4" 
-                   data-en="Our expertise allows us to provide innovative solutions:" 
-                   data-es="Nuestra experiencia nos permite ofrecer soluciones innovadoras:" 
-                   data-pt="Nossa experiencia nos permite oferecer soluções inovadoras:">
-                   Nuestra experiencia nos permite ofrecer soluciones innovadoras:
-                </p>
+                <p class="text-lg mb-4" data-en="Our expertise allows us to provide innovative solutions:" data-es="Nuestra experiencia nos permite ofrecer soluciones innovadoras:" data-pt="Nossa experiencia nos permite oferecer soluções inovadoras:">Nuestra experiencia nos permite ofrecer soluciones innovadoras:</p>
                 <ul class="list-disc list-inside text-lg mb-6 space-y-2 text-left inline-block list-disc-dark">
-                    <li data-en="Optimization and decision-making under uncertainty." data-es="Optimización y toma de decisiones bajo incertidumbre." data-pt="Otimização e tomada de decisiones sob incerteza.">Optimization and decision-making under uncertainty.</li>
-                    <li data-en="Modeling and simulation of dynamic systems." data-es="Modelado y simulación de sistemas dinámicos." data-pt="Modelagem e simulação de sistemas dinâmicos.">Modeling and simulation of dynamic systems.</li>
-                    <li data-en="Data analysis and predictive modeling." data-es="Análisis de datos y modelado predictivo." data-pt="Análise de datos e modelagem preditiva.">Data analysis and predictive modeling.</li>
-                    <li data-en="Strategic analysis for competitive environments." data-es="Análisis estratégico para entornos competitivos." data-pt="Análise estratégica para ambientes competitivos.">Strategic analysis for competitive environments.</li>
-                    <li data-en="Financial and actuarial risk assessment." data-es="Evaluación de riesgos financieros y actuariales." data-pt="Avaliação de riscos financeiros e atuariais.">Financial and actuarial risk assessment.</li>
+                    <li data-en="Optimization and decision-making under uncertainty.">Optimization and decision-making under uncertainty.</li>
+                    <li data-en="Modeling and simulation of dynamic systems.">Modeling and simulation of dynamic systems.</li>
+                    <li data-en="Data analysis and predictive modeling.">Data analysis and predictive modeling.</li>
+                    <li data-en="Strategic analysis for competitive environments.">Strategic analysis for competitive environments.</li>
+                    <li data-en="Financial and actuarial risk assessment.">Financial and actuarial risk assessment.</li>
                 </ul>
             </div>
         </div>
@@ -216,23 +181,16 @@
                 <div class="text-xl space-y-6">
                     <div class="flex items-center justify-center space-x-3">
                         <p><strong>Francisco:</strong> <span id="mail1">fran@dm.uba.ar</span></p>
-                        <button onclick="copyEmail('mail1', this)" class="relative p-2 text-gray-400 hover:text-white hover:bg-slate-700/50 rounded-md transition-all border border-transparent hover:border-white/10" title="Copy email">
+                        <button onclick="copyEmail('mail1', this)" class="relative p-2 text-gray-400 hover:text-white hover:bg-slate-700/50 rounded-md transition-all">
                             <span class="copy-feedback" data-en="Copied!" data-es="¡Copiado!" data-pt="Copiado!">Copied!</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                         </button>
                     </div>
-
                     <div class="flex items-center justify-center space-x-3">
                         <p><strong>Mauro:</strong> <span id="mail2">mauro@dm.uba.ar</span></p>
-                        <button onclick="copyEmail('mail2', this)" class="relative p-2 text-gray-400 hover:text-white hover:bg-slate-700/50 rounded-md transition-all border border-transparent hover:border-white/10" title="Copy email">
+                        <button onclick="copyEmail('mail2', this)" class="relative p-2 text-gray-400 hover:text-white hover:bg-slate-700/50 rounded-md transition-all">
                             <span class="copy-feedback" data-en="Copied!" data-es="¡Copiado!" data-pt="Copiado!">Copied!</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                         </button>
                     </div>
                 </div>
@@ -242,109 +200,83 @@
 
     <footer class="bg-gray-900 text-white py-12 rounded-t-xl relative z-10">
         <div class="container text-center">
-            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos los derechos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
+            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
-        // Lógica de Intro y Animación de Logo
         function runIntro() {
             const introScreen = document.getElementById('intro-screen');
-            const introContent = document.getElementById('intro-content');
-            const shimmerContainer = document.getElementById('shimmer-container');
+            const introLogo = document.getElementById('intro-logo');
+            const introText = document.getElementById('intro-text');
             const navLogo = document.getElementById('nav-logo');
 
-            // 1. Mostrar contenido de la intro
+            // 1. Mostrar contenido (Aparecen juntos en el centro)
             setTimeout(() => {
-                introContent.style.opacity = '1';
-                introContent.style.transform = 'scale(1)';
+                introLogo.style.opacity = '1';
+                introText.style.opacity = '1';
                 
-                // 2. Disparar destello después de 500ms de aparecer
                 setTimeout(() => {
-                    shimmerContainer.classList.add('shimmer-active');
+                    introLogo.classList.add('shimmer-active');
                 }, 500);
             }, 300);
 
-            // 3. Salida de intro y entrada de logo nav
+            // 2. Animación de salida divergente
             setTimeout(() => {
-                introScreen.classList.add('fade-out');
-                document.body.classList.remove('loading');
+                introLogo.classList.add('exit-left');
+                introText.classList.add('exit-right');
                 
+                // 3. Desvanecer fondo y habilitar web
                 setTimeout(() => {
-                    navLogo.style.opacity = '1';
-                    navLogo.style.transform = 'translateX(0)';
-                }, 800);
-            }, 3000); // Duración total de la intro
+                    introScreen.style.opacity = '0';
+                    document.body.classList.remove('loading');
+                    
+                    // 4. Logo aparece en el nav
+                    setTimeout(() => {
+                        navLogo.style.opacity = '1';
+                        navLogo.style.transform = 'translateX(0)';
+                    }, 500);
+
+                    // Eliminar intro del DOM después de la transición
+                    setTimeout(() => introScreen.remove(), 1000);
+                }, 600);
+            }, 2800);
         }
 
         function setLanguage(lang) {
             localStorage.setItem('preferredLang', lang);
-            const elements = document.querySelectorAll('[data-en], [data-es], [data-pt]');
-            elements.forEach(element => {
-                const translation = element.dataset[lang];
-                if (translation) {
-                    element.textContent = translation;
-                }
+            document.querySelectorAll('[data-en]').forEach(el => {
+                const translation = el.dataset[lang];
+                if (translation) el.textContent = translation;
             });
-
             document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.getElementById(`lang-${lang}`);
-            if (activeBtn) activeBtn.classList.add('active');
-            document.documentElement.lang = lang;
+            document.getElementById(`lang-${lang}`).classList.add('active');
         }
 
         function copyEmail(id, btn) {
             const email = document.getElementById(id).innerText;
             navigator.clipboard.writeText(email).then(() => {
-                const feedback = btn.querySelector('.copy-feedback');
-                feedback.style.opacity = '1';
-                feedback.style.transform = 'translateX(-50%) translateY(-5px)';
-                btn.classList.add('text-indigo-200');
-
-                setTimeout(() => {
-                    feedback.style.opacity = '0';
-                    feedback.style.transform = 'translateX(-50%) translateY(0px)';
-                    btn.classList.remove('text-indigo-200');
-                }, 1500);
+                const f = btn.querySelector('.copy-feedback');
+                f.style.opacity = '1'; f.style.transform = 'translateX(-50%) translateY(-5px)';
+                setTimeout(() => { f.style.opacity = '0'; f.style.transform = 'translateX(-50%) translateY(0px)'; }, 1500);
             });
         }
 
         function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 150;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
-                }
-            }
+            document.querySelectorAll(".reveal").forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 150) el.classList.add("active");
+            });
         }
 
         window.addEventListener("scroll", () => {
-            const scrollValue = window.scrollY;
-            const parallax = document.getElementById("parallax");
-            if (parallax) {
-                parallax.style.transform = `translateY(${scrollValue * 0.3}px) scale(1.1)`;
-            }
+            document.getElementById("parallax").style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
             reveal();
         });
 
         document.addEventListener('DOMContentLoaded', () => {
             runIntro();
-            const savedLang = localStorage.getItem('preferredLang') || 'en';
-            setLanguage(savedLang);
+            setLanguage(localStorage.getItem('preferredLang') || 'en');
             reveal();
-
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('scroll') === 'contact') {
-                setTimeout(() => {
-                    const contactSection = document.getElementById('contact-section');
-                    if (contactSection) {
-                        contactSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }, 3500); // Ajustado para esperar a la intro
-            }
         });
     </script>
 </body>
