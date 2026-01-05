@@ -158,13 +158,13 @@
                 tooltip.className = 'copy-tooltip';
                 tooltip.innerText = translations[currentLang];
                 btn.appendChild(tooltip);
-                btn.classList.add('text-green-400');
+                btn.classList.add('text-green-100');
                 btn.classList.remove('text-indigo-200');
                 iconElement.setAttribute('data-lucide', 'check');
                 lucide.createIcons();
                 setTimeout(() => {
                     tooltip.remove();
-                    btn.classList.remove('text-green-400');
+                    btn.classList.remove('text-green-100');
                     btn.classList.add('text-indigo-200');
                     iconElement.setAttribute('data-lucide', 'copy');
                     lucide.createIcons();
