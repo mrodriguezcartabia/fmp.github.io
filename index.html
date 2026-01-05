@@ -13,22 +13,11 @@
         #intro-screen { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; background-color: #0f172a; transition: opacity 1.2s ease-in-out; }
         
         .shimmer-wrapper { 
-            position: relative; 
-            display: flex; 
-            align-items: center; 
-            gap: 2rem; 
-            padding: 1rem 2rem; 
-            transition: opacity 1s ease-in-out; 
-            overflow: hidden; 
-            border-radius: 8px;
+            position: relative; display: flex; align-items: center; gap: 2rem; padding: 1rem 2rem; 
+            transition: opacity 1s ease-in-out; overflow: hidden; border-radius: 8px;
         }
         .shimmer-wrapper::after { 
-            content: ''; 
-            position: absolute; 
-            top: 0; 
-            left: -100%; 
-            width: 50%; 
-            height: 100%; 
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; 
             background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2) 50%, transparent); 
             transform: skewX(-25deg); 
         }
@@ -49,10 +38,10 @@
         .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
         
-        #nav-logo { opacity: 0; transform: translateX(-20px); transition: all 0.4s ease-in-out; }
-        #nav-logo.visible { opacity: 1; transform: translateX(0); }
+        /* Ajuste: Logo del menú aparece desde arriba */
+        #nav-logo { opacity: 0; transform: translateY(-20px); transition: all 0.5s ease-in-out; }
+        #nav-logo.visible { opacity: 1; transform: translateY(0); }
 
-        /* Animación del Tooltip */
         @keyframes fadeUp {
             0% { opacity: 0; transform: translate(-50%, 0); }
             20% { opacity: 1; transform: translate(-50%, -10px); }
@@ -60,20 +49,10 @@
             100% { opacity: 0; transform: translate(-50%, -20px); }
         }
         .copy-tooltip {
-            position: absolute;
-            left: 50%;
-            bottom: 100%;
-            background: #5f6ac4;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            pointer-events: none;
-            animation: fadeUp 1.5s forwards;
-            white-space: nowrap;
-            z-index: 50;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            position: absolute; left: 50%; bottom: 100%; background: #5f6ac4; color: white;
+            padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600;
+            pointer-events: none; animation: fadeUp 1.5s forwards; white-space: nowrap;
+            z-index: 50; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
 
         html { scroll-behavior: smooth; }
@@ -83,10 +62,10 @@
 
     <div id="intro-screen">
         <div class="shimmer-wrapper opacity-0" id="intro-content">
-            <img src="logo_bordeblanco.png" alt="Logo" class="w-24 md:w-32 h-auto glow-logo">
+            <img src="logo_bordeblanco.png" alt="Logo" class="w-20 md:w-24 h-auto glow-logo">
             <div class="text-left">
-                <h1 class="text-5xl font-extrabold tracking-tight text-white">Gamma</h1>
-                <p class="text-2xl mt-2 font-light text-white">Solutions</p>
+                <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white">Gamma</h1>
+                <p class="text-xl md:text-2xl mt-1 font-light text-white">Solutions</p>
             </div>
         </div>
     </div>
@@ -96,11 +75,11 @@
     <header class="bg-gradient-to-r from-[#1f2937] to-[#374151] text-white py-8 shadow-md rounded-b-xl relative z-10">
         <div class="container flex justify-between items-center px-6">
             <div class="flex items-center gap-6">
-                <img src="logo_bordeblanco.png" alt="Logo Gamma" class="h-16 md:h-20 w-auto">
+                <img src="logo_bordeblanco.png" alt="Logo Gamma" class="h-12 md:h-16 w-auto">
                 <div class="text-left">
                     <a href="index.html">
-                        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">Gamma</h1>
-                        <p class="text-xl md:text-2xl font-light" data-en="Solutions" data-es="Soluciones" data-pt="Soluções">Solutions</p>
+                        <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Gamma</h1>
+                        <p class="text-lg md:text-2xl font-light" data-en="Solutions" data-es="Soluciones" data-pt="Soluções">Solutions</p>
                     </a>
                 </div>
             </div>
@@ -114,10 +93,10 @@
 
     <nav id="main-nav" class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
         <div class="container relative flex items-center justify-center mx-auto px-6">
-            <div id="nav-logo" class="absolute left-6">
-                <a href="index.html"><img src="logo_bordeblanco.png" class="h-10 w-auto"></a>
+            <div id="nav-logo" class="absolute left-6 hidden md:block">
+                <a href="index.html"><img src="logo_bordeblanco.png" class="h-8 w-auto"></a>
             </div>
-            <div class="flex space-x-8">
+            <div class="flex space-x-4 md:space-x-8 text-sm md:text-base">
                 <a href="index.html" class="nav-link active" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
                 <a href="who-we-are.html" class="nav-link" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
                 <a href="games.html" class="nav-link" data-en="Games" data-es="Juegos" data-pt="Jogos">Games</a>
@@ -169,31 +148,20 @@
     <script>
         lucide.createIcons();
 
-        // Traducciones para el tooltip
-        const translations = {
-            en: 'Copied!',
-            es: '¡Copiado!',
-            pt: 'Copiado!'
-        };
+        const translations = { en: 'Copied!', es: '¡Copiado!', pt: 'Copiado!' };
 
         function copyEmail(email, btn) {
             navigator.clipboard.writeText(email).then(() => {
                 const iconElement = btn.querySelector('i');
                 const currentLang = localStorage.getItem('preferredLang') || 'en';
-                
-                // Crear el Tooltip Dinámico
                 const tooltip = document.createElement('span');
                 tooltip.className = 'copy-tooltip';
                 tooltip.innerText = translations[currentLang];
                 btn.appendChild(tooltip);
-
-                // Cambiar estilo e icono temporalmente
                 btn.classList.add('text-green-400');
                 btn.classList.remove('text-indigo-200');
                 iconElement.setAttribute('data-lucide', 'check');
                 lucide.createIcons();
-
-                // Limpiar después de 1.5 segundos
                 setTimeout(() => {
                     tooltip.remove();
                     btn.classList.remove('text-green-400');
@@ -210,9 +178,7 @@
 
         function revealContent() {
             document.querySelectorAll(".reveal").forEach(el => { 
-                if (el.getBoundingClientRect().top < window.innerHeight - 50) {
-                    el.classList.add("active");
-                }
+                if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add("active");
             });
         }
 
@@ -226,9 +192,7 @@
                         const offset = 100;
                         const bodyRect = document.body.getBoundingClientRect().top;
                         const elementRect = contactSection.getBoundingClientRect().top;
-                        const elementPosition = elementRect - bodyRect;
-                        const offsetPosition = elementPosition - offset;
-                        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                        window.scrollTo({ top: elementRect - bodyRect - offset, behavior: 'smooth' });
                     }
                 }, 800); 
             }
@@ -272,11 +236,8 @@
             const parallax = document.getElementById("parallax");
             if(parallax) parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
             revealContent();
-            if (window.scrollY > 150) {
-                navLogo.classList.add('visible');
-            } else {
-                navLogo.classList.remove('visible');
-            }
+            if (window.scrollY > 150) navLogo.classList.add('visible');
+            else navLogo.classList.remove('visible');
         });
 
         document.addEventListener('DOMContentLoaded', () => { 
