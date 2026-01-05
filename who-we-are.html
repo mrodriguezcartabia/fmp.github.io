@@ -4,26 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gamma Solutions - Who We Are</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; color: #e2e8f0; background-color: #0f172a; margin: 0; overflow-x: hidden; }
-        .parallax-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), url('photo.jpg'); background-size: cover; z-index: -1; transform: scale(1.1); transition: transform 0.1s ease-out; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
-        .card { background-color: rgba(30, 41, 59, 0.7); backdrop-filter: blur(8px); border-radius: 0.75rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); padding: 2.5rem; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .language-switcher button { background-color: #475569; color: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; font-size: 0.75rem; text-transform: uppercase; }
-        .language-switcher button.active { background-color: #5f6ac4; color: #ffffff; }
-        .nav-link.active { font-weight: 700; border-bottom: 2px solid #5f6ac4; }
-        
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        /* Ajuste 2: Logo del menú aparece desde arriba */
-        #nav-logo { opacity: 0; transform: translateY(-20px); transition: all 0.5s ease-in-out; }
-        #nav-logo.visible { opacity: 1; transform: translateY(0); }
-
-        html { scroll-behavior: smooth; }
-    </style>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="parallax-bg" id="parallax"></div>
@@ -36,7 +22,7 @@
                     <div class="text-left"> 
                         <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Gamma</h1>
                         <p class="text-lg md:text-2xl font-light" data-en="Solutions" data-es="Soluciones" data-pt="Soluções">Solutions</p>
-                </div>
+                    </div>
                 </a>
             </div>
             <div class="language-switcher flex space-x-2">
@@ -101,44 +87,10 @@
 
     <footer class="bg-gray-900 text-white py-12 rounded-t-xl relative z-10">
         <div class="container text-center">
-            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os direitos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
+            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os derechos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
         </div>
     </footer>
 
-    <script>
-        const navLogo = document.getElementById('nav-logo');
-
-        function revealContent() {
-            document.querySelectorAll(".reveal").forEach(el => { 
-                if (el.getBoundingClientRect().top < window.innerHeight - 50) {
-                    el.classList.add("active");
-                }
-            });
-        }
-
-        function setLanguage(lang) {
-            localStorage.setItem('preferredLang', lang);
-            document.querySelectorAll('[data-en]').forEach(el => { 
-                const text = el.dataset[lang];
-                if(text) el.textContent = text;
-            });
-            document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
-        }
-
-        window.addEventListener("scroll", () => {
-            document.getElementById("parallax").style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
-            revealContent();
-            if (window.scrollY > 150) {
-                navLogo.classList.add('visible');
-            } else {
-                navLogo.classList.remove('visible');
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', () => { 
-            setLanguage(localStorage.getItem('preferredLang') || 'en'); 
-            setTimeout(revealContent, 100);
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
