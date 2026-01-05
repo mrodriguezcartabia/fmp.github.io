@@ -35,19 +35,19 @@ function copyEmail(email, btn) {
     });
 }
 
-// Función para revelar contenido al hacer scroll
+// Función para revelar contenido al hacer scroll (animación de entrada)
 function revealContent() {
     document.querySelectorAll(".reveal").forEach(el => { 
         if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add("active");
     });
 }
 
-// Lógica para el parámetro de scroll suave y activación de pestaña
+// Lógica para el parámetro de scroll suave y activación de pestaña al venir de otra página
 function checkScrollParam() {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('scroll') === 'contact') {
         
-        // Resaltar visualmente "Contact" antes de llegar
+        // Resaltar visualmente "Contact" antes de iniciar el viaje
         navLinks.forEach(link => link.classList.remove('active'));
         if (contactLink) contactLink.classList.add('active');
 
@@ -63,7 +63,7 @@ function checkScrollParam() {
     }
 }
 
-// Orquestador de la pantalla de bienvenida
+// Orquestador de la pantalla de bienvenida (Intro)
 function startIntro() {
     if (sessionStorage.getItem('introShown') || !introScreen) { 
         if (introScreen) introScreen.remove(); 
@@ -99,41 +99,51 @@ function setLanguage(lang) {
     document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
 }
 
+// --- LOGICA DE NAVEGACION ACTIVA (SCROLL) ---
+function updateActiveLink() {
+    // Solo ejecutamos esta lógica si estamos en la página que tiene la sección de contacto (Home)
+    if (contactSection && contactLink && homeLink) {
+        const sectionTop = contactSection.offsetTop;
+        const scrollPosition = window.scrollY + 450; // Umbral de detección
+
+        if (scrollPosition >= sectionTop) {
+            // Estamos en o debajo de la sección de contacto
+            navLinks.forEach(link => link.classList.remove('active'));
+            contactLink.classList.add('active');
+        } else {
+            // Estamos arriba (Home / Primera sección)
+            navLinks.forEach(link => link.classList.remove('active'));
+            homeLink.classList.add('active');
+        }
+    }
+}
+
 // --- EVENTOS GLOBALES ---
 
 window.addEventListener("scroll", () => {
-    // Parallax
+    // Efecto Parallax en el fondo
     const parallax = document.getElementById("parallax");
     if(parallax) parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
     
+    // Revelar elementos
     revealContent();
 
-    // Mostrar/Ocultar Logo del Nav
+    // Mostrar/Ocultar Logo pequeño del Nav
     if (navLogo) {
         if (window.scrollY > 150) navLogo.classList.add('visible');
         else navLogo.classList.remove('visible');
     }
 
-    // Actualizar línea activa (Solo en Home)
-    if (contactSection && contactLink && homeLink) {
-        const sectionTop = contactSection.offsetTop;
-        const scrollPosition = window.scrollY + 350;
-
-        if (scrollPosition >= sectionTop) {
-            navLinks.forEach(link => link.classList.remove('active'));
-            contactLink.classList.add('active');
-        } else {
-            navLinks.forEach(link => link.classList.remove('active'));
-            homeLink.classList.add('active');
-        }
-    }
+    // Actualizar qué link del menú está subrayado
+    updateActiveLink();
 });
 
-// Manejo de clicks en el nav para respuesta inmediata
+// Manejo de clicks para respuesta visual inmediata
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-        // Solo aplicar si es un enlace interno (#)
-        if (link.getAttribute('href').startsWith('#')) {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+            // Forzamos el estado activo al hacer click antes del scroll
             navLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
         }
@@ -143,4 +153,6 @@ navLinks.forEach(link => {
 document.addEventListener('DOMContentLoaded', () => { 
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
     startIntro(); 
+    // Ejecutar una vez al cargar para marcar la posición inicial
+    updateActiveLink();
 });
