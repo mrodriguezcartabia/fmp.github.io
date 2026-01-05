@@ -58,6 +58,22 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Estilo para el tooltip de copiado */
+        .copy-feedback {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #10b981;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body class="leading-relaxed">
@@ -114,8 +130,25 @@
             <h2 class="section-title" data-en="Contact us" data-es="Contáctenos" data-pt="Fale conosco">Contact us</h2>
             <div class="card max-w-2xl mx-auto text-center">
                 <div class="text-xl space-y-6">
-                    <p><strong>Francisco:</strong> fran@dm.uba.ar</p>
-                    <p><strong>Mauro:</strong> mauro@dm.uba.ar</p>
+                    <div class="flex items-center justify-center space-x-3">
+                        <p><strong>Francisco:</strong> <span id="mail1">fran@dm.uba.ar</span></p>
+                        <button onclick="copyEmail('mail1', this)" class="relative p-2 bg-slate-800 hover:bg-indigo-600 rounded-lg transition-all border border-white/10 group" title="Copy email">
+                            <span class="copy-feedback" data-en="Copied!" data-es="¡Copiado!" data-pt="Copiado!">Copied!</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="flex items-center justify-center space-x-3">
+                        <p><strong>Mauro:</strong> <span id="mail2">mauro@dm.uba.ar</span></p>
+                        <button onclick="copyEmail('mail2', this)" class="relative p-2 bg-slate-800 hover:bg-indigo-600 rounded-lg transition-all border border-white/10 group" title="Copy email">
+                            <span class="copy-feedback" data-en="Copied!" data-es="¡Copiado!" data-pt="Copiado!">Copied!</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -144,6 +177,17 @@
             document.documentElement.lang = lang;
         }
 
+        function copyEmail(id, btn) {
+            const email = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(email).then(() => {
+                const feedback = btn.querySelector('.copy-feedback');
+                feedback.style.opacity = '1';
+                setTimeout(() => {
+                    feedback.style.opacity = '0';
+                }, 2000);
+            });
+        }
+
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -166,17 +210,12 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Idioma
             const savedLang = localStorage.getItem('preferredLang') || 'en';
             setLanguage(savedLang);
-            
-            // 2. Animaciones iniciales
             reveal();
 
-            // 3. CAMBIO IMPORTANTE: Manejo de scroll suave desde otras páginas
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('scroll') === 'contact') {
-                // Esperamos un momento breve para que el navegador termine de renderizar
                 setTimeout(() => {
                     const contactSection = document.getElementById('contact-section');
                     if (contactSection) {
