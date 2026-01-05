@@ -76,7 +76,7 @@ function startIntro() {
                 revealContent();
                 checkScrollParam(); 
             }, 1200);
-        }, 2800);
+        }, 2200);
     }, 300);
 }
 
