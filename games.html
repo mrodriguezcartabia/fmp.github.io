@@ -10,18 +10,40 @@
         body { font-family: 'Inter', sans-serif; color: #e2e8f0; background-color: #0f172a; margin: 0; overflow-x: hidden; }
         .parallax-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), url('photo.jpg'); background-size: cover; z-index: -1; transform: scale(1.1); transition: transform 0.1s ease-out; }
         .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+        
         .card { background-color: rgba(30, 41, 59, 0.7); backdrop-filter: blur(8px); border-radius: 0.75rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); padding: 2rem; margin-bottom: 2rem; border: 1px solid rgba(255, 255, 255, 0.1); }
         .iframe-container { width: 100%; border-radius: 0.5rem; background: #ffffff; overflow: hidden; }
+        
+        /* Sistema de navegación */
         .nav-link.active { font-weight: 700; border-bottom: 2px solid #5f6ac4; }
         .language-switcher button { background-color: #475569; color: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; font-size: 0.75rem; text-transform: uppercase; }
         .language-switcher button.active { background-color: #5f6ac4; color: #ffffff; }
+
+        /* Revelación automática */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Logo dinámico en el Nav */
+        #nav-logo { opacity: 0; transform: translateX(-20px); transition: all 0.4s ease-in-out; }
+        #nav-logo.visible { opacity: 1; transform: translateX(0); }
+
+        html { scroll-behavior: smooth; }
     </style>
 </head>
-<body>
+<body class="leading-relaxed">
     <div class="parallax-bg" id="parallax"></div>
-    <header class="bg-gradient-to-r from-[#1f2937] to-[#374151] text-white py-6 shadow-md rounded-b-xl relative z-10">
+
+    <header class="bg-gradient-to-r from-[#1f2937] to-[#374151] text-white py-8 shadow-md rounded-b-xl relative z-10">
         <div class="container flex justify-between items-center px-6">
-            <a href="index.html"><div><h1 class="text-5xl font-extrabold tracking-tight">Gamma</h1><p class="text-2xl mt-2 font-light" data-en="Solutions" data-es="Soluciones" data-pt="Soluções">Solutions</p></div></a>
+            <div class="flex items-center gap-6">
+                <img src="logo_bordeblanco.png" alt="Logo Gamma" class="h-16 md:h-20 w-auto">
+                <div class="text-left">
+                    <a href="index.html">
+                        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">Gamma</h1>
+                        <p class="text-xl md:text-2xl font-light" data-en="Solutions" data-es="Soluciones" data-pt="Soluções">Solutions</p>
+                    </a>
+                </div>
+            </div>
             <div class="language-switcher flex space-x-2">
                 <button id="lang-en" onclick="setLanguage('en')">EN</button>
                 <button id="lang-es" onclick="setLanguage('es')">ES</button>
@@ -30,9 +52,11 @@
         </div>
     </header>
 
-    <nav class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
+    <nav id="main-nav" class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
         <div class="container relative flex items-center justify-center mx-auto px-6">
-            <div class="absolute left-6"><a href="index.html"><img src="logo_bordeblanco.png" class="h-10 w-auto"></a></div>
+            <div id="nav-logo" class="absolute left-6">
+                <a href="index.html"><img src="logo_bordeblanco.png" class="h-10 w-auto"></a>
+            </div>
             <div class="flex space-x-8">
                 <a href="index.html" class="nav-link" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
                 <a href="who-we-are.html" class="nav-link" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
@@ -42,22 +66,43 @@
         </div>
     </nav>
 
-    <section class="py-24 relative z-10 container">
-        <div class="card">
-            <h3 class="text-2xl font-bold mb-4" data-en="Interactive Calculator" data-es="Calculadora Interactiva" data-pt="Calculadora Interativa">Interactive Calculator</h3>
-            <div class="iframe-container" style="height: 450px;">
-                <iframe src="https://mi-suma-app-dsocevh367afc6t2akttgv.streamlit.app/?embed=true" style="width: 100%; height: 100%; border: none;"></iframe>
+    <main class="py-24 relative z-10 container mx-auto px-6">
+        <div class="reveal">
+            <div class="card">
+                <h3 class="text-2xl font-bold mb-4" data-en="Interactive Calculator" data-es="Calculadora Interactiva" data-pt="Calculadora Interativa">Interactive Calculator</h3>
+                <div class="iframe-container" style="height: 450px;">
+                    <iframe src="https://mi-suma-app-dsocevh367afc6t2akttgv.streamlit.app/?embed=true" style="width: 100%; height: 100%; border: none;"></iframe>
+                </div>
             </div>
         </div>
-        <div class="card">
-            <h3 class="text-2xl font-bold mb-4" data-en="Tug of War Game" data-es="Juego de la soga" data-pt="Jogo da corda">Tug of War Game</h3>
-            <div class="iframe-container" style="height: 600px;">
-                <iframe src="https://pablobce.github.io/TugOfWar/index.html" style="width: 100%; height: 100%; border: none;"></iframe>
+
+        <div class="reveal">
+            <div class="card">
+                <h3 class="text-2xl font-bold mb-4" data-en="Tug of War Game" data-es="Juego de la soga" data-pt="Jogo da corda">Tug of War Game</h3>
+                <div class="iframe-container" style="height: 600px;">
+                    <iframe src="https://pablobce.github.io/TugOfWar/index.html" style="width: 100%; height: 100%; border: none;"></iframe>
+                </div>
             </div>
         </div>
-    </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12 rounded-t-xl relative z-10">
+        <div class="container text-center">
+            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os direitos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script>
+        const navLogo = document.getElementById('nav-logo');
+
+        function revealContent() {
+            document.querySelectorAll(".reveal").forEach(el => { 
+                if (el.getBoundingClientRect().top < window.innerHeight - 50) {
+                    el.classList.add("active");
+                }
+            });
+        }
+
         function setLanguage(lang) {
             localStorage.setItem('preferredLang', lang);
             document.querySelectorAll('[data-en]').forEach(el => { 
@@ -66,7 +111,27 @@
             });
             document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
         }
-        document.addEventListener('DOMContentLoaded', () => { setLanguage(localStorage.getItem('preferredLang') || 'en'); });
+
+        window.addEventListener("scroll", () => {
+            // Efecto Parallax
+            document.getElementById("parallax").style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
+            
+            // Revelación de cards
+            revealContent();
+
+            // Aparecer logo en el Nav al bajar
+            if (window.scrollY > 150) {
+                navLogo.classList.add('visible');
+            } else {
+                navLogo.classList.remove('visible');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => { 
+            setLanguage(localStorage.getItem('preferredLang') || 'en'); 
+            // Revelar las cards de juegos inmediatamente después de cargar
+            setTimeout(revealContent, 100);
+        });
     </script>
 </body>
 </html>
