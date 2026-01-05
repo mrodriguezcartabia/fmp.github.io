@@ -6,6 +6,7 @@
     <title>Gamma Solutions - Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body { font-family: 'Inter', sans-serif; color: #e2e8f0; background-color: #0f172a; margin: 0; overflow-x: hidden; }
         body.intro-active { overflow: hidden; }
@@ -52,6 +53,22 @@
         /* Logo que aparece al scrollear */
         #nav-logo { opacity: 0; transform: translateX(-20px); transition: all 0.4s ease-in-out; }
         #nav-logo.visible { opacity: 1; transform: translateX(0); }
+
+        /* Estilos para el botón de copiar */
+        .copy-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 8px;
+            padding: 4px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            color: #94a3b8;
+            vertical-align: middle;
+        }
+        .copy-btn:hover { background-color: rgba(95, 106, 196, 0.2); color: #fff; }
+        .copy-btn:active { transform: scale(0.9); }
+        .copy-success { color: #4ade80 !important; }
 
         html { scroll-behavior: smooth; }
     </style>
@@ -111,7 +128,7 @@
                 <ul class="list-disc list-inside text-lg space-y-2 text-left inline-block">
                     <li data-en="Optimization and decision-making under uncertainty." data-es="Optimización y toma de decisiones bajo incertidumbre." data-pt="Otimização e tomada de decisão sob incerteza.">Optimización y toma de decisiones bajo incertidumbre.</li>
                     <li data-en="Modeling and simulation of dynamic systems." data-es="Modelado y simulación de sistemas dinámicos." data-pt="Modelagem e simulação de sistemas dinâmicos.">Modelado y simulación de sistemas dinámicos.</li>
-                    <li data-en="Data analysis and predictive modeling." data-es="Análisis de datos y modelado predictivo." data-pt="Análise de dados e modelagem preditiva.">Análisis de datos y modelado predictivo.</li>
+                    <li data-en="Data analysis and predictive modeling." data-es="Análisis de datos y modelado predictivo." data-pt="Análise de datos e modelagem preditiva.">Análisis de datos y modelado predictivo.</li>
                     <li data-en="Strategic analysis for competitive environments." data-es="Análisis estratégico para entornos competitivos." data-pt="Análise estratégica para ambientes competitivos.">Análisis estratégico para entornos competitivos.</li>
                     <li data-en="Financial and actuarial risk assessment." data-es="Evaluación de riesgos financieros y actuariales." data-pt="Avaliação de riscos financeiros e atuariais.">Evaluación de riesgos financieros y actuariales.</li>
                 </ul>
@@ -121,19 +138,32 @@
         <section id="contact-section" class="py-24 reveal">
             <h2 class="section-title" data-en="Contact us" data-es="Contáctenos" data-pt="Fale conosco">Contact us</h2>
             <div class="card max-w-2xl mx-auto text-center">
-                <p class="text-xl mb-4"><strong>Francisco:</strong> fran@dm.uba.ar</p>
-                <p class="text-xl"><strong>Mauro:</strong> mauro@dm.uba.ar</p>
+                <div class="flex items-center justify-center mb-4">
+                    <p class="text-xl"><strong>Francisco:</strong> fran@dm.uba.ar</p>
+                    <button class="copy-btn" onclick="copyToClipboard('fran@dm.uba.ar', this)" title="Copy email">
+                        <i data-lucide="copy" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <div class="flex items-center justify-center">
+                    <p class="text-xl"><strong>Mauro:</strong> mauro@dm.uba.ar</p>
+                    <button class="copy-btn" onclick="copyToClipboard('mauro@dm.uba.ar', this)" title="Copy email">
+                        <i data-lucide="copy" class="w-5 h-5"></i>
+                    </button>
+                </div>
             </div>
         </section>
     </main>
 
     <footer class="bg-gray-900 text-white py-12 rounded-t-xl relative z-10">
         <div class="container text-center">
-            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os direitos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
+            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os derechos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
+        // Inicializar Iconos
+        lucide.createIcons();
+
         const introScreen = document.getElementById('intro-screen');
         const introContent = document.getElementById('intro-content');
         const navLogo = document.getElementById('nav-logo');
@@ -146,17 +176,38 @@
             });
         }
 
-        // LÓGICA DE SCROLL REFORZADA
+        // Función para copiar al portapapeles
+        function copyToClipboard(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                const icon = btn.querySelector('i');
+                const originalIcon = icon.getAttribute('data-lucide');
+                
+                // Cambio visual de éxito
+                btn.classList.add('copy-success');
+                lucide.createIcons({
+                    icons: { 'check': lucide.Check },
+                    nameAttr: 'data-lucide'
+                });
+                btn.innerHTML = '<i data-lucide="check" class="w-5 h-5"></i>';
+                lucide.createIcons();
+
+                setTimeout(() => {
+                    btn.classList.remove('copy-success');
+                    btn.innerHTML = '<i data-lucide="copy" class="w-5 h-5"></i>';
+                    lucide.createIcons();
+                }, 2000);
+            });
+        }
+
         function checkScrollParam() {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('scroll') === 'contact') {
-                // Limpiar parámetro de la URL sin recargar
                 window.history.replaceState({}, document.title, window.location.pathname);
                 
                 setTimeout(() => {
                     const contactSection = document.getElementById('contact-section');
                     if (contactSection) {
-                        const offset = 100; // Margen para que el nav no tape el título
+                        const offset = 100;
                         const bodyRect = document.body.getBoundingClientRect().top;
                         const elementRect = contactSection.getBoundingClientRect().top;
                         const elementPosition = elementRect - bodyRect;
@@ -190,7 +241,7 @@
                         sessionStorage.setItem('introShown', 'true'); 
                         if (introScreen) introScreen.remove(); 
                         revealContent();
-                        checkScrollParam(); // Scroll después de terminar intro
+                        checkScrollParam();
                     }, 1200);
                 }, 2800);
             }, 300);
