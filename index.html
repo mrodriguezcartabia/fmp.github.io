@@ -27,6 +27,7 @@
             align-items: center;
             justify-content: center;
             background-color: #0f172a;
+            transition: opacity 1.2s ease-in-out; /* Desvanecimiento suave del fondo */
         }
 
         .shimmer-wrapper {
@@ -34,8 +35,8 @@
             display: flex;
             align-items: center;
             gap: 2rem;
-            overflow: hidden;
             padding: 1rem 2rem;
+            transition: opacity 1s ease-in-out; /* Desvanecimiento suave del contenido */
         }
 
         /* El haz de luz (Shimmer) */
@@ -58,18 +59,6 @@
         .shimmer-active.shimmer-wrapper::after {
             left: 150%;
             transition: left 1.5s cubic-bezier(0.3, 0, 0.2, 1);
-        }
-
-        /* Animaciones de salida divergente */
-        .exit-left { 
-            transform: translateX(-120vw) !important; 
-            opacity: 0 !important; 
-            transition: all 1s cubic-bezier(0.7, 0, 0.3, 1) !important; 
-        }
-        .exit-right { 
-            transform: translateX(120vw) !important; 
-            opacity: 0 !important; 
-            transition: all 1s cubic-bezier(0.7, 0, 0.3, 1) !important; 
         }
 
         .glow-logo { filter: drop-shadow(0 0 15px rgba(95, 106, 196, 0.4)); }
@@ -109,11 +98,11 @@
 <body class="leading-relaxed">
 
     <div id="intro-screen">
-        <div class="shimmer-wrapper" id="shimmer-container">
-            <div id="intro-logo" class="opacity-0 transition-all duration-1000 transform scale-95">
+        <div class="shimmer-wrapper opacity-0" id="intro-content">
+            <div id="intro-logo">
                 <img src="logo_bordeblanco.png" alt="Gamma Logo" class="w-24 md:w-32 h-auto glow-logo">
             </div>
-            <div id="intro-text" class="opacity-0 transition-all duration-1000 text-left">
+            <div id="intro-text" class="text-left">
                 <h1 class="text-5xl font-extrabold tracking-tight text-white">Gamma</h1>
                 <p class="text-2xl mt-2 font-light text-white">Solutions</p>
             </div>
@@ -126,45 +115,42 @@
         <div class="container flex flex-col md:flex-row justify-between items-center">
             <div class="text-center md:text-left mb-4 md:mb-0">
                 <a href="index.html" class="hover:opacity-90 transition-opacity">
-                    <h1 class="text-5xl font-extrabold tracking-tight" data-en="Gamma" data-es="Gamma" data-pt="Gamma">Gamma</h1>
-                    <p class="text-2xl mt-2 font-light" data-en="Solutions" data-es="Soluciones" data-pt="Soluções">Solutions</p>
+                    <h1 class="text-5xl font-extrabold tracking-tight" data-en="Gamma" data-es="Gamma">Gamma</h1>
+                    <p class="text-2xl mt-2 font-light" data-en="Solutions" data-es="Soluciones">Solutions</p>
                 </a>
             </div>
             <div class="language-switcher flex space-x-2">
                 <button id="lang-en" onclick="setLanguage('en')">EN</button>
                 <button id="lang-es" onclick="setLanguage('es')">ES</button>
-                <button id="lang-pt" onclick="setLanguage('pt')">PT</button>
             </div>
         </div>
     </header>
 
     <nav class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
         <div class="container relative flex items-center justify-center mx-auto px-6">
-            <div class="absolute left-6 opacity-0 -translate-x-4 transition-all duration-700" id="nav-logo">
+            <div class="absolute left-6 opacity-100 transition-all duration-700" id="nav-logo">
                 <a href="index.html"><img src="logo_bordeblanco.png" alt="Logo" class="h-10 w-auto"></a>
             </div>
             <div class="flex flex-wrap justify-center space-x-4 md:space-x-8">
-                <a href="index.html" class="nav-link active" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
-                <a href="who-we-are.html" class="nav-link" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
-                <a href="games.html" class="nav-link" data-en="Games" data-es="Juegos" data-pt="Jogos">Games</a>
-                <a href="#contact-section" class="nav-link" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
+                <a href="index.html" class="nav-link active" data-en="Home" data-es="Inicio">Home</a>
+                <a href="who-we-are.html" class="nav-link" data-en="Who we are" data-es="Quiénes somos">Who we are</a>
+                <a href="games.html" class="nav-link" data-en="Games" data-es="Juegos">Games</a>
+                <a href="#contact-section" class="nav-link" data-en="Contact" data-es="Contacto">Contact</a>
             </div>
         </div>
     </nav>
 
     <section class="py-24 relative z-10">
         <div class="container reveal">
-            <h2 class="section-title" data-en="Advanced numerical solutions for complex problems" data-es="Soluciones numéricas avanzadas para problemas complejos" data-pt="Soluções numéricas avanzadas para problemas complejos">Advanced numerical solutions for complex problems</h2>
+            <h2 class="section-title" data-en="Advanced numerical solutions" data-es="Soluciones numéricas avanzadas">Advanced numerical solutions</h2>
             <div class="card text-center">
-                <p class="text-lg mb-4" data-en="Our expertise allows us to provide innovative solutions:" data-es="Nuestra experiencia nos permite ofrecer soluciones innovadoras:" data-pt="Nossa experiência nos permite oferecer soluções inovadoras:">
+                <p class="text-lg mb-4" data-en="Our expertise allows us to provide innovative solutions:" data-es="Nuestra experiencia nos permite ofrecer soluciones innovadoras:">
                     Nuestra experiencia nos permite ofrecer soluciones innovadoras:
                 </p>
                 <ul class="list-disc list-inside text-lg mb-6 space-y-2 text-left inline-block list-disc-dark">
-                    <li data-en="Optimization and decision-making under uncertainty." data-es="Optimización y toma de decisiones bajo incertidumbre." data-pt="Otimização e tomada de decisiones sob incerteza.">Optimization and decision-making under uncertainty.</li>
-                    <li data-en="Modeling and simulation of dynamic systems." data-es="Modelado y simulación de sistemas dinámicos." data-pt="Modelagem e simulação de sistemas dinâmicos.">Modeling and simulation of dynamic systems.</li>
-                    <li data-en="Data analysis and predictive modeling." data-es="Análisis de datos y modelado predictivo." data-pt="Análise de datos e modelagem preditiva.">Data analysis and predictive modeling.</li>
-                    <li data-en="Strategic analysis for competitive environments." data-es="Análisis estratégico para entornos competitivos." data-pt="Análise estratégica para ambientes competitivos.">Strategic analysis for competitive environments.</li>
-                    <li data-en="Financial and actuarial risk assessment." data-es="Evaluación de riesgos financieros y actuariales." data-pt="Avaliação de riscos financeiros e atuariais.">Financial and actuarial risk assessment.</li>
+                    <li data-en="Optimization." data-es="Optimización y toma de decisiones.">Optimization and decision-making.</li>
+                    <li data-en="Modeling." data-es="Modelado y simulación.">Modeling and simulation.</li>
+                    <li data-en="Data analysis." data-es="Análisis de datos.">Data analysis.</li>
                 </ul>
             </div>
         </div>
@@ -172,7 +158,7 @@
 
     <section id="contact-section" class="py-24 relative z-10">
         <div class="container reveal">
-            <h2 class="section-title" data-en="Contact us" data-es="Contáctenos" data-pt="Fale conosco">Contact us</h2>
+            <h2 class="section-title" data-en="Contact us" data-es="Contáctenos">Contact us</h2>
             <div class="card max-w-2xl mx-auto text-center">
                 <div class="text-xl space-y-6">
                     <p><strong>Francisco:</strong> fran@dm.uba.ar</p>
@@ -184,59 +170,53 @@
 
     <footer class="bg-gray-900 text-white py-12 rounded-t-xl relative z-10">
         <div class="container text-center">
-            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os derechos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
+            <p class="text-gray-200 text-sm">&copy; 2026 Gamma Solutions. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
         const introScreen = document.getElementById('intro-screen');
-        const introLogo = document.getElementById('intro-logo');
-        const introText = document.getElementById('intro-text');
-        const shimmerCont = document.getElementById('shimmer-container');
-        const navLogo = document.getElementById('nav-logo');
+        const introContent = document.getElementById('intro-content');
 
         function startIntro() {
+            // Si ya se mostró en esta sesión, eliminamos la intro de inmediato
             if (sessionStorage.getItem('introShown')) {
                 introScreen.remove();
-                navLogo.style.opacity = '1';
-                navLogo.style.transform = 'translateX(0)';
                 return;
             }
 
             document.body.classList.add('intro-active');
 
+            // 1. Aparecer suavemente el contenido (logo + texto)
             setTimeout(() => {
-                introLogo.style.opacity = '1';
-                introLogo.style.transform = 'scale(1)';
-                introText.style.opacity = '1';
+                introContent.classList.remove('opacity-0');
                 
-                setTimeout(() => shimmerCont.classList.add('shimmer-active'), 500);
+                // 2. Iniciar efecto de brillo (shimmer)
+                setTimeout(() => introContent.classList.add('shimmer-active'), 500);
 
+                // 3. Desvanecer todo
                 setTimeout(() => {
-                    introLogo.classList.add('exit-left');
-                    introText.classList.add('exit-right');
+                    introContent.style.opacity = '0'; // Desvanece el contenido
+                    introScreen.style.opacity = '0'; // Desvanece el fondo oscuro
                     
                     setTimeout(() => {
-                        introScreen.style.opacity = '0';
                         document.body.classList.remove('intro-active');
-                        setTimeout(() => {
-                            navLogo.style.opacity = '1';
-                            navLogo.style.transform = 'translateX(0)';
-                            sessionStorage.setItem('introShown', 'true');
-                            introScreen.remove();
-                        }, 400);
-                    }, 800);
-                }, 2500);
-            }, 400);
+                        sessionStorage.setItem('introShown', 'true');
+                        introScreen.remove();
+                    }, 1200); // Espera a que termine la transición de CSS
+                }, 2800); 
+            }, 300);
         }
 
         function setLanguage(lang) {
             localStorage.setItem('preferredLang', lang);
-            document.querySelectorAll('[data-en], [data-es], [data-pt]').forEach(el => {
+            document.querySelectorAll('[data-en], [data-es]').forEach(el => {
                 const translation = el.dataset[lang];
                 if (translation) el.textContent = translation;
             });
-            document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
+            document.querySelectorAll('.language-switcher button').forEach(btn => {
+                btn.classList.toggle('active', btn.id === `lang-${lang}`);
+            });
         }
 
         function reveal() {
@@ -254,13 +234,6 @@
             startIntro();
             setLanguage(localStorage.getItem('preferredLang') || 'en');
             reveal();
-
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('scroll') === 'contact') {
-                setTimeout(() => {
-                    document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' });
-                }, sessionStorage.getItem('introShown') ? 100 : 3500);
-            }
         });
     </script>
 </body>
