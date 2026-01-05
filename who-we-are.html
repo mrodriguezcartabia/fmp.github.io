@@ -15,10 +15,12 @@
             overflow-x: hidden;
         }
 
+        /* Parallax Background */
         .parallax-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), url('photo.jpg');
+            background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), 
+                        url('photo.jpg');
             background-size: cover;
             background-position: center;
             z-index: -1;
@@ -27,8 +29,8 @@
         }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
-        .section-title { font-size: 2.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 2rem; text-align: center; }
         
+        /* Cards & Content */
         .card { 
             background-color: rgba(30, 41, 59, 0.7); 
             backdrop-filter: blur(8px);
@@ -41,13 +43,10 @@
         
         .language-switcher button { background-color: #475569; color: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; font-size: 0.75rem; text-transform: uppercase; }
         .language-switcher button.active { background-color: #5f6ac4; color: #ffffff; }
+        .nav-link { transition: color 0.3s ease; }
         .nav-link.active { font-weight: 700; border-bottom: 2px solid #5f6ac4; }
 
-        /* Animación para el logo del Nav */
-        #nav-logo {
-            transition: all 1s ease-out;
-        }
-
+        /* Efecto Reveal */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -81,18 +80,18 @@
     </header>
 
     <nav class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
-        <div class="container relative flex items-center justify-center">
-            <div class="absolute left-6 opacity-0 -translate-x-4 transition-all duration-1000" id="nav-logo">
+        <div class="container relative flex items-center justify-center mx-auto px-6">
+            <div class="absolute left-6" id="nav-logo">
                 <a href="index.html" class="hover:opacity-80 transition-opacity block">
                     <img src="logo_bordeblanco.png" alt="Logo" class="h-10 w-auto">
                 </a>
             </div>
 
             <div class="flex flex-wrap justify-center space-x-4 md:space-x-8">
-                <a href="index.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
-                <a href="who-we-are.html" class="nav-link hover:text-gray-200 font-medium transition-colors active" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
-                <a href="games.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Games" data-es="Juegos" data-pt="Jogos">Games</a>
-                <a href="index.html?scroll=contact" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
+                <a href="index.html" class="nav-link hover:text-indigo-300 font-medium" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
+                <a href="who-we-are.html" class="nav-link hover:text-indigo-300 font-medium active" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
+                <a href="games.html" class="nav-link hover:text-indigo-300 font-medium" data-en="Games" data-es="Juegos" data-pt="Jogos">Games</a>
+                <a href="index.html?scroll=contact" class="nav-link hover:text-indigo-300 font-medium" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
             </div>
         </div>
     </nav>
@@ -103,7 +102,7 @@
                 <p class="text-lg" 
                    data-en="We are Conicet researchers at the Imas Institute and we seek to apply our expertise to business world challenges, providing precise and effective results." 
                    data-es="Somos investigadores del Conicet en el Instituto Imas y buscamos aplicar nuestra experiencia a desafíos del mundo empresarial, brindando resultados precisos y efectivos." 
-                   data-pt="Somos pesquisadores do Conicet no Instituto Imas e buscamos aplicar nossa experiência aos desafíos do mundo empresarial, entregando resultados precisos e eficazes.">
+                   data-pt="Somos pesquisadores do Conicet no Instituto Imas e buscamos aplicar nossa experiência aos desafios do mundo empresarial, entregando resultados precisos e eficazes.">
                 </p>
             </div>
             
@@ -115,10 +114,10 @@
                        data-es="Es licenciado y doctor en matemática (UBA). Realiza su investigación sobre <i>Machine learning</i> (aprendizaje automático) y Análisis numérico. Tiene más de una década de experiencia docente y actualmente se desempeña como profesor adjunto en la Facultad de Ciencias Exactas y Naturales (UBA)." 
                        data-pt="É licenciado e doutor em matemática (UBA). Realiza sua pesquisa sobre <i>Machine learning</i> (aprendizado de máquina) e Análise numérica. Tem mais de uma década de experiência docente e atualmente é professor adjunto na Facultad de Ciencias Exactas y Naturales (UBA).">
                     </p>
-                    <div class="space-y-3">
-                        <a href="#" target="_blank" class="inline-block text-[#b2b9ff] hover:text-[#7d6dbf] font-medium transition-colors" data-en="LinkedIn Profile" data-es="Perfil de LinkedIn" data-pt="Perfil do LinkedIn">LinkedIn Profile</a>
-                        <span class="mx-2 text-gray-600">|</span>
-                        <a href="#" target="_blank" class="inline-block text-[#b2b9ff] hover:text-[#7d6dbf] font-medium transition-colors" data-en="Personal Page" data-es="Página Personal" data-pt="Página Pessoal">Personal Page</a>
+                    <div class="flex justify-center space-x-4">
+                        <a href="#" class="text-indigo-400 hover:text-white transition-colors" data-en="LinkedIn" data-es="LinkedIn" data-pt="LinkedIn">LinkedIn</a>
+                        <span class="text-gray-600">|</span>
+                        <a href="#" class="text-indigo-400 hover:text-white transition-colors" data-en="Personal Page" data-es="Página Personal" data-pt="Página Pessoal">Personal Page</a>
                     </div>
                 </div>
 
@@ -129,10 +128,10 @@
                        data-es="Es licenciado y doctor en matemática y actuario (UBA). Realiza su investigación sobre Ecuaciones diferenciales y Teoría de juegos. Tiene más de una década de experiencia docente, incluyendo el cargo de profesor adjunto en la Facultad de Ciencias Exactas y Naturales (UBA) y el de profesor invitado en el Departamento de economía de la Universidad de San Andrés." 
                        data-pt="É licenciado e doutor em matemática e atuário (UBA). Realiza sua pesquisa sobre Equações diferenciais e Teoria dos jogos. Tem mais de uma década de experiência docente, incluindo o cargo de professor adjunto na Facultad de Ciencias Exactas y Naturales (UBA) e o de professor convidado no Departamento de Economia da Universidad de San Andrés.">
                     </p>
-                    <div class="space-y-3">
-                        <a href="https://www.linkedin.com/in/mrodriguezcartabia/" target="_blank" class="inline-block text-[#b2b9ff] hover:text-[#7d6dbf] font-medium transition-colors" data-en="LinkedIn Profile" data-es="Perfil de LinkedIn" data-pt="Perfil do LinkedIn">LinkedIn Profile</a>
-                        <span class="mx-2 text-gray-600">|</span>
-                        <a href="https://mrodriguezcartabia.github.io/" target="_blank" class="inline-block text-[#b2b9ff] hover:text-[#7d6dbf] font-medium transition-colors" data-en="Personal Page" data-es="Página Personal" data-pt="Página Pessoal">Personal Page</a>
+                    <div class="flex justify-center space-x-4">
+                        <a href="https://www.linkedin.com/in/mrodriguezcartabia/" target="_blank" class="text-indigo-400 hover:text-white transition-colors">LinkedIn</a>
+                        <span class="text-gray-600">|</span>
+                        <a href="https://mrodriguezcartabia.github.io/" target="_blank" class="text-indigo-400 hover:text-white transition-colors" data-en="Personal Page" data-es="Página Personal" data-pt="Página Pessoal">Personal Page</a>
                     </div>
                 </div>
             </div>
@@ -159,26 +158,23 @@
             document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.remove('active'));
             const activeBtn = document.getElementById(`lang-${lang}`);
             if (activeBtn) activeBtn.classList.add('active');
-            document.documentElement.lang = lang;
         }
 
         function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 100;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
+            const reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    el.classList.add("active");
                 }
-            }
+            });
         }
 
         window.addEventListener("scroll", () => {
-            const scrollValue = window.scrollY;
             const parallax = document.getElementById("parallax");
             if (parallax) {
-                parallax.style.transform = `translateY(${scrollValue * 0.3}px) scale(1.1)`;
+                parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
             }
             reveal();
         });
@@ -187,13 +183,6 @@
             const savedLang = localStorage.getItem('preferredLang') || 'en';
             setLanguage(savedLang);
             reveal();
-
-            // Aparecer el logo del nav con delay suave
-            const navLogo = document.getElementById('nav-logo');
-            setTimeout(() => {
-                navLogo.style.opacity = '1';
-                navLogo.style.transform = 'translateX(0)';
-            }, 100);
         });
     </script>
 </body>
