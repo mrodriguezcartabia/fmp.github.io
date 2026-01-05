@@ -59,20 +59,21 @@
             transform: translateY(0);
         }
 
-        /* Estilo para el tooltip de copiado */
         .copy-feedback {
             position: absolute;
-            top: -30px;
+            top: -35px;
             left: 50%;
             transform: translateX(-50%);
             background: #10b981;
             color: white;
-            padding: 2px 8px;
+            padding: 2px 10px;
             border-radius: 4px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
+            font-weight: 600;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: all 0.2s ease;
             pointer-events: none;
+            white-space: nowrap;
         }
     </style>
 </head>
@@ -111,7 +112,7 @@
                 <p class="text-lg mb-4" 
                    data-en="Our expertise allows us to provide innovative solutions:" 
                    data-es="Nuestra experiencia nos permite ofrecer soluciones innovadoras:" 
-                   data-pt="Nossa experiência nos permite oferecer soluções inovadoras:">
+                   data-pt="Nossa experiencia nos permite oferecer soluções inovadoras:">
                    Nuestra experiencia nos permite ofrecer soluciones innovadoras:
                 </p>
                 <ul class="list-disc list-inside text-lg mb-6 space-y-2 text-left inline-block list-disc-dark">
@@ -131,21 +132,23 @@
             <div class="card max-w-2xl mx-auto text-center">
                 <div class="text-xl space-y-6">
                     <div class="flex items-center justify-center space-x-3">
-                        <p><strong>Francisco:</strong> <span id="mail1">fran@dm.uba.ar</span></p>
-                        <button onclick="copyEmail('mail1', this)" class="relative p-2 bg-slate-800 hover:bg-indigo-600 rounded-lg transition-all border border-white/10 group" title="Copy email">
+                        <p><strong>Francisco:</strong> <span id="mail1" class="text-indigo-200">fran@dm.uba.ar</span></p>
+                        <button onclick="copyEmail('mail1', this)" class="relative p-2 text-gray-400 hover:text-white hover:bg-slate-700/50 rounded-md transition-all border border-transparent hover:border-white/10" title="Copy email">
                             <span class="copy-feedback" data-en="Copied!" data-es="¡Copiado!" data-pt="Copiado!">Copied!</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                             </svg>
                         </button>
                     </div>
 
                     <div class="flex items-center justify-center space-x-3">
-                        <p><strong>Mauro:</strong> <span id="mail2">mauro@dm.uba.ar</span></p>
-                        <button onclick="copyEmail('mail2', this)" class="relative p-2 bg-slate-800 hover:bg-indigo-600 rounded-lg transition-all border border-white/10 group" title="Copy email">
+                        <p><strong>Mauro:</strong> <span id="mail2" class="text-indigo-200">mauro@dm.uba.ar</span></p>
+                        <button onclick="copyEmail('mail2', this)" class="relative p-2 text-gray-400 hover:text-white hover:bg-slate-700/50 rounded-md transition-all border border-transparent hover:border-white/10" title="Copy email">
                             <span class="copy-feedback" data-en="Copied!" data-es="¡Copiado!" data-pt="Copiado!">Copied!</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                             </svg>
                         </button>
                     </div>
@@ -182,9 +185,16 @@
             navigator.clipboard.writeText(email).then(() => {
                 const feedback = btn.querySelector('.copy-feedback');
                 feedback.style.opacity = '1';
+                feedback.style.transform = 'translateX(-50%) translateY(-5px)';
+                
+                // Efecto de color en el botón
+                btn.classList.add('text-green-400');
+
                 setTimeout(() => {
                     feedback.style.opacity = '0';
-                }, 2000);
+                    feedback.style.transform = 'translateX(-50%) translateY(0px)';
+                    btn.classList.remove('text-green-400');
+                }, 1500);
             });
         }
 
