@@ -48,7 +48,7 @@ html {
     left: -100%; 
     width: 50%; 
     height: 100%; 
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2) 50%, transparent); 
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1) 50%, transparent); 
     transform: skewX(-25deg); 
 }
 
