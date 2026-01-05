@@ -15,13 +15,10 @@
             overflow-x: hidden;
         }
 
-        /* Efecto de fondo opaco y Parallax */
+        /* Parallax Background */
         .parallax-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), 
                         url('photo.jpg');
             background-size: cover;
@@ -48,6 +45,11 @@
         .language-switcher button.active { background-color: #5f6ac4; color: #ffffff; }
         .nav-link.active { font-weight: 700; border-bottom: 2px solid #5f6ac4; }
 
+        /* Animación para el logo del Nav */
+        #nav-logo {
+            transition: all 1s ease-out;
+        }
+
         .iframe-container {
             position: relative;
             width: 100%;
@@ -57,7 +59,7 @@
             background: #ffffff; 
         }
 
-        /* Efecto Reveal */
+        /* Reveal Effect */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -91,18 +93,24 @@
     </header>
 
     <nav class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
-        <div class="container flex flex-wrap justify-center space-x-4 md:space-x-8">
-            <a href="index.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
-            <a href="who-we-are.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
-            <a href="games.html" class="nav-link hover:text-gray-200 font-medium transition-colors active" data-en="Games" data-es="Juegos" data-pt="Jogos">Games</a>
-            <a href="index.html?scroll=contact" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
+        <div class="container relative flex items-center justify-center">
+            <div class="absolute left-6 opacity-0 -translate-x-4 transition-all duration-1000" id="nav-logo">
+                <a href="index.html" class="hover:opacity-80 transition-opacity block">
+                    <img src="logo_bordeblanco.png" alt="Logo" class="h-10 w-auto">
+                </a>
+            </div>
+
+            <div class="flex flex-wrap justify-center space-x-4 md:space-x-8">
+                <a href="index.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
+                <a href="who-we-are.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
+                <a href="games.html" class="nav-link hover:text-gray-200 font-medium transition-colors active" data-en="Games" data-es="Juegos" data-pt="Jogos">Games</a>
+                <a href="index.html?scroll=contact" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
+            </div>
         </div>
     </nav>
 
     <section class="py-24 relative z-10">
         <div class="container">
-           <!-- <h2 class="section-title reveal" data-en="Some games" data-es="Algunos juegos" data-pt="Alguns jogos">Some games</h2> -->
-            
             <div id="calculator-section" class="card mb-12 reveal">
                 <h3 class="text-2xl font-semibold mb-4" data-en="Interactive Calculator" data-es="Calculadora Interactiva" data-pt="Calculadora Interativa">Interactive Calculator</h3>
                 <p class="text-lg mb-6" data-en="Use our Python-powered tool to perform instant calculations." data-es="Utilice nuestra herramienta impulsada por Python para realizar cálculos instantáneos." data-pt="Use nossa ferramenta baseada em Python para realizar cálculos instantâneos."></p>
@@ -158,7 +166,6 @@
             document.documentElement.lang = lang;
         }
 
-        // Efecto Reveal
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -171,12 +178,11 @@
             }
         }
 
-        // Efecto Parallax
         window.addEventListener("scroll", () => {
             const scrollValue = window.scrollY;
             const parallax = document.getElementById("parallax");
             if (parallax) {
-            parallax.style.transform = `translateY(${scrollValue * 0.3}px) scale(1.1)`;
+                parallax.style.transform = `translateY(${scrollValue * 0.3}px) scale(1.1)`;
             }
             reveal();
         });
@@ -185,6 +191,13 @@
             const savedLang = localStorage.getItem('preferredLang') || 'en';
             setLanguage(savedLang);
             reveal();
+
+            // Aparecer el logo del nav suavemente al cargar
+            const navLogo = document.getElementById('nav-logo');
+            setTimeout(() => {
+                navLogo.style.opacity = '1';
+                navLogo.style.transform = 'translateX(0)';
+            }, 100);
         });
     </script>
 </body>
