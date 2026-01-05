@@ -10,7 +10,7 @@
         body { font-family: 'Inter', sans-serif; color: #e2e8f0; background-color: #0f172a; margin: 0; overflow-x: hidden; }
         .parallax-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), url('photo.jpg'); background-size: cover; z-index: -1; transform: scale(1.1); transition: transform 0.1s ease-out; }
         .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
-        .card { background-color: rgba(30, 41, 59, 0.7); backdrop-filter: blur(8px); border-radius: 0.75rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); padding: 2.5rem; margin-bottom: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .card { background-color: rgba(30, 41, 59, 0.7); backdrop-filter: blur(8px); border-radius: 0.75rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); padding: 2.5rem; border: 1px solid rgba(255, 255, 255, 0.1); }
         .language-switcher button { background-color: #475569; color: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; font-size: 0.75rem; text-transform: uppercase; }
         .language-switcher button.active { background-color: #5f6ac4; color: #ffffff; }
         .nav-link.active { font-weight: 700; border-bottom: 2px solid #5f6ac4; }
@@ -18,13 +18,11 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
-<body class="leading-relaxed">
+<body>
     <div class="parallax-bg" id="parallax"></div>
     <header class="bg-gradient-to-r from-[#1f2937] to-[#374151] text-white py-6 shadow-md rounded-b-xl relative z-10">
         <div class="container flex flex-col md:flex-row justify-between items-center">
-            <div class="text-center md:text-left">
-                <a href="index.html"><h1 class="text-5xl font-extrabold tracking-tight">Gamma</h1><p class="text-2xl mt-2 font-light">Solutions</p></a>
-            </div>
+            <div class="text-center md:text-left"><a href="index.html"><h1 class="text-5xl font-extrabold tracking-tight">Gamma</h1><p class="text-2xl mt-2 font-light" data-en="Solutions" data-es="Soluciones" data-pt="Soluções">Solutions</p></a></div>
             <div class="language-switcher flex space-x-2">
                 <button id="lang-en" onclick="setLanguage('en')">EN</button>
                 <button id="lang-es" onclick="setLanguage('es')">ES</button>
@@ -32,6 +30,7 @@
             </div>
         </div>
     </header>
+
     <nav class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
         <div class="container relative flex items-center justify-center mx-auto px-6">
             <div class="absolute left-6"><a href="index.html"><img src="logo_bordeblanco.png" class="h-10 w-auto"></a></div>
@@ -43,27 +42,53 @@
             </div>
         </div>
     </nav>
-    <section class="py-24 relative z-10">
-        <div class="container">
-            <div class="card text-center mb-12 reveal">
-                <p class="text-lg" data-en="We are Conicet researchers at the Imas Institute and we seek to apply our expertise to business world challenges, providing precise and effective results." data-es="Somos investigadores del Conicet en el Instituto Imas y buscamos aplicar nuestra experiencia a desafíos del mundo empresarial, brindando resultados precisos y efectivos." data-pt="Somos pesquisadores do Conicet no Instituto Imas e buscamos aplicar nossa experiência aos desafios do mundo empresarial, entregando resultados precisos e eficazes."></p>
+
+    <section class="py-24 relative z-10 container">
+        <div class="card text-center mb-12 reveal">
+            <p class="text-lg" 
+               data-en="We are Conicet researchers at the Imas Institute and we seek to apply our expertise to business world challenges, providing precise and effective results." 
+               data-es="Somos investigadores del Conicet en el Instituto Imas y buscamos aplicar nuestra experiencia a desafíos del mundo empresarial, brindando resultados precisos y efectivos." 
+               data-pt="Somos pesquisadores do Conicet no Instituto Imas e buscamos aplicar nossa experiência aos desafios do mundo empresarial, fornecendo resultados precisos e eficazes.">
+            </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="card reveal">
+                <h4 class="text-3xl font-semibold mb-4 text-center">Francisco Bersetche</h4>
+                <p class="text-lg text-gray-200" 
+                   data-en="He holds a degree and a PhD in Mathematics (UBA). His research focuses on Machine Learning and Numerical Analysis. He has over a decade of teaching experience and currently serves as an Associate Professor at the Facultad de Ciencias Exactas y Naturales (UBA)." 
+                   data-es="Es licenciado y doctor en matemática (UBA). Realiza su investigación sobre Machine learning (aprendizaje automático) y Análisis numérico. Tiene más de una década de experiencia docente y actualmente se desempeña como profesor adjunto en la Facultad de Ciencias Exactas y Naturales (UBA)."
+                   data-pt="Possui graduação e doutorado em Matemática (UBA). Sua pesquisa foca em Machine Learning e Análise Numérica. Possui mais de uma década de experiência docente e atualmente é Professor Adjunto na Facultad de Ciencias Exactas y Naturales (UBA).">
+                </p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="card text-center reveal">
-                    <h4 class="text-3xl font-semibold mb-3">Francisco Bersetche</h4>
-                    <p class="text-lg text-gray-300 mb-6" data-en="He holds a degree and a PhD in Mathematics (UBA). His research focuses on Machine Learning and Numerical Analysis. He has over a decade of teaching experience and currently serves as an Associate Professor at the Facultad de Ciencias Exactas y Naturales (UBA)." data-es="Es licenciado y doctor en matemática (UBA). Realiza su investigación sobre Machine learning (aprendizaje automático) y Análisis numérico. Tiene más de una década de experiencia docente y actualmente se desempeña como profesor adjunto en la Facultad de Ciencias Exactas y Naturales (UBA)."></p>
-                </div>
-                <div class="card text-center reveal">
-                    <h4 class="text-3xl font-semibold mb-3">Mauro Rodriguez Cartabia</h4>
-                    <p class="text-lg text-gray-300 mb-6" data-en="He holds degrees in Mathematics and Actuarial sciences (UBA), and a PhD in Mathematics (UBA). His research focuses on Differential Equations and Game Theory. He has over a decade of teaching experience, including positions as an Associate Professor at the Facultad de Ciencias Exactas y Naturales (UBA) and Guest Professor at the Department of Economics at Universidad de San Andrés." data-es="Es licenciado y doctor en matemática y actuario (UBA). Realiza su investigación sobre Ecuaciones diferenciales y Teoría de juegos. Tiene más de una década de experiencia docente, incluyendo el cargo de profesor adjunto en la Facultad de Ciencias Exactas y Naturales (UBA) y el de profesor invitado en el Departamento de economía de la Universidad de San Andrés."></p>
-                    <div class="flex justify-center space-x-4"><a href="https://www.linkedin.com/in/mrodriguezcartabia/" target="_blank" class="text-indigo-400 hover:text-white transition-colors">LinkedIn</a> | <a href="https://mrodriguezcartabia.github.io/" target="_blank" class="text-indigo-400 hover:text-white transition-colors">Personal Page</a></div>
+            <div class="card reveal">
+                <h4 class="text-3xl font-semibold mb-4 text-center">Mauro Rodriguez Cartabia</h4>
+                <p class="text-lg text-gray-200 mb-6" 
+                   data-en="He holds degrees in Mathematics and Actuarial sciences (UBA), and a PhD in Mathematics (UBA). His research focuses on Differential Equations and Game Theory. He has over a decade of teaching experience, including positions as an Associate Professor at the Facultad de Ciencias Exactas y Naturales (UBA) and Guest Professor at the Department of Economics at Universidad de San Andrés." 
+                   data-es="Es licenciado y doctor en matemática y actuario (UBA). Realiza su investigación sobre Ecuaciones diferenciales y Teoría de juegos. Tiene más de una década de experiencia docente, incluyendo el cargo de profesor adjunto en la Facultad de Ciencias Exactas y Naturales (UBA) y el de profesor invitado en el Departamento de economía de la Universidad de San Andrés."
+                   data-pt="Possui graduação em Matemática e Ciências Atuariais (UBA) e doutorado em Matemática (UBA). Sua pesquisa foca em Equações Diferenciais e Teoria dos Jogos. Possui mais de uma década de experiência docente, incluindo cargos de Professor Adjunto na Facultad de Ciencias Exactas y Naturales (UBA) e Professor Convidado no Departamento de Economia da Universidad de San Andrés.">
+                </p>
+                <div class="flex justify-center space-x-4 border-t border-gray-600 pt-4">
+                    <a href="https://www.linkedin.com/in/mrodriguezcartabia/" target="_blank" class="text-indigo-400 hover:text-white">LinkedIn</a>
+                    <span class="text-gray-500">|</span>
+                    <a href="https://mrodriguezcartabia.github.io/" target="_blank" class="text-indigo-400 hover:text-white">Personal Page</a>
                 </div>
             </div>
         </div>
     </section>
+
     <script>
-        function setLanguage(lang) { localStorage.setItem('preferredLang', lang); document.querySelectorAll('[data-en]').forEach(el => { const t = el.dataset[lang]; if (t) el.innerHTML = t; }); document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`)); }
-        window.addEventListener("scroll", () => { document.getElementById("parallax").style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`; document.querySelectorAll(".reveal").forEach(el => { if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add("active"); }); });
+        function setLanguage(lang) {
+            localStorage.setItem('preferredLang', lang);
+            document.querySelectorAll('[data-en]').forEach(el => { 
+                const text = el.dataset[lang];
+                if(text) el.textContent = text;
+            });
+            document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
+        }
+        window.addEventListener("scroll", () => {
+            document.getElementById("parallax").style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
+            document.querySelectorAll(".reveal").forEach(el => { if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add("active"); });
+        });
         document.addEventListener('DOMContentLoaded', () => { setLanguage(localStorage.getItem('preferredLang') || 'en'); });
     </script>
 </body>
