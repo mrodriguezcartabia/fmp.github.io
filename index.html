@@ -15,9 +15,10 @@
             overflow-x: hidden;
         }
 
-        body.loading { overflow: hidden; }
+        /* Bloqueo de scroll solo si la intro está activa */
+        body.intro-active { overflow: hidden; }
 
-        /* --- Intro Animation Styles --- */
+        /* --- Estilos de la Intro --- */
         #intro-screen {
             position: fixed;
             inset: 0;
@@ -26,99 +27,87 @@
             align-items: center;
             justify-content: center;
             background-color: #0f172a;
-            transition: opacity 0.8s ease;
         }
 
-        .intro-container {
+        /* Contenedor que agrupa logo y texto para el shimmer */
+        .shimmer-wrapper {
+            position: relative;
             display: flex;
             align-items: center;
             gap: 2rem;
-            transition: all 1s cubic-bezier(0.77, 0, 0.175, 1);
-        }
-
-        /* Animaciones de salida divergentes */
-        .exit-left { transform: translateX(-150vw); opacity: 0; transition: all 1.2s cubic-bezier(0.77, 0, 0.175, 1); }
-        .exit-right { transform: translateX(150vw); opacity: 0; transition: all 1.2s cubic-bezier(0.77, 0, 0.175, 1); }
-
-        .logo-wrapper {
-            position: relative;
-            display: inline-block;
             overflow: hidden;
-            border-radius: 8px;
+            padding: 1rem 2rem;
         }
 
-        /* Efecto Destello (Shimmer) */
-        .logo-wrapper::after {
+        /* El haz de luz (Shimmer) que cruza todo */
+        .shimmer-wrapper::after {
             content: '';
             position: absolute;
-            top: -50%;
+            top: 0;
             left: -150%;
             width: 100%;
-            height: 200%;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3) 50%, transparent);
-            transform: rotate(25deg);
+            height: 100%;
+            background: linear-gradient(
+                to right, 
+                transparent, 
+                rgba(255, 255, 255, 0.4) 50%, 
+                transparent
+            );
+            transform: skewX(-20deg);
         }
 
-        .shimmer-active.logo-wrapper::after {
+        .shimmer-active.shimmer-wrapper::after {
             left: 150%;
-            transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: left 1.5s cubic-bezier(0.3, 0, 0.2, 1);
         }
 
-        .glow-subtle {
-            filter: drop-shadow(0 0 15px rgba(95, 106, 196, 0.3));
-            animation: pulseGlow 4s ease-in-out infinite;
+        /* Animaciones de salida divergente */
+        .exit-left { 
+            transform: translateX(-120vw) !important; 
+            opacity: 0 !important; 
+            transition: all 1s cubic-bezier(0.7, 0, 0.3, 1) !important; 
+        }
+        .exit-right { 
+            transform: translateX(120vw) !important; 
+            opacity: 0 !important; 
+            transition: all 1s cubic-bezier(0.7, 0, 0.3, 1) !important; 
         }
 
-        @keyframes pulseGlow {
-            0%, 100% { filter: drop-shadow(0 0 10px rgba(95, 106, 196, 0.2)); }
-            50% { filter: drop-shadow(0 0 25px rgba(95, 106, 196, 0.4)); }
+        .glow-logo {
+            filter: drop-shadow(0 0 15px rgba(95, 106, 196, 0.4));
         }
 
-        /* --- Page Layout --- */
+        /* --- Resto de la página --- */
         .parallax-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), url('photo.jpg');
-            background-size: cover; background-position: center;
-            z-index: -1; transform: scale(1.1);
+            background-size: cover; z-index: -1; transform: scale(1.1);
         }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
-        .section-title { font-size: 2.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 2rem; text-align: center; }
-        
         .card { 
             background-color: rgba(30, 41, 59, 0.7); 
             backdrop-filter: blur(8px);
             border-radius: 0.75rem; 
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); 
             padding: 2rem; border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .language-switcher button { background-color: #475569; color: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; font-size: 0.75rem; }
         .language-switcher button.active { background-color: #5f6ac4; color: #ffffff; }
         .nav-link.active { font-weight: 700; border-bottom: 2px solid #5f6ac4; }
-        html { scroll-behavior: smooth; }
-
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-
-        .copy-feedback {
-            position: absolute; top: -35px; left: 50%; transform: translateX(-50%);
-            background: #818cf8; color: white; padding: 2px 10px; border-radius: 4px;
-            font-size: 0.75rem; opacity: 0; transition: all 0.2s ease;
-        }
     </style>
 </head>
-<body class="leading-relaxed loading">
+<body class="leading-relaxed">
 
     <div id="intro-screen">
-        <div class="intro-container">
-            <div id="intro-logo" class="logo-wrapper opacity-0 transition-opacity duration-1000">
-                <img src="logo_bordeblanco.png" alt="Gamma Logo" class="w-24 md:w-32 h-auto glow-subtle">
+        <div class="shimmer-wrapper" id="shimmer-container">
+            <div id="intro-logo" class="opacity-0 transition-all duration-1000 transform scale-95">
+                <img src="logo_bordeblanco.png" alt="Gamma Logo" class="w-24 md:w-32 h-auto glow-logo">
             </div>
-            <div id="intro-text" class="opacity-0 transition-opacity duration-1000 text-left border-l border-white/20 pl-8">
-                <h1 class="text-5xl font-extrabold tracking-tight text-white mb-1">Gamma</h1>
-                <p class="text-2xl font-light text-indigo-400 tracking-[0.2em] uppercase">Solutions</p>
+            <div id="intro-text" class="opacity-0 transition-all duration-1000 text-left">
+                <h1 class="text-5xl font-extrabold tracking-tight text-white">Gamma</h1>
+                <p class="text-2xl mt-2 font-light text-white">Solutions</p>
             </div>
         </div>
     </div>
@@ -126,157 +115,124 @@
     <div class="parallax-bg" id="parallax"></div>
 
     <header class="bg-gradient-to-r from-[#1f2937] to-[#374151] text-white py-6 shadow-md rounded-b-xl relative z-10">
-        <div class="container flex flex-col md:flex-row justify-between items-center">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
             <div class="text-center md:text-left mb-4 md:mb-0">
                 <a href="index.html" class="hover:opacity-90 transition-opacity">
-                    <h1 class="text-5xl font-extrabold tracking-tight" data-en="Gamma" data-es="Gamma" data-pt="Gamma">Gamma</h1>
-                    <p class="text-2xl mt-2 font-light" data-en="Solutions" data-es="Soluciones" data-pt="Soluções">Solutions</p>
+                    <h1 class="text-5xl font-extrabold tracking-tight">Gamma</h1>
+                    <p class="text-2xl mt-2 font-light">Solutions</p>
                 </a>
             </div>
             <div class="language-switcher flex space-x-2">
-                <button id="lang-en" onclick="setLanguage('en')">EN</button>
-                <button id="lang-es" onclick="setLanguage('es')">ES</button>
-                <button id="lang-pt" onclick="setLanguage('pt')">PT</button>
+                <button id="lang-en" class="px-3 py-1 bg-slate-600 rounded" onclick="setLanguage('en')">EN</button>
+                <button id="lang-es" class="px-3 py-1 bg-slate-600 rounded" onclick="setLanguage('es')">ES</button>
+                <button id="lang-pt" class="px-3 py-1 bg-slate-600 rounded" onclick="setLanguage('pt')">PT</button>
             </div>
         </div>
     </header>
 
     <nav class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
-        <div class="container relative flex items-center justify-center">
-            <div class="absolute left-6 opacity-0 -translate-x-4 transition-all duration-1000" id="nav-logo">
-                <a href="index.html" class="hover:opacity-80 transition-opacity block">
-                    <img src="logo_bordeblanco.png" alt="Logo" class="h-10 w-auto">
-                </a>
+        <div class="container mx-auto px-6 relative flex items-center justify-center">
+            <div class="absolute left-6 opacity-0 -translate-x-4 transition-all duration-700" id="nav-logo">
+                <a href="index.html"><img src="logo_bordeblanco.png" alt="Logo" class="h-10 w-auto"></a>
             </div>
-
-            <div class="flex flex-wrap justify-center space-x-4 md:space-x-8">
-                <a href="index.html" class="nav-link hover:text-gray-200 font-medium transition-colors active" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
-                <a href="who-we-are.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
-                <a href="games.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Games" data-es="Juegos" data-pt="Jogos">Games</a>
-                <a href="#contact-section" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
+            <div class="flex space-x-8">
+                <a href="index.html" class="nav-link active" data-en="Home" data-es="Inicio">Home</a>
+                <a href="who-we-are.html" class="nav-link" data-en="Who we are" data-es="Quiénes somos">Who we are</a>
+                <a href="games.html" class="nav-link" data-en="Games" data-es="Juegos">Games</a>
+                <a href="#contact-section" class="nav-link" data-en="Contact" data-es="Contacto">Contact</a>
             </div>
         </div>
     </nav>
     
-    <section class="py-24 relative z-10">
-        <div class="container reveal">
-            <h2 class="section-title" data-en="Advanced numerical solutions for complex problems" data-es="Soluciones numéricas avanzadas para problemas complejos" data-pt="Soluções numéricas avanzadas para problemas complejos">Advanced numerical solutions for complex problems</h2>
-            <div class="card text-center">
-                <p class="text-lg mb-4" data-en="Our expertise allows us to provide innovative solutions:" data-es="Nuestra experiencia nos permite ofrecer soluciones innovadoras:" data-pt="Nossa experiencia nos permite oferecer soluções inovadoras:">Nuestra experiencia nos permite ofrecer soluciones innovadoras:</p>
-                <ul class="list-disc list-inside text-lg mb-6 space-y-2 text-left inline-block list-disc-dark">
-                    <li data-en="Optimization and decision-making under uncertainty.">Optimization and decision-making under uncertainty.</li>
-                    <li data-en="Modeling and simulation of dynamic systems.">Modeling and simulation of dynamic systems.</li>
-                    <li data-en="Data analysis and predictive modeling.">Data analysis and predictive modeling.</li>
-                    <li data-en="Strategic analysis for competitive environments.">Strategic analysis for competitive environments.</li>
-                    <li data-en="Financial and actuarial risk assessment.">Financial and actuarial risk assessment.</li>
-                </ul>
+    <main class="py-24 relative z-10 container mx-auto px-6">
+        <div class="reveal">
+            <h2 class="text-4xl font-bold text-center mb-12" data-en="Advanced numerical solutions" data-es="Soluciones numéricas avanzadas">Advanced numerical solutions</h2>
+            <div class="card max-w-4xl mx-auto">
+                <p class="text-lg text-center" data-en="Providing innovative mathematical expertise for your business." data-es="Brindando experiencia matemática innovadora para su negocio.">Providing innovative mathematical expertise for your business.</p>
             </div>
         </div>
-    </section>
-
-    <section id="contact-section" class="py-24 relative z-10">
-        <div class="container reveal">
-            <h2 class="section-title" data-en="Contact us" data-es="Contáctenos" data-pt="Fale conosco">Contact us</h2>
-            <div class="card max-w-2xl mx-auto text-center">
-                <div class="text-xl space-y-6">
-                    <div class="flex items-center justify-center space-x-3">
-                        <p><strong>Francisco:</strong> <span id="mail1">fran@dm.uba.ar</span></p>
-                        <button onclick="copyEmail('mail1', this)" class="relative p-2 text-gray-400 hover:text-white hover:bg-slate-700/50 rounded-md transition-all">
-                            <span class="copy-feedback" data-en="Copied!" data-es="¡Copiado!" data-pt="Copiado!">Copied!</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                        </button>
-                    </div>
-                    <div class="flex items-center justify-center space-x-3">
-                        <p><strong>Mauro:</strong> <span id="mail2">mauro@dm.uba.ar</span></p>
-                        <button onclick="copyEmail('mail2', this)" class="relative p-2 text-gray-400 hover:text-white hover:bg-slate-700/50 rounded-md transition-all">
-                            <span class="copy-feedback" data-en="Copied!" data-es="¡Copiado!" data-pt="Copiado!">Copied!</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-gray-900 text-white py-12 rounded-t-xl relative z-10">
-        <div class="container text-center">
-            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
-        </div>
-    </footer>
+        
+        <div id="contact-section" class="h-20"></div>
+    </main>
 
     <script>
-        function runIntro() {
-            const introScreen = document.getElementById('intro-screen');
-            const introLogo = document.getElementById('intro-logo');
-            const introText = document.getElementById('intro-text');
-            const navLogo = document.getElementById('nav-logo');
+        const introScreen = document.getElementById('intro-screen');
+        const introLogo = document.getElementById('intro-logo');
+        const introText = document.getElementById('intro-text');
+        const shimmerCont = document.getElementById('shimmer-container');
+        const navLogo = document.getElementById('nav-logo');
 
-            // 1. Mostrar contenido (Aparecen juntos en el centro)
+        function startIntro() {
+            // Comprobar si ya se mostró en esta sesión
+            if (sessionStorage.getItem('introShown')) {
+                introScreen.remove();
+                navLogo.style.opacity = '1';
+                navLogo.style.transform = 'translateX(0)';
+                return;
+            }
+
+            document.body.classList.add('intro-active');
+
+            // 1. Aparecer contenido
             setTimeout(() => {
                 introLogo.style.opacity = '1';
+                introLogo.style.transform = 'scale(1)';
                 introText.style.opacity = '1';
                 
+                // 2. Efecto Shimmer (Logo + Texto)
                 setTimeout(() => {
-                    introLogo.classList.add('shimmer-active');
+                    shimmerCont.classList.add('shimmer-active');
                 }, 500);
-            }, 300);
 
-            // 2. Animación de salida divergente
-            setTimeout(() => {
-                introLogo.classList.add('exit-left');
-                introText.classList.add('exit-right');
-                
-                // 3. Desvanecer fondo y habilitar web
+                // 3. Salida Divergente
                 setTimeout(() => {
-                    introScreen.style.opacity = '0';
-                    document.body.classList.remove('loading');
+                    introLogo.classList.add('exit-left');
+                    introText.classList.add('exit-right');
                     
-                    // 4. Logo aparece en el nav
                     setTimeout(() => {
-                        navLogo.style.opacity = '1';
-                        navLogo.style.transform = 'translateX(0)';
-                    }, 500);
-
-                    // Eliminar intro del DOM después de la transición
-                    setTimeout(() => introScreen.remove(), 1000);
-                }, 600);
-            }, 2800);
+                        introScreen.style.opacity = '0';
+                        introScreen.style.transition = 'opacity 0.8s ease';
+                        document.body.classList.remove('intro-active');
+                        
+                        // 4. Logo Nav
+                        setTimeout(() => {
+                            navLogo.style.opacity = '1';
+                            navLogo.style.transform = 'translateX(0)';
+                            sessionStorage.setItem('introShown', 'true');
+                            introScreen.remove();
+                        }, 400);
+                    }, 800);
+                }, 2500);
+            }, 400);
         }
 
         function setLanguage(lang) {
             localStorage.setItem('preferredLang', lang);
             document.querySelectorAll('[data-en]').forEach(el => {
-                const translation = el.dataset[lang];
-                if (translation) el.textContent = translation;
+                el.textContent = el.dataset[lang] || el.dataset['en'];
             });
-            document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`lang-${lang}`).classList.add('active');
-        }
-
-        function copyEmail(id, btn) {
-            const email = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(email).then(() => {
-                const f = btn.querySelector('.copy-feedback');
-                f.style.opacity = '1'; f.style.transform = 'translateX(-50%) translateY(-5px)';
-                setTimeout(() => { f.style.opacity = '0'; f.style.transform = 'translateX(-50%) translateY(0px)'; }, 1500);
-            });
-        }
-
-        function reveal() {
-            document.querySelectorAll(".reveal").forEach(el => {
-                if (el.getBoundingClientRect().top < window.innerHeight - 150) el.classList.add("active");
+            document.querySelectorAll('.language-switcher button').forEach(btn => {
+                btn.classList.toggle('active', btn.id === `lang-${lang}`);
             });
         }
 
         window.addEventListener("scroll", () => {
             document.getElementById("parallax").style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
-            reveal();
+            document.querySelectorAll(".reveal").forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add("active");
+            });
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            runIntro();
+            startIntro();
             setLanguage(localStorage.getItem('preferredLang') || 'en');
-            reveal();
+            
+            // Scroll suave para contacto si viene de otra página
+            if (window.location.search.includes('scroll=contact')) {
+                setTimeout(() => {
+                    document.getElementById('contact-section').scrollIntoView({ behavior: 'smooth' });
+                }, sessionStorage.getItem('introShown') ? 100 : 3500);
+            }
         });
     </script>
 </body>
