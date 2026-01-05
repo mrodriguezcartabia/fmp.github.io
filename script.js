@@ -103,3 +103,31 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
     startIntro(); 
 });
+
+/* --- CONTROL DE SUBRAYADO ACTIVO (SCROLL Y CLICK) --- */
+const contactLink = document.querySelector('a[href="#contact-section"]');
+const navLinks = document.querySelectorAll('.nav-link');
+const homeLink = document.querySelector('a[href="index.html"]');
+const contactSection = document.querySelector('#contact-section');
+
+// 1. Cambiar al hacer Scroll
+window.addEventListener('scroll', () => {
+    if (contactSection) {
+        const sectionTop = contactSection.offsetTop;
+        const scrollPosition = window.scrollY + 350; // Detecta la sección un poco antes de llegar
+
+        if (scrollPosition >= sectionTop) {
+            navLinks.forEach(link => link.classList.remove('active'));
+            contactLink.classList.add('active');
+        } else {
+            navLinks.forEach(link => link.classList.remove('active'));
+            if (homeLink) homeLink.classList.add('active');
+        }
+    }
+});
+
+// 2. Cambiar inmediatamente al hacer Clic (opcional, mejora la respuesta visual)
+contactLink.addEventListener('click', () => {
+    navLinks.forEach(link => link.classList.remove('active'));
+    contactLink.classList.add('active');
+});
