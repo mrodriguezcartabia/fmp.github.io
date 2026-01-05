@@ -15,13 +15,12 @@
         .language-switcher button.active { background-color: #5f6ac4; color: #ffffff; }
         .nav-link.active { font-weight: 700; border-bottom: 2px solid #5f6ac4; }
         
-        /* Animaciones de revelación */
         .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Estilo para el logo dinámico en el Nav */
-        #nav-logo { opacity: 0; transform: translateX(-20px); transition: all 0.4s ease-in-out; }
-        #nav-logo.visible { opacity: 1; transform: translateX(0); }
+        /* Ajuste 2: Logo del menú aparece desde arriba */
+        #nav-logo { opacity: 0; transform: translateY(-20px); transition: all 0.5s ease-in-out; }
+        #nav-logo.visible { opacity: 1; transform: translateY(0); }
 
         html { scroll-behavior: smooth; }
     </style>
@@ -32,11 +31,11 @@
     <header class="bg-gradient-to-r from-[#1f2937] to-[#374151] text-white py-8 shadow-md rounded-b-xl relative z-10">
         <div class="container flex justify-between items-center px-6">
             <div class="flex items-center gap-6">
-                <img src="logo_bordeblanco.png" alt="Logo Gamma" class="h-16 md:h-20 w-auto">
+                <img src="logo_bordeblanco.png" alt="Logo Gamma" class="h-12 md:h-16 w-auto">
                 <div class="text-left">
                     <a href="index.html">
-                        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">Gamma</h1>
-                        <p class="text-xl md:text-2xl font-light" data-en="Solutions" data-es="Soluciones" data-pt="Soluções">Solutions</p>
+                        <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Gamma</h1>
+                        <p class="text-lg md:text-2xl font-light" data-en="Solutions" data-es="Soluciones" data-pt="Soluções">Solutions</p>
                     </a>
                 </div>
             </div>
@@ -50,10 +49,10 @@
 
     <nav id="main-nav" class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
         <div class="container relative flex items-center justify-center mx-auto px-6">
-            <div id="nav-logo" class="absolute left-6">
-                <a href="index.html"><img src="logo_bordeblanco.png" class="h-10 w-auto"></a>
+            <div id="nav-logo" class="absolute left-6 hidden md:block">
+                <a href="index.html"><img src="logo_bordeblanco.png" class="h-8 w-auto"></a>
             </div>
-            <div class="flex space-x-8">
+            <div class="flex space-x-4 md:space-x-8 text-sm md:text-base">
                 <a href="index.html" class="nav-link" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
                 <a href="who-we-are.html" class="nav-link active" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
                 <a href="games.html" class="nav-link" data-en="Games" data-es="Juegos" data-pt="Jogos">Games</a>
@@ -69,7 +68,7 @@
                    data-en="We are Conicet researchers at the Imas Institute and we seek to apply our expertise to business world challenges, providing precise and effective results." 
                    data-es="Somos investigadores del Conicet en el Instituto Imas y buscamos aplicar nuestra experiencia a desafíos del mundo empresarial, brindando resultados precisos y efectivos." 
                    data-pt="Somos pesquisadores do Conicet no Instituto Imas e buscamos aplicar nossa experiência aos desafios do mundo empresarial, fornecendo resultados precisos e eficazes.">
-                    Somos investigadores del Conicet en el Instituto Imas y buscamos aplicar nuestra experiencia a desafíos del mundo empresarial, brindando resultados precisos y efectivos.
+                   Somos investigadores del Conicet en el Instituto Imas y buscamos aplicar nuestra experiencia a desafíos del mundo empresarial, brindando resultados precisos y efectivos.
                 </p>
             </div>
         </section>
@@ -94,7 +93,7 @@
                 <div class="flex justify-center space-x-4 border-t border-gray-600 pt-4">
                     <a href="https://www.linkedin.com/in/mrodriguezcartabia/" target="_blank" class="text-indigo-400 hover:text-white">LinkedIn</a>
                     <span class="text-gray-500">|</span>
-                    <a href="https://mrodriguezcartabia.github.io/" target="_blank" class="text-indigo-400 hover:text-white">Personal Page</a>
+                    <a href="https://mrodriguezcartabia.github.io/" target="_blank" class="text-indigo-400 hover:text-white" data-en="Personal Page" data-es="Página Personal" data-pt="Página Pessoal">Personal Page</a>
                 </div>
             </div>
         </div>
@@ -102,7 +101,7 @@
 
     <footer class="bg-gray-900 text-white py-12 rounded-t-xl relative z-10">
         <div class="container text-center">
-            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os derechos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
+            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os direitos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
         </div>
     </footer>
 
@@ -127,13 +126,8 @@
         }
 
         window.addEventListener("scroll", () => {
-            // Parallax
             document.getElementById("parallax").style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
-            
-            // Revelación al scroll
             revealContent();
-
-            // Logo dinámico en Nav
             if (window.scrollY > 150) {
                 navLogo.classList.add('visible');
             } else {
@@ -143,7 +137,6 @@
 
         document.addEventListener('DOMContentLoaded', () => { 
             setLanguage(localStorage.getItem('preferredLang') || 'en'); 
-            // Forzar revelación inicial de cards sin scrollear
             setTimeout(revealContent, 100);
         });
     </script>
