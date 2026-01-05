@@ -11,7 +11,7 @@
         body.intro-active { overflow: hidden; }
         #intro-screen { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; background-color: #0f172a; transition: opacity 1.2s ease-in-out; }
         
-        /* AJUSTE SHIMMER SUTIL: overflow hidden para que no se salga del logo/texto */
+        /* SHIMMER SUTIL Y LOCALIZADO */
         .shimmer-wrapper { 
             position: relative; 
             display: flex; 
@@ -19,31 +19,20 @@
             gap: 2rem; 
             padding: 1rem 2rem; 
             transition: opacity 1s ease-in-out; 
-            overflow: hidden; /* Esto limita el destello al contenido */
+            overflow: hidden; 
             border-radius: 8px;
         }
-        
-        /* Gradiente más delgado y suave */
         .shimmer-wrapper::after { 
             content: ''; 
             position: absolute; 
             top: 0; 
             left: -100%; 
-            width: 50%; /* Más estrecho para ser más sutil */
+            width: 50%; 
             height: 100%; 
-            background: linear-gradient(
-                to right, 
-                transparent, 
-                rgba(255, 255, 255, 0.2) 50%, 
-                transparent
-            ); 
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2) 50%, transparent); 
             transform: skewX(-25deg); 
         }
-
-        .shimmer-active.shimmer-wrapper::after { 
-            left: 150%; 
-            transition: left 1.8s cubic-bezier(0.4, 0, 0.2, 1); 
-        }
+        .shimmer-active.shimmer-wrapper::after { left: 150%; transition: left 1.8s cubic-bezier(0.4, 0, 0.2, 1); }
         
         .glow-logo { filter: drop-shadow(0 0 15px rgba(95, 106, 196, 0.4)); }
         .parallax-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), url('photo.jpg'); background-size: cover; z-index: -1; transform: scale(1.1); transition: transform 0.1s ease-out; }
@@ -60,6 +49,7 @@
         .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
         
+        /* Logo que aparece al scrollear */
         #nav-logo { opacity: 0; transform: translateX(-20px); transition: all 0.4s ease-in-out; }
         #nav-logo.visible { opacity: 1; transform: translateX(0); }
 
@@ -116,7 +106,7 @@
         <section id="first-section" class="reveal">
             <h2 class="section-title" data-en="Advanced numerical solutions for complex problems" data-es="Soluciones numéricas avanzadas para problemas complejos" data-pt="Soluções numéricas avançadas para problemas complexos">Advanced numerical solutions for complex problems</h2>
             <div class="card text-center">
-                <p class="text-lg mb-4" data-en="Our expertise allows us to provide innovative solutions:" data-es="Nuestra experiencia nos permite ofrecer soluciones innovadoras:" data-pt="Nossa experiência nos permite ofrecer soluciones innovadoras:">Nuestra experiencia nos permite ofrecer soluciones innovadoras:</p>
+                <p class="text-lg mb-4" data-en="Our expertise allows us to provide innovative solutions:" data-es="Nuestra experiencia nos permite ofrecer soluciones innovadoras:" data-pt="Nossa experiencia nos permite oferecer soluções inovadoras:">Nuestra experiencia nos permite ofrecer soluciones innovadoras:</p>
                 <ul class="list-disc list-inside text-lg space-y-2 text-left inline-block">
                     <li data-en="Optimization and decision-making under uncertainty." data-es="Optimización y toma de decisiones bajo incertidumbre." data-pt="Otimização e tomada de decisão sob incerteza.">Optimización y toma de decisiones bajo incertidumbre.</li>
                     <li data-en="Modeling and simulation of dynamic systems." data-es="Modelado y simulación de sistemas dinámicos." data-pt="Modelagem e simulação de sistemas dinâmicos.">Modelado y simulación de sistemas dinámicos.</li>
@@ -138,7 +128,7 @@
 
     <footer class="bg-gray-900 text-white py-12 rounded-t-xl relative z-10">
         <div class="container text-center">
-            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos los derechos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
+            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os direitos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
         </div>
     </footer>
 
@@ -155,10 +145,23 @@
             });
         }
 
+        function checkScrollParam() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('scroll') === 'contact') {
+                const contactSection = document.getElementById('contact-section');
+                if (contactSection) {
+                    setTimeout(() => {
+                        contactSection.scrollIntoView({ behavior: 'smooth' });
+                    }, 600);
+                }
+            }
+        }
+
         function startIntro() {
             if (sessionStorage.getItem('introShown')) { 
                 introScreen.remove(); 
                 revealContent();
+                checkScrollParam();
                 return; 
             }
             document.body.classList.add('intro-active');
@@ -173,6 +176,7 @@
                         sessionStorage.setItem('introShown', 'true'); 
                         introScreen.remove(); 
                         revealContent();
+                        checkScrollParam();
                     }, 1200);
                 }, 2800);
             }, 300);
