@@ -17,12 +17,8 @@
 
         .parallax-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), 
-                        url('photo.jpg');
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), url('photo.jpg');
             background-size: cover;
             background-position: center;
             z-index: -1;
@@ -46,6 +42,11 @@
         .language-switcher button { background-color: #475569; color: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; font-size: 0.75rem; text-transform: uppercase; }
         .language-switcher button.active { background-color: #5f6ac4; color: #ffffff; }
         .nav-link.active { font-weight: 700; border-bottom: 2px solid #5f6ac4; }
+
+        /* Animación para el logo del Nav */
+        #nav-logo {
+            transition: all 1s ease-out;
+        }
 
         .reveal {
             opacity: 0;
@@ -80,11 +81,19 @@
     </header>
 
     <nav class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
-        <div class="container flex flex-wrap justify-center space-x-4 md:space-x-8">
-            <a href="index.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
-            <a href="who-we-are.html" class="nav-link hover:text-gray-200 font-medium transition-colors active" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
-            <a href="games.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Games" data-es="Juegos" data-pt="Jogos">Games</a>
-            <a href="index.html?scroll=contact" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
+        <div class="container relative flex items-center justify-center">
+            <div class="absolute left-6 opacity-0 -translate-x-4 transition-all duration-1000" id="nav-logo">
+                <a href="index.html" class="hover:opacity-80 transition-opacity block">
+                    <img src="logo_bordeblanco.png" alt="Logo" class="h-10 w-auto">
+                </a>
+            </div>
+
+            <div class="flex flex-wrap justify-center space-x-4 md:space-x-8">
+                <a href="index.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
+                <a href="who-we-are.html" class="nav-link hover:text-gray-200 font-medium transition-colors active" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
+                <a href="games.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Games" data-es="Juegos" data-pt="Jogos">Games</a>
+                <a href="index.html?scroll=contact" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
+            </div>
         </div>
     </nav>
     
@@ -94,7 +103,7 @@
                 <p class="text-lg" 
                    data-en="We are Conicet researchers at the Imas Institute and we seek to apply our expertise to business world challenges, providing precise and effective results." 
                    data-es="Somos investigadores del Conicet en el Instituto Imas y buscamos aplicar nuestra experiencia a desafíos del mundo empresarial, brindando resultados precisos y efectivos." 
-                   data-pt="Somos pesquisadores do Conicet no Instituto Imas e buscamos aplicar nossa experiência aos desafios do mundo empresarial, entregando resultados precisos e eficazes.">
+                   data-pt="Somos pesquisadores do Conicet no Instituto Imas e buscamos aplicar nossa experiência aos desafíos do mundo empresarial, entregando resultados precisos e eficazes.">
                 </p>
             </div>
             
@@ -116,9 +125,9 @@
                 <div class="card text-center reveal">
                     <h4 class="text-3xl font-semibold mb-3 text-[#f8fafc]">Mauro Rodriguez Cartabia</h4>
                     <p class="text-lg text-gray-300 mb-6 leading-relaxed" 
-                       data-en="He holds degrees in Mathematics and Actuarial sciences (UBA), and a PhD in Mathematics (UBA). His research focuses on Differential Equations and Game Theory. He has over a decade of teaching experience, including positions as an Associate Professor at the Facultad de Ciencias Exactas y Naturales (UBA) and Guest Professor at the Department of Economics at Universidad de San  Andrés." 
-                       data-es="Es licenciado y doctor en matemática y actuario (UBA). Realiza su investigación sobre Ecuaciones diferenciales y Teoría de juegos. Tiene más de una década de experiencia docente, incluyendo el cargo de profesor adjunto en la Facultad de Ciencias Exactas y Naturales (UBA) y el de profesor invitado en el Departamento de economía de la Universidad de San  Andrés." 
-                       data-pt="É licenciado e doutor em matemática e atuário (UBA). Realiza sua pesquisa sobre Equações diferenciais e Teoria dos jogos. Tem mais de uma década de experiência docente, incluindo o cargo de professor adjunto na Facultad de Ciencias Exactas y Naturales (UBA) e o de professor convidado no Departamento de Economia da Universidad de San  Andrés.">
+                       data-en="He holds degrees in Mathematics and Actuarial sciences (UBA), and a PhD in Mathematics (UBA). His research focuses on Differential Equations and Game Theory. He has over a decade of teaching experience, including positions as an Associate Professor at the Facultad de Ciencias Exactas y Naturales (UBA) and Guest Professor at the Department of Economics at Universidad de San Andrés." 
+                       data-es="Es licenciado y doctor en matemática y actuario (UBA). Realiza su investigación sobre Ecuaciones diferenciales y Teoría de juegos. Tiene más de una década de experiencia docente, incluyendo el cargo de profesor adjunto en la Facultad de Ciencias Exactas y Naturales (UBA) y el de profesor invitado en el Departamento de economía de la Universidad de San Andrés." 
+                       data-pt="É licenciado e doutor em matemática e atuário (UBA). Realiza sua pesquisa sobre Equações diferenciais e Teoria dos jogos. Tem mais de uma década de experiência docente, incluindo o cargo de professor adjunto na Facultad de Ciencias Exactas y Naturales (UBA) e o de professor convidado no Departamento de Economia da Universidad de San Andrés.">
                     </p>
                     <div class="space-y-3">
                         <a href="https://www.linkedin.com/in/mrodriguezcartabia/" target="_blank" class="inline-block text-[#b2b9ff] hover:text-[#7d6dbf] font-medium transition-colors" data-en="LinkedIn Profile" data-es="Perfil de LinkedIn" data-pt="Perfil do LinkedIn">LinkedIn Profile</a>
@@ -178,6 +187,13 @@
             const savedLang = localStorage.getItem('preferredLang') || 'en';
             setLanguage(savedLang);
             reveal();
+
+            // Aparecer el logo del nav con delay suave
+            const navLogo = document.getElementById('nav-logo');
+            setTimeout(() => {
+                navLogo.style.opacity = '1';
+                navLogo.style.transform = 'translateX(0)';
+            }, 100);
         });
     </script>
 </body>
