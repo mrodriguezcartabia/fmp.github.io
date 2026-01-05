@@ -10,13 +10,8 @@ const introContent = document.getElementById('intro-content');
 const navLinks = document.querySelectorAll('.nav-link');
 const contactSection = document.getElementById('contact-section');
 
-// Selectores específicos para los enlaces
-const homeLink = document.querySelector('a[href="index.html"]');
-const contactLink = document.querySelector('a[href="#contact-section"]') || document.querySelector('a[href="index.html#contact-section"]');
+// --- FUNCIONES DE UTILIDAD ---
 
-// --- FUNCIONES ---
-
-// Copiar email
 function copyEmail(email, btn) {
     navigator.clipboard.writeText(email).then(() => {
         const iconElement = btn.querySelector('i');
@@ -39,14 +34,12 @@ function copyEmail(email, btn) {
     });
 }
 
-// Revelar secciones al scroll
 function revealContent() {
     document.querySelectorAll(".reveal").forEach(el => { 
         if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add("active");
     });
 }
 
-// Manejar el scroll automático si viene de otra página
 function checkScrollParam() {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('scroll') === 'contact') {
@@ -62,7 +55,6 @@ function checkScrollParam() {
     }
 }
 
-// Control de la pantalla de bienvenida
 function startIntro() {
     if (sessionStorage.getItem('introShown') || !introScreen) { 
         if (introScreen) introScreen.remove(); 
@@ -88,7 +80,6 @@ function startIntro() {
     }, 300);
 }
 
-// Idioma
 function setLanguage(lang) {
     localStorage.setItem('preferredLang', lang);
     document.querySelectorAll('[data-en]').forEach(el => { 
@@ -98,25 +89,31 @@ function setLanguage(lang) {
     document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
 }
 
-// --- LÓGICA DE NAVEGACIÓN ACTIVA (HOME vs CONTACT) ---
+// --- LÓGICA DE NAVEGACIÓN ACTIVA (ESTRICTA) ---
+
 function updateActiveLink() {
-    // 1. Detectamos si estamos en la Home
+    // Detectamos si estamos en la Home
     const isHomePage = window.location.pathname.endsWith('index.html') || 
                        window.location.pathname.endsWith('/') || 
                        window.location.pathname === '';
 
-    if (isHomePage && contactSection) {
-        const sectionTop = contactSection.offsetTop;
-        const scrollPosition = window.scrollY + 500; 
+    if (isHomePage) {
+        const homeBtn = document.querySelector('a[href="index.html"]');
+        const contactBtn = document.querySelector('a[href="#contact-section"]');
+        
+        // Si existe la sección de contacto, medimos su posición
+        if (contactSection) {
+            const scrollPosition = window.scrollY + 300; // 300px de margen antes de llegar
+            const contactTop = contactSection.offsetTop;
 
-        // 2. LIMPIEZA TOTAL: Quitamos 'active' de TODOS los enlaces del nav
-        navLinks.forEach(link => link.classList.remove('active'));
+            // Limpiamos siempre antes de decidir
+            navLinks.forEach(link => link.classList.remove('active'));
 
-        // 3. DECISIÓN BINARIA: O es Contacto o es Home
-        if (scrollPosition >= sectionTop) {
-            if (contactLink) contactLink.classList.add('active');
-        } else {
-            if (homeLink) homeLink.classList.add('active');
+            if (scrollPosition >= contactTop) {
+                if (contactBtn) contactBtn.classList.add('active');
+            } else {
+                if (homeBtn) homeBtn.classList.add('active');
+            }
         }
     }
 }
@@ -136,21 +133,27 @@ window.addEventListener("scroll", () => {
         else navLogo.classList.remove('visible');
     }
 
-    // Actualizar subrayado
+    // Actualizar subrayado dinámico
     updateActiveLink();
 });
 
-// Click en el menú
+// Click manual en los enlaces
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
-        // En páginas que no son index.html, esto permite que el link clickeado sea el activo
-        navLinks.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
+        // En páginas que no sean la Home (donde no hay scroll dinámico), forzamos el click
+        const isHomePage = window.location.pathname.endsWith('index.html') || window.location.pathname === '/';
+        const isInternal = link.getAttribute('href').startsWith('#');
+
+        if (!isHomePage || !isInternal) {
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+        }
     });
 });
 
 document.addEventListener('DOMContentLoaded', () => { 
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
     startIntro();
+    // Ejecutar inmediatamente para asegurar que Home esté marcado
     updateActiveLink(); 
 });
