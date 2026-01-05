@@ -34,22 +34,29 @@
     </header>
 
     <nav id="main-nav" class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
-        <div class="container relative flex items-center justify-center mx-auto px-6">
+        <div class="container relative flex flex-col items-center justify-center mx-auto px-6">
             <div id="nav-logo" class="absolute left-6 hidden md:block">
                 <a href="index.html"><img src="logo_bordeblanco.png" class="h-8 w-auto"></a>
             </div>
+
             <div class="flex space-x-4 md:space-x-8 text-sm md:text-base">
                 <a href="index.html" class="nav-link" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
                 <a href="who-we-are.html" class="nav-link" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
                 <a href="games.html" class="nav-link active" data-en="Games" data-es="Juegos" data-pt="Jogos">Games</a>
                 <a href="index.html?scroll=contact" class="nav-link" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
             </div>
+
+            <div class="flex space-x-6 text-[10px] md:text-xs uppercase tracking-widest text-gray-400 mt-3 pt-2 border-t border-gray-800 w-full justify-center">
+                <a href="#valuator" class="hover:text-[#5f6ac4] transition-colors" data-en="Option Valuator" data-es="Valuador de Opciones" data-pt="Valiador de Opções">Option Valuator</a>
+                <span class="text-gray-700">|</span>
+                <a href="#tug-of-war" class="hover:text-[#5f6ac4] transition-colors" data-en="Tug of War" data-es="Juego de la Soga" data-pt="Jogo da Corda">Tug of War</a>
+            </div>
         </div>
     </nav>
 
     <main class="py-24 relative z-10 container mx-auto px-6 space-y-12">
         
-        <section class="reveal">
+        <section id="valuator" class="reveal scroll-mt-24">
             <div class="card">
                 <h3 class="text-2xl font-bold mb-4" data-en="Gold Option Valuator (Binomial)" data-es="Valuador de Opciones de Oro (Binomial)" data-pt="Valiador de Opções de Ouro (Binomial)">
                     Valuador de Opciones de Oro (Binomial)
@@ -60,7 +67,7 @@
             </div>
         </section>
 
-        <section class="reveal">
+        <section id="tug-of-war" class="reveal scroll-mt-24">
             <div class="card">
                 <h3 class="text-2xl font-bold mb-4" data-en="Tug of War Game" data-es="Juego de la soga" data-pt="Jogo da corda">Tug of War Game</h3>
                 <div class="iframe-container" style="height: 600px;">
@@ -73,7 +80,7 @@
 
     <footer class="bg-gray-900 text-white py-12 rounded-t-xl relative z-10">
         <div class="container text-center">
-            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os direitos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
+            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os derechos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
         </div>
     </footer>
 
