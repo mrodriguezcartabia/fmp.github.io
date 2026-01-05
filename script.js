@@ -100,20 +100,19 @@ function setLanguage(lang) {
 
 // --- LÓGICA DE NAVEGACIÓN ACTIVA (HOME vs CONTACT) ---
 function updateActiveLink() {
-    // Detectamos si estamos en la página principal
+    // 1. Detectamos si estamos en la Home
     const isHomePage = window.location.pathname.endsWith('index.html') || 
                        window.location.pathname.endsWith('/') || 
                        window.location.pathname === '';
 
     if (isHomePage && contactSection) {
         const sectionTop = contactSection.offsetTop;
-        // Ajustamos el umbral para que cambie un poco antes de llegar a la sección
         const scrollPosition = window.scrollY + 500; 
 
-        // Limpiamos la clase active de Home y Contact solamente
-        if (homeLink) homeLink.classList.remove('active');
-        if (contactLink) contactLink.classList.remove('active');
+        // 2. LIMPIEZA TOTAL: Quitamos 'active' de TODOS los enlaces del nav
+        navLinks.forEach(link => link.classList.remove('active'));
 
+        // 3. DECISIÓN BINARIA: O es Contacto o es Home
         if (scrollPosition >= sectionTop) {
             if (contactLink) contactLink.classList.add('active');
         } else {
