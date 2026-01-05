@@ -4,62 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gamma Solutions - Home</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style> 
-        .card ul li::marker {
-            color: #c7d2fe; /* El color lila/indigo de tu marca */
-        }
-        body { font-family: 'Inter', sans-serif; color: #e2e8f0; background-color: #0f172a; margin: 0; overflow-x: hidden; }
-        body.intro-active { overflow: hidden; }
-        #intro-screen { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; background-color: #0f172a; transition: opacity 1.2s ease-in-out; }
-        
-        .shimmer-wrapper { 
-            position: relative; display: flex; align-items: center; gap: 2rem; padding: 1rem 2rem; 
-            transition: opacity 1s ease-in-out; overflow: hidden; border-radius: 8px;
-        }
-        .shimmer-wrapper::after { 
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; 
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2) 50%, transparent); 
-            transform: skewX(-25deg); 
-        }
-        .shimmer-active.shimmer-wrapper::after { left: 150%; transition: left 1.8s cubic-bezier(0.4, 0, 0.2, 1); }
-        
-        .glow-logo { filter: drop-shadow(0 0 15px rgba(95, 106, 196, 0.4)); }
-        .parallax-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), url('photo.jpg'); background-size: cover; z-index: -1; transform: scale(1.1); transition: transform 0.1s ease-out; }
-        
-        .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
-        .section-title { font-size: 2.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 2rem; text-align: center; }
-        .card { background-color: rgba(30, 41, 59, 0.7); backdrop-filter: blur(8px); border-radius: 0.75rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); padding: 2rem; margin-bottom: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.1); }
-        
-        .language-switcher button { background-color: #475569; color: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; font-size: 0.75rem; text-transform: uppercase; }
-        .language-switcher button.active { background-color: #5f6ac4; color: #ffffff; }
-        
-        .nav-link.active { font-weight: 700; border-bottom: 2px solid #5f6ac4; }
-        
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-        
-        /* Ajuste: Logo del menú aparece desde arriba */
-        #nav-logo { opacity: 0; transform: translateY(-20px); transition: all 0.5s ease-in-out; }
-        #nav-logo.visible { opacity: 1; transform: translateY(0); }
-
-        @keyframes fadeUp {
-            0% { opacity: 0; transform: translate(-50%, 0); }
-            20% { opacity: 1; transform: translate(-50%, -10px); }
-            80% { opacity: 1; transform: translate(-50%, -10px); }
-            100% { opacity: 0; transform: translate(-50%, -20px); }
-        }
-        .copy-tooltip {
-            position: absolute; left: 50%; bottom: 100%; background: #5f6ac4; color: white;
-            padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600;
-            pointer-events: none; animation: fadeUp 1.5s forwards; white-space: nowrap;
-            z-index: 50; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
-
-        html { scroll-behavior: smooth; }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="leading-relaxed">
 
@@ -83,7 +33,7 @@
                     <div class="text-left"> 
                         <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Gamma</h1>
                         <p class="text-lg md:text-2xl font-light" data-en="Solutions" data-es="Soluciones" data-pt="Soluções">Solutions</p>
-                </div>
+                    </div>
                 </a>
             </div>
             <div class="language-switcher flex space-x-2">
@@ -116,9 +66,9 @@
                 <ul class="list-disc list-inside text-lg space-y-2 text-left inline-block">
                     <li data-en="Optimization and decision-making under uncertainty." data-es="Optimización y toma de decisiones bajo incertidumbre." data-pt="Otimização e tomada de decisão sob incerteza.">Optimización y toma de decisiones bajo incertidumbre.</li>
                     <li data-en="Modeling and simulation of dynamic systems." data-es="Modelado y simulación de sistemas dinámicos." data-pt="Modelagem e simulação de sistemas dinâmicos.">Modelado y simulación de sistemas dinámicos.</li>
-                    <li data-en="Data analysis and predictive modeling." data-es="Análisis de datos y modelado predictivo." data-pt="Análise de dados e modelagem preditiva.">Análisis de datos y modelado predictivo.</li>
+                    <li data-en="Data analysis and predictive modeling." data-es="Análisis de datos y modelado predictivo." data-pt="Análise de datos e modelagem preditiva.">Análisis de datos y modelado predictivo.</li>
                     <li data-en="Strategic analysis for competitive environments." data-es="Análisis estratégico para entornos competitivos." data-pt="Análise estratégica para ambientes competitivos.">Análisis estratégico para entornos competitivos.</li>
-                    <li data-en="Financial and actuarial risk assessment." data-es="Evaluación de riesgos financieros y actuariales." data-pt="Avaliação de riscos financeiros e atuariais.">Evaluación de riesgos financieros y actuariales.</li>
+                    <li data-en="Financial and actuarial risk assessment." data-es="Evaluación de riesgos financieros y actuariales." data-pt="Avaliação de riscos financieros e atuariais.">Evaluación de riesgos financieros y actuariales.</li>
                 </ul>
             </div>
         </section>
@@ -148,105 +98,6 @@
         </div>
     </footer>
 
-    <script>
-        lucide.createIcons();
-
-        const translations = { en: 'Copied!', es: '¡Copiado!', pt: 'Copiado!' };
-
-        function copyEmail(email, btn) {
-            navigator.clipboard.writeText(email).then(() => {
-                const iconElement = btn.querySelector('i');
-                const currentLang = localStorage.getItem('preferredLang') || 'en';
-                const tooltip = document.createElement('span');
-                tooltip.className = 'copy-tooltip';
-                tooltip.innerText = translations[currentLang];
-                btn.appendChild(tooltip);
-                btn.classList.add('text-green-100');
-                btn.classList.remove('text-indigo-200');
-                iconElement.setAttribute('data-lucide', 'check');
-                lucide.createIcons();
-                setTimeout(() => {
-                    tooltip.remove();
-                    btn.classList.remove('text-green-100');
-                    btn.classList.add('text-indigo-200');
-                    iconElement.setAttribute('data-lucide', 'copy');
-                    lucide.createIcons();
-                }, 1500);
-            });
-        }
-
-        const introScreen = document.getElementById('intro-screen');
-        const introContent = document.getElementById('intro-content');
-        const navLogo = document.getElementById('nav-logo');
-
-        function revealContent() {
-            document.querySelectorAll(".reveal").forEach(el => { 
-                if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add("active");
-            });
-        }
-
-        function checkScrollParam() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('scroll') === 'contact') {
-                window.history.replaceState({}, document.title, window.location.pathname);
-                setTimeout(() => {
-                    const contactSection = document.getElementById('contact-section');
-                    if (contactSection) {
-                        const offset = 100;
-                        const bodyRect = document.body.getBoundingClientRect().top;
-                        const elementRect = contactSection.getBoundingClientRect().top;
-                        window.scrollTo({ top: elementRect - bodyRect - offset, behavior: 'smooth' });
-                    }
-                }, 800); 
-            }
-        }
-
-        function startIntro() {
-            if (sessionStorage.getItem('introShown')) { 
-                if (introScreen) introScreen.remove(); 
-                revealContent();
-                checkScrollParam(); 
-                return; 
-            }
-            document.body.classList.add('intro-active');
-            setTimeout(() => {
-                introContent.classList.remove('opacity-0');
-                setTimeout(() => introContent.classList.add('shimmer-active'), 500);
-                setTimeout(() => {
-                    introContent.style.opacity = '0';
-                    introScreen.style.opacity = '0';
-                    setTimeout(() => { 
-                        document.body.classList.remove('intro-active'); 
-                        sessionStorage.setItem('introShown', 'true'); 
-                        if (introScreen) introScreen.remove(); 
-                        revealContent();
-                        checkScrollParam(); 
-                    }, 1200);
-                }, 2800);
-            }, 300);
-        }
-
-        function setLanguage(lang) {
-            localStorage.setItem('preferredLang', lang);
-            document.querySelectorAll('[data-en]').forEach(el => { 
-                const text = el.dataset[lang];
-                if(text) el.textContent = text;
-            });
-            document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
-        }
-
-        window.addEventListener("scroll", () => {
-            const parallax = document.getElementById("parallax");
-            if(parallax) parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
-            revealContent();
-            if (window.scrollY > 150) navLogo.classList.add('visible');
-            else navLogo.classList.remove('visible');
-        });
-
-        document.addEventListener('DOMContentLoaded', () => { 
-            setLanguage(localStorage.getItem('preferredLang') || 'en'); 
-            startIntro(); 
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
