@@ -7,7 +7,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
+    <style> 
+        .card ul li::marker {
+            color: #c7d2fe; /* El color lila/indigo de tu marca */
+        }
         body { font-family: 'Inter', sans-serif; color: #e2e8f0; background-color: #0f172a; margin: 0; overflow-x: hidden; }
         body.intro-active { overflow: hidden; }
         #intro-screen { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; background-color: #0f172a; transition: opacity 1.2s ease-in-out; }
