@@ -3,67 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gamma Solutions - Home</title>
+    <title>Gamma Solutions - Games</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            color: #e2e8f0;
+            color: #e2e8f0; 
             background-color: #0f172a;
             margin: 0;
             overflow-x: hidden;
         }
 
-        /* Bloqueo de scroll durante intro */
-        body.intro-active { overflow: hidden; }
-
-        /* --- Estilos de la Intro --- */
-        #intro-screen {
-            position: fixed;
-            inset: 0;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #0f172a;
-            transition: opacity 1.2s ease-in-out; /* Desvanecimiento suave del fondo */
-        }
-
-        .shimmer-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            padding: 1rem 2rem;
-            transition: opacity 1s ease-in-out; /* Desvanecimiento suave del contenido */
-        }
-
-        /* El haz de luz (Shimmer) */
-        .shimmer-wrapper::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                to right, 
-                transparent, 
-                rgba(255, 255, 255, 0.4) 50%, 
-                transparent
-            );
-            transform: skewX(-20deg);
-        }
-
-        .shimmer-active.shimmer-wrapper::after {
-            left: 150%;
-            transition: left 1.5s cubic-bezier(0.3, 0, 0.2, 1);
-        }
-
-        .glow-logo { filter: drop-shadow(0 0 15px rgba(95, 106, 196, 0.4)); }
-
-        /* --- Estilos del sitio --- */
         .parallax-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -73,22 +24,30 @@
         }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
-        .section-title { font-size: 2.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 2rem; text-align: center; }
-
+        
         .card { 
             background-color: rgba(30, 41, 59, 0.7); 
             backdrop-filter: blur(8px);
             border-radius: 0.75rem; 
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); 
-            padding: 2rem; 
-            margin-bottom: 1.5rem; 
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem; border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
         }
 
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            background: #ffffff;
+        }
+        
         .language-switcher button { background-color: #475569; color: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; font-size: 0.75rem; text-transform: uppercase; }
         .language-switcher button.active { background-color: #5f6ac4; color: #ffffff; }
+        
+        .nav-link { transition: color 0.3s ease; }
         .nav-link.active { font-weight: 700; border-bottom: 2px solid #5f6ac4; }
-        .list-disc-dark li::marker { color: #5f6ac4; }
 
         .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
@@ -96,27 +55,14 @@
     </style>
 </head>
 <body class="leading-relaxed">
-
-    <div id="intro-screen">
-        <div class="shimmer-wrapper opacity-0" id="intro-content">
-            <div id="intro-logo">
-                <img src="logo_bordeblanco.png" alt="Gamma Logo" class="w-24 md:w-32 h-auto glow-logo">
-            </div>
-            <div id="intro-text" class="text-left">
-                <h1 class="text-5xl font-extrabold tracking-tight text-white">Gamma</h1>
-                <p class="text-2xl mt-2 font-light text-white">Solutions</p>
-            </div>
-        </div>
-    </div>
-
     <div class="parallax-bg" id="parallax"></div>
 
     <header class="bg-gradient-to-r from-[#1f2937] to-[#374151] text-white py-6 shadow-md rounded-b-xl relative z-10">
         <div class="container flex flex-col md:flex-row justify-between items-center">
             <div class="text-center md:text-left mb-4 md:mb-0">
                 <a href="index.html" class="hover:opacity-90 transition-opacity">
-                    <h1 class="text-5xl font-extrabold tracking-tight" data-en="Gamma" data-es="Gamma">Gamma</h1>
-                    <p class="text-2xl mt-2 font-light" data-en="Solutions" data-es="Soluciones">Solutions</p>
+                    <h1 class="text-5xl font-extrabold tracking-tight">Gamma</h1>
+                    <p class="text-2xl mt-2 font-light">Solutions</p>
                 </a>
             </div>
             <div class="language-switcher flex space-x-2">
@@ -128,41 +74,38 @@
 
     <nav class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
         <div class="container relative flex items-center justify-center mx-auto px-6">
-            <div class="absolute left-6 opacity-100 transition-all duration-700" id="nav-logo">
+            <div class="absolute left-6" id="nav-logo">
                 <a href="index.html"><img src="logo_bordeblanco.png" alt="Logo" class="h-10 w-auto"></a>
             </div>
-            <div class="flex flex-wrap justify-center space-x-4 md:space-x-8">
-                <a href="index.html" class="nav-link active" data-en="Home" data-es="Inicio">Home</a>
+            <div class="flex space-x-8">
+                <a href="index.html" class="nav-link" data-en="Home" data-es="Inicio">Home</a>
                 <a href="who-we-are.html" class="nav-link" data-en="Who we are" data-es="Quiénes somos">Who we are</a>
-                <a href="games.html" class="nav-link" data-en="Games" data-es="Juegos">Games</a>
-                <a href="#contact-section" class="nav-link" data-en="Contact" data-es="Contacto">Contact</a>
+                <a href="games.html" class="nav-link active" data-en="Games" data-es="Juegos">Games</a>
+                <a href="index.html?scroll=contact" class="nav-link" data-en="Contact" data-es="Contacto">Contact</a>
             </div>
         </div>
     </nav>
-
-    <section class="py-24 relative z-10">
-        <div class="container reveal">
-            <h2 class="section-title" data-en="Advanced numerical solutions" data-es="Soluciones numéricas avanzadas">Advanced numerical solutions</h2>
-            <div class="card text-center">
-                <p class="text-lg mb-4" data-en="Our expertise allows us to provide innovative solutions:" data-es="Nuestra experiencia nos permite ofrecer soluciones innovadoras:">
-                    Nuestra experiencia nos permite ofrecer soluciones innovadoras:
-                </p>
-                <ul class="list-disc list-inside text-lg mb-6 space-y-2 text-left inline-block list-disc-dark">
-                    <li data-en="Optimization." data-es="Optimización y toma de decisiones.">Optimization and decision-making.</li>
-                    <li data-en="Modeling." data-es="Modelado y simulación.">Modeling and simulation.</li>
-                    <li data-en="Data analysis." data-es="Análisis de datos.">Data analysis.</li>
-                </ul>
+    
+    <section class="py-24 relative z-10"> 
+        <div class="container">
+            <div class="card reveal">
+                <h3 class="text-2xl font-bold mb-4" data-en="Tug of War" data-es="Juego de la soga">Tug of War</h3>
+                <div class="iframe-container">
+                    <iframe 
+                        src="https://pablobce.github.io/TugOfWar/index.html" 
+                        style="width: 100%; height: 100%; border: none;"
+                        allowfullscreen>
+                    </iframe>
+                </div>
             </div>
-        </div>
-    </section>
 
-    <section id="contact-section" class="py-24 relative z-10">
-        <div class="container reveal">
-            <h2 class="section-title" data-en="Contact us" data-es="Contáctenos">Contact us</h2>
-            <div class="card max-w-2xl mx-auto text-center">
-                <div class="text-xl space-y-6">
-                    <p><strong>Francisco:</strong> fran@dm.uba.ar</p>
-                    <p><strong>Mauro:</strong> mauro@dm.uba.ar</p>
+            <div class="card reveal">
+                <h3 class="text-2xl font-bold mb-4" data-en="Interactive Calculator" data-es="Calculadora Interactiva">Interactive Calculator</h3>
+                <div class="iframe-container" style="height: 450px;">
+                    <iframe
+                        src="https://mi-suma-app-dsocevh367afc6t2akttgv.streamlit.app/?embed=true"
+                        style="width: 100%; height: 100%; border: none;">
+                    </iframe>
                 </div>
             </div>
         </div>
@@ -175,39 +118,6 @@
     </footer>
 
     <script>
-        const introScreen = document.getElementById('intro-screen');
-        const introContent = document.getElementById('intro-content');
-
-        function startIntro() {
-            // Si ya se mostró en esta sesión, eliminamos la intro de inmediato
-            if (sessionStorage.getItem('introShown')) {
-                introScreen.remove();
-                return;
-            }
-
-            document.body.classList.add('intro-active');
-
-            // 1. Aparecer suavemente el contenido (logo + texto)
-            setTimeout(() => {
-                introContent.classList.remove('opacity-0');
-                
-                // 2. Iniciar efecto de brillo (shimmer)
-                setTimeout(() => introContent.classList.add('shimmer-active'), 500);
-
-                // 3. Desvanecer todo
-                setTimeout(() => {
-                    introContent.style.opacity = '0'; // Desvanece el contenido
-                    introScreen.style.opacity = '0'; // Desvanece el fondo oscuro
-                    
-                    setTimeout(() => {
-                        document.body.classList.remove('intro-active');
-                        sessionStorage.setItem('introShown', 'true');
-                        introScreen.remove();
-                    }, 1200); // Espera a que termine la transición de CSS
-                }, 2800); 
-            }, 300);
-        }
-
         function setLanguage(lang) {
             localStorage.setItem('preferredLang', lang);
             document.querySelectorAll('[data-en], [data-es]').forEach(el => {
@@ -221,7 +131,7 @@
 
         function reveal() {
             document.querySelectorAll(".reveal").forEach(el => {
-                if (el.getBoundingClientRect().top < window.innerHeight - 150) el.classList.add("active");
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add("active");
             });
         }
 
@@ -231,7 +141,6 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            startIntro();
             setLanguage(localStorage.getItem('preferredLang') || 'en');
             reveal();
         });
