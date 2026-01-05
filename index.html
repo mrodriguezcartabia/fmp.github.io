@@ -15,7 +15,7 @@
             overflow-x: hidden;
         }
 
-        /* Bloqueo de scroll solo si la intro está activa */
+        /* Bloqueo de scroll durante intro */
         body.intro-active { overflow: hidden; }
 
         /* --- Estilos de la Intro --- */
@@ -29,7 +29,6 @@
             background-color: #0f172a;
         }
 
-        /* Contenedor que agrupa logo y texto para el shimmer */
         .shimmer-wrapper {
             position: relative;
             display: flex;
@@ -39,7 +38,7 @@
             padding: 1rem 2rem;
         }
 
-        /* El haz de luz (Shimmer) que cruza todo */
+        /* El haz de luz (Shimmer) */
         .shimmer-wrapper::after {
             content: '';
             position: absolute;
@@ -73,29 +72,38 @@
             transition: all 1s cubic-bezier(0.7, 0, 0.3, 1) !important; 
         }
 
-        .glow-logo {
-            filter: drop-shadow(0 0 15px rgba(95, 106, 196, 0.4));
-        }
+        .glow-logo { filter: drop-shadow(0 0 15px rgba(95, 106, 196, 0.4)); }
 
-        /* --- Resto de la página --- */
+        /* --- Estilos del sitio --- */
         .parallax-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), url('photo.jpg');
             background-size: cover; z-index: -1; transform: scale(1.1);
+            transition: transform 0.1s ease-out;
         }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+        .section-title { font-size: 2.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 2rem; text-align: center; }
 
         .card { 
             background-color: rgba(30, 41, 59, 0.7); 
             backdrop-filter: blur(8px);
             border-radius: 0.75rem; 
-            padding: 2rem; border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); 
+            padding: 2rem; 
+            margin-bottom: 1.5rem; 
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        .language-switcher button { background-color: #475569; color: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; font-size: 0.75rem; text-transform: uppercase; }
         .language-switcher button.active { background-color: #5f6ac4; color: #ffffff; }
         .nav-link.active { font-weight: 700; border-bottom: 2px solid #5f6ac4; }
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .list-disc-dark li::marker { color: #5f6ac4; }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
+        html { scroll-behavior: smooth; }
     </style>
 </head>
 <body class="leading-relaxed">
@@ -115,45 +123,70 @@
     <div class="parallax-bg" id="parallax"></div>
 
     <header class="bg-gradient-to-r from-[#1f2937] to-[#374151] text-white py-6 shadow-md rounded-b-xl relative z-10">
-        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+        <div class="container flex flex-col md:flex-row justify-between items-center">
             <div class="text-center md:text-left mb-4 md:mb-0">
                 <a href="index.html" class="hover:opacity-90 transition-opacity">
-                    <h1 class="text-5xl font-extrabold tracking-tight">Gamma</h1>
-                    <p class="text-2xl mt-2 font-light">Solutions</p>
+                    <h1 class="text-5xl font-extrabold tracking-tight" data-en="Gamma" data-es="Gamma" data-pt="Gamma">Gamma</h1>
+                    <p class="text-2xl mt-2 font-light" data-en="Solutions" data-es="Soluciones" data-pt="Soluções">Solutions</p>
                 </a>
             </div>
             <div class="language-switcher flex space-x-2">
-                <button id="lang-en" class="px-3 py-1 bg-slate-600 rounded" onclick="setLanguage('en')">EN</button>
-                <button id="lang-es" class="px-3 py-1 bg-slate-600 rounded" onclick="setLanguage('es')">ES</button>
-                <button id="lang-pt" class="px-3 py-1 bg-slate-600 rounded" onclick="setLanguage('pt')">PT</button>
+                <button id="lang-en" onclick="setLanguage('en')">EN</button>
+                <button id="lang-es" onclick="setLanguage('es')">ES</button>
+                <button id="lang-pt" onclick="setLanguage('pt')">PT</button>
             </div>
         </div>
     </header>
 
     <nav class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-6 relative flex items-center justify-center">
+        <div class="container relative flex items-center justify-center mx-auto px-6">
             <div class="absolute left-6 opacity-0 -translate-x-4 transition-all duration-700" id="nav-logo">
                 <a href="index.html"><img src="logo_bordeblanco.png" alt="Logo" class="h-10 w-auto"></a>
             </div>
-            <div class="flex space-x-8">
-                <a href="index.html" class="nav-link active" data-en="Home" data-es="Inicio">Home</a>
-                <a href="who-we-are.html" class="nav-link" data-en="Who we are" data-es="Quiénes somos">Who we are</a>
-                <a href="games.html" class="nav-link" data-en="Games" data-es="Juegos">Games</a>
-                <a href="#contact-section" class="nav-link" data-en="Contact" data-es="Contacto">Contact</a>
+            <div class="flex flex-wrap justify-center space-x-4 md:space-x-8">
+                <a href="index.html" class="nav-link active" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
+                <a href="who-we-are.html" class="nav-link" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
+                <a href="games.html" class="nav-link" data-en="Games" data-es="Juegos" data-pt="Jogos">Games</a>
+                <a href="#contact-section" class="nav-link" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
             </div>
         </div>
     </nav>
-    
-    <main class="py-24 relative z-10 container mx-auto px-6">
-        <div class="reveal">
-            <h2 class="text-4xl font-bold text-center mb-12" data-en="Advanced numerical solutions" data-es="Soluciones numéricas avanzadas">Advanced numerical solutions</h2>
-            <div class="card max-w-4xl mx-auto">
-                <p class="text-lg text-center" data-en="Providing innovative mathematical expertise for your business." data-es="Brindando experiencia matemática innovadora para su negocio.">Providing innovative mathematical expertise for your business.</p>
+
+    <section class="py-24 relative z-10">
+        <div class="container reveal">
+            <h2 class="section-title" data-en="Advanced numerical solutions for complex problems" data-es="Soluciones numéricas avanzadas para problemas complejos" data-pt="Soluções numéricas avanzadas para problemas complejos">Advanced numerical solutions for complex problems</h2>
+            <div class="card text-center">
+                <p class="text-lg mb-4" data-en="Our expertise allows us to provide innovative solutions:" data-es="Nuestra experiencia nos permite ofrecer soluciones innovadoras:" data-pt="Nossa experiência nos permite oferecer soluções inovadoras:">
+                    Nuestra experiencia nos permite ofrecer soluciones innovadoras:
+                </p>
+                <ul class="list-disc list-inside text-lg mb-6 space-y-2 text-left inline-block list-disc-dark">
+                    <li data-en="Optimization and decision-making under uncertainty." data-es="Optimización y toma de decisiones bajo incertidumbre." data-pt="Otimização e tomada de decisiones sob incerteza.">Optimization and decision-making under uncertainty.</li>
+                    <li data-en="Modeling and simulation of dynamic systems." data-es="Modelado y simulación de sistemas dinámicos." data-pt="Modelagem e simulação de sistemas dinâmicos.">Modeling and simulation of dynamic systems.</li>
+                    <li data-en="Data analysis and predictive modeling." data-es="Análisis de datos y modelado predictivo." data-pt="Análise de datos e modelagem preditiva.">Data analysis and predictive modeling.</li>
+                    <li data-en="Strategic analysis for competitive environments." data-es="Análisis estratégico para entornos competitivos." data-pt="Análise estratégica para ambientes competitivos.">Strategic analysis for competitive environments.</li>
+                    <li data-en="Financial and actuarial risk assessment." data-es="Evaluación de riesgos financieros y actuariales." data-pt="Avaliação de riscos financeiros e atuariais.">Financial and actuarial risk assessment.</li>
+                </ul>
             </div>
         </div>
-        
-        <div id="contact-section" class="h-20"></div>
-    </main>
+    </section>
+
+    <section id="contact-section" class="py-24 relative z-10">
+        <div class="container reveal">
+            <h2 class="section-title" data-en="Contact us" data-es="Contáctenos" data-pt="Fale conosco">Contact us</h2>
+            <div class="card max-w-2xl mx-auto text-center">
+                <div class="text-xl space-y-6">
+                    <p><strong>Francisco:</strong> fran@dm.uba.ar</p>
+                    <p><strong>Mauro:</strong> mauro@dm.uba.ar</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-12 rounded-t-xl relative z-10">
+        <div class="container text-center">
+            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os derechos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script>
         const introScreen = document.getElementById('intro-screen');
@@ -163,7 +196,6 @@
         const navLogo = document.getElementById('nav-logo');
 
         function startIntro() {
-            // Comprobar si ya se mostró en esta sesión
             if (sessionStorage.getItem('introShown')) {
                 introScreen.remove();
                 navLogo.style.opacity = '1';
@@ -173,28 +205,20 @@
 
             document.body.classList.add('intro-active');
 
-            // 1. Aparecer contenido
             setTimeout(() => {
                 introLogo.style.opacity = '1';
                 introLogo.style.transform = 'scale(1)';
                 introText.style.opacity = '1';
                 
-                // 2. Efecto Shimmer (Logo + Texto)
-                setTimeout(() => {
-                    shimmerCont.classList.add('shimmer-active');
-                }, 500);
+                setTimeout(() => shimmerCont.classList.add('shimmer-active'), 500);
 
-                // 3. Salida Divergente
                 setTimeout(() => {
                     introLogo.classList.add('exit-left');
                     introText.classList.add('exit-right');
                     
                     setTimeout(() => {
                         introScreen.style.opacity = '0';
-                        introScreen.style.transition = 'opacity 0.8s ease';
                         document.body.classList.remove('intro-active');
-                        
-                        // 4. Logo Nav
                         setTimeout(() => {
                             navLogo.style.opacity = '1';
                             navLogo.style.transform = 'translateX(0)';
@@ -208,29 +232,33 @@
 
         function setLanguage(lang) {
             localStorage.setItem('preferredLang', lang);
-            document.querySelectorAll('[data-en]').forEach(el => {
-                el.textContent = el.dataset[lang] || el.dataset['en'];
+            document.querySelectorAll('[data-en], [data-es], [data-pt]').forEach(el => {
+                const translation = el.dataset[lang];
+                if (translation) el.textContent = translation;
             });
-            document.querySelectorAll('.language-switcher button').forEach(btn => {
-                btn.classList.toggle('active', btn.id === `lang-${lang}`);
+            document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
+        }
+
+        function reveal() {
+            document.querySelectorAll(".reveal").forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 150) el.classList.add("active");
             });
         }
 
         window.addEventListener("scroll", () => {
             document.getElementById("parallax").style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
-            document.querySelectorAll(".reveal").forEach(el => {
-                if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add("active");
-            });
+            reveal();
         });
 
         document.addEventListener('DOMContentLoaded', () => {
             startIntro();
             setLanguage(localStorage.getItem('preferredLang') || 'en');
-            
-            // Scroll suave para contacto si viene de otra página
-            if (window.location.search.includes('scroll=contact')) {
+            reveal();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('scroll') === 'contact') {
                 setTimeout(() => {
-                    document.getElementById('contact-section').scrollIntoView({ behavior: 'smooth' });
+                    document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' });
                 }, sessionStorage.getItem('introShown') ? 100 : 3500);
             }
         });
