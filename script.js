@@ -1,4 +1,4 @@
-// Inicializar iconos de Lucide
+// Inicializar iconos de Lucide (iconos vectoriales)
 lucide.createIcons();
 
 const translations = { en: 'Copied!', es: '¡Copiado!', pt: 'Copiado!' };
@@ -12,6 +12,9 @@ const contactSection = document.getElementById('contact-section');
 
 // --- FUNCIONES DE UTILIDAD ---
 
+/**
+ * Copia el email al portapapeles y muestra un feedback visual (tooltip)
+ */
 function copyEmail(email, btn) {
     navigator.clipboard.writeText(email).then(() => {
         const iconElement = btn.querySelector('i');
@@ -34,12 +37,18 @@ function copyEmail(email, btn) {
     });
 }
 
+/**
+ * Hace aparecer los elementos con clase "reveal" cuando entran en el viewport
+ */
 function revealContent() {
     document.querySelectorAll(".reveal").forEach(el => { 
         if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add("active");
     });
 }
 
+/**
+ * Gestiona el scroll suave cuando vienes de otra página con el parámetro ?scroll=contact
+ */
 function checkScrollParam() {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('scroll') === 'contact') {
@@ -55,6 +64,9 @@ function checkScrollParam() {
     }
 }
 
+/**
+ * Orquestador de la pantalla de bienvenida (Intro)
+ */
 function startIntro() {
     if (sessionStorage.getItem('introShown') || !introScreen) { 
         if (introScreen) introScreen.remove(); 
@@ -80,6 +92,9 @@ function startIntro() {
     }, 300);
 }
 
+/**
+ * Cambia el idioma del sitio basado en los atributos data-en, data-es, data-pt
+ */
 function setLanguage(lang) {
     localStorage.setItem('preferredLang', lang);
     document.querySelectorAll('[data-en]').forEach(el => { 
@@ -89,71 +104,66 @@ function setLanguage(lang) {
     document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
 }
 
-// --- LÓGICA DE NAVEGACIÓN ACTIVA (ESTRICTA) ---
+// --- LÓGICA DE NAVEGACIÓN ACTIVA (DINÁMICA) ---
 
+/**
+ * Controla el subrayado del menú entre Home y Contact basado en la posición del scroll
+ */
 function updateActiveLink() {
-    // Detectamos si estamos en la Home
-    const isHomePage = window.location.pathname.endsWith('index.html') || 
-                       window.location.pathname.endsWith('/') || 
-                       window.location.pathname === '';
+    const homeBtn = document.querySelector('a[href="index.html"]');
+    const contactBtn = document.querySelector('a[href="#contact-section"]');
 
-    if (isHomePage) {
-        const homeBtn = document.querySelector('a[href="index.html"]');
-        const contactBtn = document.querySelector('a[href="#contact-section"]');
-        
-        // Si existe la sección de contacto, medimos su posición
-        if (contactSection) {
-            const scrollPosition = window.scrollY + 300; // 300px de margen antes de llegar
-            const contactTop = contactSection.offsetTop;
+    // Si no hay sección de contacto, no estamos en la Home, así que salimos
+    if (!contactSection) return;
 
-            // Limpiamos siempre antes de decidir
-            navLinks.forEach(link => link.classList.remove('active'));
+    const scrollPosition = window.scrollY + 500; // Margen de detección
+    const contactTop = contactSection.offsetTop;
 
-            if (scrollPosition >= contactTop) {
-                if (contactBtn) contactBtn.classList.add('active');
-            } else {
-                if (homeBtn) homeBtn.classList.add('active');
-            }
-        }
+    // Limpiamos los estados anteriores de estos dos botones
+    if (homeBtn) homeBtn.classList.remove('active');
+    if (contactBtn) contactBtn.classList.remove('active');
+
+    // Decidimos cuál activar
+    if (scrollPosition >= contactTop) {
+        if (contactBtn) contactBtn.classList.add('active');
+    } else {
+        if (homeBtn) homeBtn.classList.add('active');
     }
 }
 
 // --- EVENTOS ---
 
 window.addEventListener("scroll", () => {
-    // Parallax
+    // Efecto Parallax en el fondo
     const parallax = document.getElementById("parallax");
     if(parallax) parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
     
     revealContent();
 
-    // Logo del Nav
+    // Mostrar logo en el nav cuando se baja
     if (navLogo) {
         if (window.scrollY > 150) navLogo.classList.add('visible');
         else navLogo.classList.remove('visible');
     }
 
-    // Actualizar subrayado dinámico
     updateActiveLink();
 });
 
-// Click manual en los enlaces
+/**
+ * Evita conflictos entre el click manual y el scroll dinámico en páginas estáticas
+ */
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
-        // En páginas que no sean la Home (donde no hay scroll dinámico), forzamos el click
-        const isHomePage = window.location.pathname.endsWith('index.html') || window.location.pathname === '/';
-        const isInternal = link.getAttribute('href').startsWith('#');
-
-        if (!isHomePage || !isInternal) {
+        if (!contactSection) {
             navLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
         }
     });
 });
 
+// Inicialización al cargar la página
 document.addEventListener('DOMContentLoaded', () => { 
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
     startIntro();
-    // Ejecutar inmediatamente para asegurar que Home esté marcado
     updateActiveLink(); 
 });
