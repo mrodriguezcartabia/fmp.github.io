@@ -29,7 +29,6 @@
         }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
-        .section-title { font-size: 2.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 2rem; text-align: center; }
         
         .card { 
             background-color: rgba(30, 41, 59, 0.7); 
@@ -44,11 +43,6 @@
         .language-switcher button { background-color: #475569; color: #e2e8f0; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.3s ease; font-size: 0.75rem; text-transform: uppercase; }
         .language-switcher button.active { background-color: #5f6ac4; color: #ffffff; }
         .nav-link.active { font-weight: 700; border-bottom: 2px solid #5f6ac4; }
-
-        /* Animación para el logo del Nav */
-        #nav-logo {
-            transition: all 1s ease-out;
-        }
 
         .iframe-container {
             position: relative;
@@ -93,18 +87,18 @@
     </header>
 
     <nav class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
-        <div class="container relative flex items-center justify-center">
-            <div class="absolute left-6 opacity-0 -translate-x-4 transition-all duration-1000" id="nav-logo">
+        <div class="container relative flex items-center justify-center mx-auto px-6">
+            <div class="absolute left-6" id="nav-logo">
                 <a href="index.html" class="hover:opacity-80 transition-opacity block">
                     <img src="logo_bordeblanco.png" alt="Logo" class="h-10 w-auto">
                 </a>
             </div>
 
             <div class="flex flex-wrap justify-center space-x-4 md:space-x-8">
-                <a href="index.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
-                <a href="who-we-are.html" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
-                <a href="games.html" class="nav-link hover:text-gray-200 font-medium transition-colors active" data-en="Games" data-es="Juegos" data-pt="Jogos">Games</a>
-                <a href="index.html?scroll=contact" class="nav-link hover:text-gray-200 font-medium transition-colors" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
+                <a href="index.html" class="nav-link hover:text-indigo-300 font-medium transition-colors" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
+                <a href="who-we-are.html" class="nav-link hover:text-indigo-300 font-medium transition-colors" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
+                <a href="games.html" class="nav-link hover:text-indigo-300 font-medium transition-colors active" data-en="Games" data-es="Juegos" data-pt="Jogos">Games</a>
+                <a href="index.html?scroll=contact" class="nav-link hover:text-indigo-300 font-medium transition-colors" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
             </div>
         </div>
     </nav>
@@ -171,8 +165,7 @@
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 100;
-                if (elementTop < windowHeight - elementVisible) {
+                if (elementTop < windowHeight - 100) {
                     reveals[i].classList.add("active");
                 }
             }
@@ -191,13 +184,6 @@
             const savedLang = localStorage.getItem('preferredLang') || 'en';
             setLanguage(savedLang);
             reveal();
-
-            // Aparecer el logo del nav suavemente al cargar
-            const navLogo = document.getElementById('nav-logo');
-            setTimeout(() => {
-                navLogo.style.opacity = '1';
-                navLogo.style.transform = 'translateX(0)';
-            }, 100);
         });
     </script>
 </body>
