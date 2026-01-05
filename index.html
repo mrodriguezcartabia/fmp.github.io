@@ -11,7 +11,7 @@
         body.intro-active { overflow: hidden; }
         #intro-screen { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; background-color: #0f172a; transition: opacity 1.2s ease-in-out; }
         
-        /* SHIMMER SUTIL Y LOCALIZADO */
+        /* SHIMMER SUTIL Y LOCALIZADO AL LOGO/TEXTO */
         .shimmer-wrapper { 
             position: relative; 
             display: flex; 
@@ -57,6 +57,7 @@
     </style>
 </head>
 <body class="leading-relaxed">
+
     <div id="intro-screen">
         <div class="shimmer-wrapper opacity-0" id="intro-content">
             <img src="logo_bordeblanco.png" alt="Logo" class="w-24 md:w-32 h-auto glow-logo">
@@ -104,9 +105,9 @@
 
     <main class="py-24 relative z-10 container mx-auto px-6">
         <section id="first-section" class="reveal">
-            <h2 class="section-title" data-en="Advanced numerical solutions for complex problems" data-es="Soluciones numéricas avanzadas para problemas complejos" data-pt="Soluções numéricas avançadas para problemas complexos">Advanced numerical solutions for complex problems</h2>
+            <h2 class="section-title" data-en="Advanced numerical solutions for complex problems" data-es="Soluciones numéricas avanzadas para problemas complejos" data-pt="Soluções numéricas avanzadas para problemas complexos">Advanced numerical solutions for complex problems</h2>
             <div class="card text-center">
-                <p class="text-lg mb-4" data-en="Our expertise allows us to provide innovative solutions:" data-es="Nuestra experiencia nos permite ofrecer soluciones innovadoras:" data-pt="Nossa experiencia nos permite oferecer soluções inovadoras:">Nuestra experiencia nos permite ofrecer soluciones innovadoras:</p>
+                <p class="text-lg mb-4" data-en="Our expertise allows us to provide innovative solutions:" data-es="Nuestra experiencia nos permite ofrecer soluciones innovadoras:" data-pt="Nossa experiência nos permite oferecer soluções innovadoras:">Nuestra experiencia nos permite ofrecer soluciones innovadoras:</p>
                 <ul class="list-disc list-inside text-lg space-y-2 text-left inline-block">
                     <li data-en="Optimization and decision-making under uncertainty." data-es="Optimización y toma de decisiones bajo incertidumbre." data-pt="Otimização e tomada de decisão sob incerteza.">Optimización y toma de decisiones bajo incertidumbre.</li>
                     <li data-en="Modeling and simulation of dynamic systems." data-es="Modelado y simulación de sistemas dinámicos." data-pt="Modelagem e simulação de sistemas dinâmicos.">Modelado y simulación de sistemas dinámicos.</li>
@@ -145,23 +146,36 @@
             });
         }
 
+        // LÓGICA DE SCROLL REFORZADA
         function checkScrollParam() {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('scroll') === 'contact') {
-                const contactSection = document.getElementById('contact-section');
-                if (contactSection) {
-                    setTimeout(() => {
-                        contactSection.scrollIntoView({ behavior: 'smooth' });
-                    }, 600);
-                }
+                // Limpiar parámetro de la URL sin recargar
+                window.history.replaceState({}, document.title, window.location.pathname);
+                
+                setTimeout(() => {
+                    const contactSection = document.getElementById('contact-section');
+                    if (contactSection) {
+                        const offset = 100; // Margen para que el nav no tape el título
+                        const bodyRect = document.body.getBoundingClientRect().top;
+                        const elementRect = contactSection.getBoundingClientRect().top;
+                        const elementPosition = elementRect - bodyRect;
+                        const offsetPosition = elementPosition - offset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 800); 
             }
         }
 
         function startIntro() {
             if (sessionStorage.getItem('introShown')) { 
-                introScreen.remove(); 
+                if (introScreen) introScreen.remove(); 
                 revealContent();
-                checkScrollParam();
+                checkScrollParam(); 
                 return; 
             }
             document.body.classList.add('intro-active');
@@ -174,9 +188,9 @@
                     setTimeout(() => { 
                         document.body.classList.remove('intro-active'); 
                         sessionStorage.setItem('introShown', 'true'); 
-                        introScreen.remove(); 
+                        if (introScreen) introScreen.remove(); 
                         revealContent();
-                        checkScrollParam();
+                        checkScrollParam(); // Scroll después de terminar intro
                     }, 1200);
                 }, 2800);
             }, 300);
@@ -192,7 +206,8 @@
         }
 
         window.addEventListener("scroll", () => {
-            document.getElementById("parallax").style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
+            const parallax = document.getElementById("parallax");
+            if(parallax) parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
             revealContent();
             if (window.scrollY > 150) {
                 navLogo.classList.add('visible');
@@ -202,8 +217,8 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => { 
-            startIntro(); 
             setLanguage(localStorage.getItem('preferredLang') || 'en'); 
+            startIntro(); 
         });
     </script>
 </body>
