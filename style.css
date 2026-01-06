@@ -40,6 +40,30 @@ html {
     border-radius: 8px;
 }
 
+/* Estado cuando salen de la pantalla */
+.exit-left {
+    transform: translateX(-150vw);
+    opacity: 0;
+}
+
+.exit-right {
+    transform: translateX(150vw);
+    opacity: 0;
+}
+
+/* Aseguramos que el contenedor padre no oculte el movimiento antes de tiempo */
+#intro-screen {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+    background: #111827; /* Mismo color de fondo */
+    z-index: 9999;
+    transition: opacity 0.8s ease-in-out;
+}
+
 /* El efecto de rayo de luz (shimmer) */
 .shimmer-wrapper::after { 
     content: ''; 
