@@ -198,14 +198,6 @@ html {
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
-/* --- CONTENEDORES DE JUEGOS (IFRAMES) --- */
-.iframe-container { 
-    width: 100%; 
-    border-radius: 0.5rem; 
-    background: #ffffff; 
-    overflow: hidden; 
-}
-
 /* --- Contenedores de Juegos y Herramientas --- */
 
 .iframe-container {
