@@ -40,6 +40,7 @@ html {
     border-radius: 8px;
 }
 
+/* El efecto de rayo de luz (shimmer) */
 .shimmer-wrapper::after { 
     content: ''; 
     position: absolute; 
@@ -124,6 +125,7 @@ html {
     border-bottom: 2px solid #5f6ac4; 
 }
 
+/* Logo en el menú que aparece al bajar */
 #nav-logo { 
     opacity: 0; 
     transform: translateY(-20px); 
@@ -180,24 +182,32 @@ html {
     overflow: hidden; 
 }
 
-/* NUEVA CLASE PARA ESCALAR EL JUEGO (Opción 2) */
+/* CLASE PARA ACHICAR EL CONTENIDO DEL JUEGO */
 .game-iframe-scaled {
-    width: 125%;      /* Ampliamos el lienzo para compensar la escala */
-    height: 125%;
+    width: 125%;          /* Expande el área interna */
+    height: 125%;         /* Expande el área interna */
     border: none;
-    transform: scale(0.8); /* Reducimos al 80% */
+    transform: scale(0.8); /* Encoge visualmente al 80% (zoom out) */
     transform-origin: top left;
 }
 
 /* --- MEJORAS PARA EL SUBMENÚ Y SCROLL --- */
+
+/* Asegura que al usar anclas (#), el contenido no quede debajo del nav fixed */
 section[id] {
-    scroll-margin-top: 100px;
+    scroll-margin-top: 100px; /* Ajusta este valor según el alto de tu menú */
 }
 
+/* Estilo para los enlaces del submenú de juegos */
 #main-nav .flex.space-x-6 a {
     transition: color 0.3s ease;
 }
 
 #main-nav .flex.space-x-6 a:hover {
     color: #c7d2fe;
+}
+
+/* Opcional: una transición más suave para las secciones */
+.reveal {
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
