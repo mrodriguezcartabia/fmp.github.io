@@ -90,29 +90,33 @@ function setLanguage(lang) {
     document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
 }
 
-// 8. Lógica de Navegación Activa (ESTADO POR DEFECTO GARANTIZADO)
+// 8. Lógica de Navegación Activa (ZONA SEGURA)
 function updateActiveLink() {
-    // Si no estamos en Home (no hay contactSection), no hacemos lógica de scroll
     if (!contactSection) return;
 
-    // Primer link es Home, último es Contacto
     const homeBtn = navLinks[0];
     const contactBtn = navLinks[navLinks.length - 1];
-
     const scrollY = window.scrollY;
-    const contactThreshold = contactSection.offsetTop - 500;
 
-    // 1. Limpiamos TODO rastro de 'active'
+    // Limpiamos todo
     navLinks.forEach(link => link.classList.remove('active'));
 
-    // 2. Decidimos: ¿Estamos en zona de contacto?
-    const isAtBottom = (window.innerHeight + scrollY) >= document.body.offsetHeight - 50;
+    // --- LÓGICA DE DECISIÓN ---
+    // 1. Si estamos en la parte superior (menos de 600px de scroll), SIEMPRE es Home.
+    // Esto evita que fallos de cálculo activen Contacto prematuramente.
+    if (scrollY < 600) {
+        homeBtn.classList.add('active');
+        return;
+    }
+
+    // 2. Detectamos si estamos cerca del final de la página (donde está Contacto)
+    const isAtBottom = (window.innerHeight + scrollY) >= document.body.offsetHeight - 150;
     
-    if (scrollY >= contactThreshold || isAtBottom) {
-        if (contactBtn) contactBtn.classList.add('active');
+    if (isAtBottom) {
+        contactBtn.classList.add('active');
     } else {
-        // Si no es contacto, OBLIGATORIAMENTE es Home
-        if (homeBtn) homeBtn.classList.add('active');
+        // En cualquier otro caso intermedio, volvemos a Home
+        homeBtn.classList.add('active');
     }
 }
 
@@ -133,7 +137,6 @@ window.addEventListener("scroll", () => {
 
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
-        // Solo para páginas estáticas
         if (!contactSection) {
             navLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
@@ -146,8 +149,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
     startIntro();
     
-    // Ejecutamos varias veces para compensar la carga de la página
+    // Forzamos la barra de Home al inicio
     updateActiveLink();
-    setTimeout(updateActiveLink, 100);
-    setTimeout(updateActiveLink, 1000);
 });
+
+// Refuerzo: cuando toda la página cargue (imágenes incluidas)
+window.onload = updateActiveLink;
