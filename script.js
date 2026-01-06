@@ -1,4 +1,4 @@
-// Inicializar iconos de Lucide (iconos vectoriales)
+// Inicializar iconos de Lucide
 lucide.createIcons();
 
 const translations = { en: 'Copied!', es: '¡Copiado!', pt: 'Copiado!' };
@@ -12,9 +12,6 @@ const contactSection = document.getElementById('contact-section');
 
 // --- FUNCIONES DE UTILIDAD ---
 
-/**
- * Copia el email al portapapeles y muestra un feedback visual (tooltip)
- */
 function copyEmail(email, btn) {
     navigator.clipboard.writeText(email).then(() => {
         const iconElement = btn.querySelector('i');
@@ -37,18 +34,12 @@ function copyEmail(email, btn) {
     });
 }
 
-/**
- * Hace aparecer los elementos con clase "reveal" cuando entran en el viewport
- */
 function revealContent() {
     document.querySelectorAll(".reveal").forEach(el => { 
         if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add("active");
     });
 }
 
-/**
- * Gestiona el scroll suave cuando vienes de otra página con el parámetro ?scroll=contact
- */
 function checkScrollParam() {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('scroll') === 'contact') {
@@ -64,9 +55,6 @@ function checkScrollParam() {
     }
 }
 
-/**
- * Orquestador de la pantalla de bienvenida (Intro)
- */
 function startIntro() {
     if (sessionStorage.getItem('introShown') || !introScreen) { 
         if (introScreen) introScreen.remove(); 
@@ -92,9 +80,6 @@ function startIntro() {
     }, 300);
 }
 
-/**
- * Cambia el idioma del sitio basado en los atributos data-en, data-es, data-pt
- */
 function setLanguage(lang) {
     localStorage.setItem('preferredLang', lang);
     document.querySelectorAll('[data-en]').forEach(el => { 
@@ -104,26 +89,22 @@ function setLanguage(lang) {
     document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
 }
 
-// --- LÓGICA DE NAVEGACIÓN ACTIVA (DINÁMICA) ---
+// --- LÓGICA DE NAVEGACIÓN ACTIVA (INTERRUPTOR FORZADO) ---
 
-/**
- * Controla el subrayado del menú entre Home y Contact basado en la posición del scroll
- */
 function updateActiveLink() {
     const homeBtn = document.querySelector('a[href="index.html"]');
     const contactBtn = document.querySelector('a[href="#contact-section"]');
 
-    // Si no hay sección de contacto, no estamos en la Home, así que salimos
     if (!contactSection) return;
 
-    const scrollPosition = window.scrollY + 500; // Margen de detección
-    const contactTop = contactSection.offsetTop;
+    const scrollPosition = window.scrollY;
+    // Cambia a "Contacto" 400px antes de llegar a la sección
+    const contactTop = contactSection.offsetTop - 400; 
 
-    // Limpiamos los estados anteriores de estos dos botones
-    if (homeBtn) homeBtn.classList.remove('active');
-    if (contactBtn) contactBtn.classList.remove('active');
+    // LIMPIEZA: Quitamos 'active' de todo el menú primero
+    navLinks.forEach(link => link.classList.remove('active'));
 
-    // Decidimos cuál activar
+    // ASIGNACIÓN: Solo uno puede estar activo
     if (scrollPosition >= contactTop) {
         if (contactBtn) contactBtn.classList.add('active');
     } else {
@@ -134,13 +115,11 @@ function updateActiveLink() {
 // --- EVENTOS ---
 
 window.addEventListener("scroll", () => {
-    // Efecto Parallax en el fondo
     const parallax = document.getElementById("parallax");
     if(parallax) parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
     
     revealContent();
 
-    // Mostrar logo en el nav cuando se baja
     if (navLogo) {
         if (window.scrollY > 150) navLogo.classList.add('visible');
         else navLogo.classList.remove('visible');
@@ -149,9 +128,6 @@ window.addEventListener("scroll", () => {
     updateActiveLink();
 });
 
-/**
- * Evita conflictos entre el click manual y el scroll dinámico en páginas estáticas
- */
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
         if (!contactSection) {
@@ -161,9 +137,8 @@ navLinks.forEach(link => {
     });
 });
 
-// Inicialización al cargar la página
 document.addEventListener('DOMContentLoaded', () => { 
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
     startIntro();
-    updateActiveLink(); 
+    setTimeout(updateActiveLink, 100);
 });
