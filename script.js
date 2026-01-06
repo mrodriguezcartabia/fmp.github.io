@@ -90,49 +90,47 @@ function setLanguage(lang) {
     document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
 }
 
-// 8. Lógica de Navegación Activa (ZONA SEGURA)
-function updateActiveLink() {
+// 8. LÓGICA DE NAVEGACIÓN ACTIVA (INTERSECTION OBSERVER)
+function setupNavigationObserver() {
     if (!contactSection) return;
 
     const homeBtn = navLinks[0];
     const contactBtn = navLinks[navLinks.length - 1];
-    const scrollY = window.scrollY;
 
-    // Limpiamos todo
-    navLinks.forEach(link => link.classList.remove('active'));
+    const observerOptions = {
+        root: null,
+        threshold: 0.5 // Se activa cuando el 50% de la sección es visible
+    };
 
-    // --- LÓGICA DE DECISIÓN ---
-    // 1. Si estamos en la parte superior (menos de 600px de scroll), SIEMPRE es Home.
-    // Esto evita que fallos de cálculo activen Contacto prematuramente.
-    if (scrollY < 600) {
-        homeBtn.classList.add('active');
-        return;
-    }
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            // Limpiamos ambos primero
+            homeBtn.classList.remove('active');
+            contactBtn.classList.remove('active');
 
-    // 2. Detectamos si estamos cerca del final de la página (donde está Contacto)
-    const isAtBottom = (window.innerHeight + scrollY) >= document.body.offsetHeight - 150;
-    
-    if (isAtBottom) {
-        contactBtn.classList.add('active');
-    } else {
-        // En cualquier otro caso intermedio, volvemos a Home
-        homeBtn.classList.add('active');
-    }
+            if (entry.isIntersecting) {
+                // Si la sección de contacto es visible, activamos Contacto
+                contactBtn.classList.add('active');
+            } else {
+                // Si no es visible, por defecto estamos en Home
+                homeBtn.classList.add('active');
+            }
+        });
+    }, observerOptions);
+
+    observer.observe(contactSection);
 }
 
 // 9. Event Listeners
 window.addEventListener("scroll", () => {
     const parallax = document.getElementById("parallax");
     if(parallax) parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
-    
     revealContent();
 
     if (navLogo) {
         if (window.scrollY > 150) navLogo.classList.add('visible');
         else navLogo.classList.remove('visible');
     }
-
-    updateActiveLink();
 });
 
 navLinks.forEach(link => {
@@ -148,10 +146,5 @@ navLinks.forEach(link => {
 document.addEventListener('DOMContentLoaded', () => { 
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
     startIntro();
-    
-    // Forzamos la barra de Home al inicio
-    updateActiveLink();
+    setupNavigationObserver();
 });
-
-// Refuerzo: cuando toda la página cargue (imágenes incluidas)
-window.onload = updateActiveLink;
