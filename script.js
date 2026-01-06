@@ -1,15 +1,16 @@
+// 1. Inicialización de iconos (Lucide)
 lucide.createIcons();
 
 const translations = { en: 'Copied!', es: '¡Copiado!', pt: 'Copiado!' };
 
+// 2. Selección de elementos clave
 const navLogo = document.getElementById('nav-logo');
 const introScreen = document.getElementById('intro-screen');
 const introContent = document.getElementById('intro-content');
 const navLinks = document.querySelectorAll('.nav-link');
 const contactSection = document.getElementById('contact-section');
 
-// --- FUNCIONES ---
-
+// 3. Funciones de Utilidad
 function copyEmail(email, btn) {
     navigator.clipboard.writeText(email).then(() => {
         const iconElement = btn.querySelector('i');
@@ -85,43 +86,50 @@ function setLanguage(lang) {
     document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
 }
 
-// --- LÓGICA DE NAVEGACIÓN (SELECTOR POR ATRIBUTO EXACTO) ---
-
+// 4. Lógica de Navegación Activa (Exclusión Mutua)
 function updateActiveLink() {
-    // Buscamos los botones por su atributo exacto para evitar que el navegador decida
+    // Identificamos los botones específicos
     const homeBtn = document.querySelector('a[href="index.html"]');
     const contactBtn = document.querySelector('a[href="#contact-section"]');
 
+    // Si no estamos en la página que tiene la sección de contacto, no ejecutamos la lógica
     if (!contactSection) return;
 
     const scrollPosition = window.scrollY;
-    const contactTop = contactSection.offsetTop - 500; 
+    // Umbral: cambiamos a contacto 500px antes de llegar al final
+    const contactThreshold = contactSection.offsetTop - 500; 
 
-    // LIMPIEZA ABSOLUTA: Quitamos active de todo antes de poner uno solo
+    // Limpiamos la clase active de TODOS los links para evitar duplicados
     navLinks.forEach(link => link.classList.remove('active'));
 
-    if (scrollPosition >= contactTop) {
+    if (scrollPosition >= contactThreshold) {
         if (contactBtn) contactBtn.classList.add('active');
     } else {
         if (homeBtn) homeBtn.classList.add('active');
     }
 }
 
-// --- EVENTOS ---
-
+// 5. Listeners de Eventos
 window.addEventListener("scroll", () => {
+    // Parallax
     const parallax = document.getElementById("parallax");
     if(parallax) parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
-    revealContent();
-    if (navLogo && window.scrollY > 150) navLogo.classList.add('visible');
-    else if (navLogo) navLogo.classList.remove('visible');
     
+    revealContent();
+
+    // Logo en el nav
+    if (navLogo) {
+        if (window.scrollY > 150) navLogo.classList.add('visible');
+        else navLogo.classList.remove('visible');
+    }
+
+    // Actualizar subrayado
     updateActiveLink();
 });
 
+// Click manual (Solo para páginas estáticas como Games)
 navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-        // En Games o Who we are, el click es manual. En Home, manda el scroll.
+    link.addEventListener('click', () => {
         if (!contactSection) {
             navLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
@@ -129,9 +137,10 @@ navLinks.forEach(link => {
     });
 });
 
+// 6. Ejecución Inicial
 document.addEventListener('DOMContentLoaded', () => { 
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
     startIntro();
-    // Forzamos la limpieza inicial
+    // Forzamos la actualización al cargar
     updateActiveLink(); 
 });
