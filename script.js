@@ -90,30 +90,28 @@ function setLanguage(lang) {
     document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
 }
 
-// 8. Lógica de Navegación Activa (BLINDADA)
+// 8. Lógica de Navegación Activa (ESTADO POR DEFECTO GARANTIZADO)
 function updateActiveLink() {
-    const homeBtn = document.querySelector('a[href="index.html"]') || navLinks[0];
-    const contactBtn = document.querySelector('a[href="#contact-section"]');
-
+    // Si no estamos en Home (no hay contactSection), no hacemos lógica de scroll
     if (!contactSection) return;
 
-    const scrollY = window.scrollY;
-    // La posición real de la sección de contacto
-    const contactOffset = contactSection.offsetTop;
+    // Primer link es Home, último es Contacto
+    const homeBtn = navLinks[0];
+    const contactBtn = navLinks[navLinks.length - 1];
 
-    // Limpieza total preventiva
+    const scrollY = window.scrollY;
+    const contactThreshold = contactSection.offsetTop - 500;
+
+    // 1. Limpiamos TODO rastro de 'active'
     navLinks.forEach(link => link.classList.remove('active'));
 
-    // REGLA DE ORO: 
-    // Si el scroll es menor a 300px, estamos ARRIBA (Home).
-    // Si el scroll está cerca de la sección de contacto, estamos ABAJO (Contact).
-    if (scrollY < 300) {
-        if (homeBtn) homeBtn.classList.add('active');
-    } 
-    else if (scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50 || scrollY >= contactOffset - 400) {
+    // 2. Decidimos: ¿Estamos en zona de contacto?
+    const isAtBottom = (window.innerHeight + scrollY) >= document.body.offsetHeight - 50;
+    
+    if (scrollY >= contactThreshold || isAtBottom) {
         if (contactBtn) contactBtn.classList.add('active');
-    } 
-    else {
+    } else {
+        // Si no es contacto, OBLIGATORIAMENTE es Home
         if (homeBtn) homeBtn.classList.add('active');
     }
 }
@@ -134,7 +132,8 @@ window.addEventListener("scroll", () => {
 });
 
 navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
+    link.addEventListener('click', () => {
+        // Solo para páginas estáticas
         if (!contactSection) {
             navLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
@@ -147,9 +146,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
     startIntro();
     
-    // El delay de 200ms asegura que el navegador ya sepa cuánto mide la página
-    setTimeout(updateActiveLink, 200);
+    // Ejecutamos varias veces para compensar la carga de la página
+    updateActiveLink();
+    setTimeout(updateActiveLink, 100);
+    setTimeout(updateActiveLink, 1000);
 });
-
-// Extra: Recalcular si cambian el tamaño de la ventana
-window.addEventListener('resize', updateActiveLink);
