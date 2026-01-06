@@ -90,25 +90,30 @@ function setLanguage(lang) {
     document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
 }
 
-// 8. Lógica de Navegación Activa (SELECTOR MEJORADO)
+// 8. Lógica de Navegación Activa (BLINDADA)
 function updateActiveLink() {
-    // Usamos selectores que buscan el texto o parte del href para asegurar que los encuentre
-    const homeBtn = document.querySelector('a[href*="index.html"]') || navLinks[0];
+    const homeBtn = document.querySelector('a[href="index.html"]') || navLinks[0];
     const contactBtn = document.querySelector('a[href="#contact-section"]');
 
     if (!contactSection) return;
 
     const scrollY = window.scrollY;
-    const contactTop = contactSection.offsetTop - 500; 
+    // La posición real de la sección de contacto
+    const contactOffset = contactSection.offsetTop;
 
-    // Limpieza total
+    // Limpieza total preventiva
     navLinks.forEach(link => link.classList.remove('active'));
 
-    // Lógica de asignación
-    if (scrollY >= contactTop) {
+    // REGLA DE ORO: 
+    // Si el scroll es menor a 300px, estamos ARRIBA (Home).
+    // Si el scroll está cerca de la sección de contacto, estamos ABAJO (Contact).
+    if (scrollY < 300) {
+        if (homeBtn) homeBtn.classList.add('active');
+    } 
+    else if (scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50 || scrollY >= contactOffset - 400) {
         if (contactBtn) contactBtn.classList.add('active');
-    } else {
-        // Por defecto, si no es contacto, SIEMPRE es home
+    } 
+    else {
         if (homeBtn) homeBtn.classList.add('active');
     }
 }
@@ -129,7 +134,7 @@ window.addEventListener("scroll", () => {
 });
 
 navLinks.forEach(link => {
-    link.addEventListener('click', () => {
+    link.addEventListener('click', (e) => {
         if (!contactSection) {
             navLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
@@ -141,8 +146,10 @@ navLinks.forEach(link => {
 document.addEventListener('DOMContentLoaded', () => { 
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
     startIntro();
-    // Ejecutamos varias veces para asegurar que el cálculo sea correcto tras cargar imágenes
-    updateActiveLink();
-    setTimeout(updateActiveLink, 100);
-    setTimeout(updateActiveLink, 1000);
+    
+    // El delay de 200ms asegura que el navegador ya sepa cuánto mide la página
+    setTimeout(updateActiveLink, 200);
 });
+
+// Extra: Recalcular si cambian el tamaño de la ventana
+window.addEventListener('resize', updateActiveLink);
