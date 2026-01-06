@@ -206,15 +206,6 @@ html {
     overflow: hidden; 
 }
 
-/* CLASE PARA ACHICAR EL CONTENIDO DEL JUEGO */
-.game-iframe-scaled {
-    width: 125%;          /* Expande el área interna */
-    height: 125%;         /* Expande el área interna */
-    border: none;
-    transform: scale(0.8); /* Encoge visualmente al 80% (zoom out) */
-    transform-origin: top left;
-}
-
 /* --- MEJORAS PARA EL SUBMENÚ Y SCROLL --- */
 
 /* Asegura que al usar anclas (#), el contenido no quede debajo del nav fixed */
