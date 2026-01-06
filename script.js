@@ -88,7 +88,7 @@ function startIntro() {
                 if (introScreen) introScreen.remove(); 
                 revealContent();
                 checkScrollParam(); 
-            }, 1200); // Tiempo total de la animación de salida
+            }, 2000); // Tiempo total de la animación de salida
         }, 2500); // Tiempo que el logo se queda quieto brillando
         // --- FIN DEL CAMBIO ---
 
