@@ -10,7 +10,7 @@ const introContent = document.getElementById('intro-content');
 const navLinks = document.querySelectorAll('.nav-link');
 const contactSection = document.getElementById('contact-section');
 
-// 3. Funciones de Utilidad
+// 3. Funciones de Utilidad (Copiado de Email)
 function copyEmail(email, btn) {
     navigator.clipboard.writeText(email).then(() => {
         const iconElement = btn.querySelector('i');
@@ -33,12 +33,14 @@ function copyEmail(email, btn) {
     });
 }
 
+// 4. Animación de aparición (Reveal)
 function revealContent() {
     document.querySelectorAll(".reveal").forEach(el => { 
         if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add("active");
     });
 }
 
+// 5. Gestión de scroll desde otras páginas
 function checkScrollParam() {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('scroll') === 'contact') {
@@ -52,6 +54,7 @@ function checkScrollParam() {
     }
 }
 
+// 6. Pantalla de Bienvenida (Intro)
 function startIntro() {
     if (sessionStorage.getItem('introShown') || !introScreen) { 
         if (introScreen) introScreen.remove(); 
@@ -77,6 +80,7 @@ function startIntro() {
     }, 300);
 }
 
+// 7. Sistema de Idiomas
 function setLanguage(lang) {
     localStorage.setItem('preferredLang', lang);
     document.querySelectorAll('[data-en]').forEach(el => { 
@@ -86,30 +90,33 @@ function setLanguage(lang) {
     document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
 }
 
-// 4. Lógica de Navegación Activa (Exclusión Mutua)
+// 8. Lógica de Navegación Activa (Corregida para evitar saltos)
 function updateActiveLink() {
-    // Identificamos los botones específicos
     const homeBtn = document.querySelector('a[href="index.html"]');
     const contactBtn = document.querySelector('a[href="#contact-section"]');
 
-    // Si no estamos en la página que tiene la sección de contacto, no ejecutamos la lógica
     if (!contactSection) return;
 
-    const scrollPosition = window.scrollY;
-    // Umbral: cambiamos a contacto 500px antes de llegar al final
-    const contactThreshold = contactSection.offsetTop - 500; 
+    const scrollY = window.scrollY;
+    const contactTop = contactSection.offsetTop - 600; 
 
-    // Limpiamos la clase active de TODOS los links para evitar duplicados
+    // Limpieza total: quitamos 'active' de todos los links
     navLinks.forEach(link => link.classList.remove('active'));
 
-    if (scrollPosition >= contactThreshold) {
+    // Asignación de clase basada en posición real
+    if (scrollY < 200) {
+        // Estamos arriba: siempre Home
+        if (homeBtn) homeBtn.classList.add('active');
+    } else if (scrollY >= contactTop) {
+        // Estamos abajo: siempre Contacto
         if (contactBtn) contactBtn.classList.add('active');
     } else {
+        // Zona media: mantenemos Home
         if (homeBtn) homeBtn.classList.add('active');
     }
 }
 
-// 5. Listeners de Eventos
+// 9. Event Listeners
 window.addEventListener("scroll", () => {
     // Parallax
     const parallax = document.getElementById("parallax");
@@ -117,17 +124,17 @@ window.addEventListener("scroll", () => {
     
     revealContent();
 
-    // Logo en el nav
+    // Logo en Nav
     if (navLogo) {
         if (window.scrollY > 150) navLogo.classList.add('visible');
         else navLogo.classList.remove('visible');
     }
 
-    // Actualizar subrayado
+    // Actualizar barra activa
     updateActiveLink();
 });
 
-// Click manual (Solo para páginas estáticas como Games)
+// Click manual para páginas sin scroll dinámico (como Games)
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
         if (!contactSection) {
@@ -137,10 +144,9 @@ navLinks.forEach(link => {
     });
 });
 
-// 6. Ejecución Inicial
+// 10. Inicialización
 document.addEventListener('DOMContentLoaded', () => { 
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
     startIntro();
-    // Forzamos la actualización al cargar
-    updateActiveLink(); 
+    setTimeout(updateActiveLink, 50);
 });
