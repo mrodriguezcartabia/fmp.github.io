@@ -206,6 +206,38 @@ html {
     overflow: hidden; 
 }
 
+/* --- Contenedores de Juegos y Herramientas --- */
+
+.iframe-container {
+    width: 100%;
+    position: relative;
+    background-color: #1a1a1a; /* Fondo oscuro mientras carga */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1rem;
+}
+
+/* Forzamos que el iframe ocupe todo el contenedor */
+.iframe-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Ajuste específico para que las cards no corten el contenido en móviles */
+@media (max-width: 768px) {
+    .card {
+        padding: 1.5rem; /* Un poco menos de padding en móvil */
+    }
+    
+    .iframe-container {
+        /* En móviles muy pequeños, forzamos una altura mínima para que Streamlit sea usable */
+        min-height: 400px; 
+    }
+}
+
 /* --- MEJORAS PARA EL SUBMENÚ Y SCROLL --- */
 
 /* Asegura que al usar anclas (#), el contenido no quede debajo del nav fixed */
