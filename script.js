@@ -90,51 +90,44 @@ function setLanguage(lang) {
     document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
 }
 
-// 8. Lógica de Navegación Activa (Corregida para evitar saltos)
+// 8. Lógica de Navegación Activa (SELECTOR MEJORADO)
 function updateActiveLink() {
-    const homeBtn = document.querySelector('a[href="index.html"]');
+    // Usamos selectores que buscan el texto o parte del href para asegurar que los encuentre
+    const homeBtn = document.querySelector('a[href*="index.html"]') || navLinks[0];
     const contactBtn = document.querySelector('a[href="#contact-section"]');
 
     if (!contactSection) return;
 
     const scrollY = window.scrollY;
-    const contactTop = contactSection.offsetTop - 600; 
+    const contactTop = contactSection.offsetTop - 500; 
 
-    // Limpieza total: quitamos 'active' de todos los links
+    // Limpieza total
     navLinks.forEach(link => link.classList.remove('active'));
 
-    // Asignación de clase basada en posición real
-    if (scrollY < 200) {
-        // Estamos arriba: siempre Home
-        if (homeBtn) homeBtn.classList.add('active');
-    } else if (scrollY >= contactTop) {
-        // Estamos abajo: siempre Contacto
+    // Lógica de asignación
+    if (scrollY >= contactTop) {
         if (contactBtn) contactBtn.classList.add('active');
     } else {
-        // Zona media: mantenemos Home
+        // Por defecto, si no es contacto, SIEMPRE es home
         if (homeBtn) homeBtn.classList.add('active');
     }
 }
 
 // 9. Event Listeners
 window.addEventListener("scroll", () => {
-    // Parallax
     const parallax = document.getElementById("parallax");
     if(parallax) parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
     
     revealContent();
 
-    // Logo en Nav
     if (navLogo) {
         if (window.scrollY > 150) navLogo.classList.add('visible');
         else navLogo.classList.remove('visible');
     }
 
-    // Actualizar barra activa
     updateActiveLink();
 });
 
-// Click manual para páginas sin scroll dinámico (como Games)
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
         if (!contactSection) {
@@ -148,5 +141,8 @@ navLinks.forEach(link => {
 document.addEventListener('DOMContentLoaded', () => { 
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
     startIntro();
-    setTimeout(updateActiveLink, 50);
+    // Ejecutamos varias veces para asegurar que el cálculo sea correcto tras cargar imágenes
+    updateActiveLink();
+    setTimeout(updateActiveLink, 100);
+    setTimeout(updateActiveLink, 1000);
 });
