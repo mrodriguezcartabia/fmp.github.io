@@ -56,27 +56,42 @@ function checkScrollParam() {
 
 // 6. Pantalla de Bienvenida (Intro)
 function startIntro() {
+    const introLogo = document.getElementById('intro-logo');
+    const introText = document.getElementById('intro-text');
+
     if (sessionStorage.getItem('introShown') || !introScreen) { 
         if (introScreen) introScreen.remove(); 
         revealContent();
         checkScrollParam(); 
         return; 
     }
+
     document.body.classList.add('intro-active');
+
     setTimeout(() => {
         if (introContent) introContent.classList.remove('opacity-0');
         setTimeout(() => introContent && introContent.classList.add('shimmer-active'), 500);
+
+        // --- INICIO DEL CAMBIO ---
         setTimeout(() => {
-            if (introContent) introContent.style.opacity = '0';
-            if (introScreen) introScreen.style.opacity = '0';
+            if (introLogo) introLogo.classList.add('exit-left');
+            if (introText) introText.classList.add('exit-right');
+            
+            // Desvanecer el fondo negro un poco después de que inicien el movimiento
+            setTimeout(() => {
+                if (introScreen) introScreen.style.opacity = '0';
+            }, 400);
+
             setTimeout(() => { 
                 document.body.classList.remove('intro-active'); 
                 sessionStorage.setItem('introShown', 'true'); 
                 if (introScreen) introScreen.remove(); 
                 revealContent();
                 checkScrollParam(); 
-            }, 1200);
-        }, 2500);
+            }, 1200); // Tiempo total de la animación de salida
+        }, 2500); // Tiempo que el logo se queda quieto brillando
+        // --- FIN DEL CAMBIO ---
+
     }, 300);
 }
 
