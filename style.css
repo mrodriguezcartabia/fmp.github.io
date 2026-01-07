@@ -294,6 +294,10 @@ section[id] {
     #nav-logo { 
         display: none !important; 
     }
+    
+    #nav-menu {
+        display: none; 
+    }
 
     /* 2. Ajuste del menú desplegable */
     #nav-menu.active {
