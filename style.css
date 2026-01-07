@@ -230,6 +230,19 @@ html {
         /* En móviles muy pequeños, forzamos una altura mínima para que Streamlit sea usable */
         min-height: 400px; 
     }
+    /* Evita que la barra horizontal 'w-[100vw]' rompa el scroll lateral en móviles */
+    .group div {
+        width: 100%;
+        position: static;
+        transform: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: none; /* Se puede manejar con JS o dejarlo estático */
+    }
+    
+    .group:hover div {
+        display: block;
+    }
 }
 
 /* --- MEJORAS PARA EL SUBMENÚ Y SCROLL --- */
