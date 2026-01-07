@@ -1,8 +1,14 @@
-/* --- CONFIGURACIÓN BASE --- */
+/* --- CONFIGURACIÓN BASE --- */ 
+html {
+    /* Mantenemos auto por defecto; el JS lo cambiará a smooth tras cargar */
+    scroll-behavior: auto !important;
+    background-color: #111827; 
+}
+
 body { 
     font-family: 'Inter', sans-serif; 
     color: #e2e8f0; 
-    background-color: #0f172a; 
+    background-color: #111827; /* Unificado con el HTML */
     margin: 0; 
     overflow-x: hidden; 
     line-height: 1.6;
@@ -11,7 +17,6 @@ body {
 /* Bloqueo de scroll durante la intro */
 body.intro-active { 
     overflow: hidden; 
-    scroll-padding-top: 85px;
 }
 
 html { 
@@ -321,5 +326,15 @@ section[id] {
     /* OCULTAMOS EL SUBMENÚ COMPLETAMENTE EN MÓVIL */
     .submenu-container {
         display: none !important;
+    }
+    #mobile-menu-btn {
+            margin-left: auto;
+            display: block;
+    }
+
+    /* Asegura que el contenedor del botón use todo el ancho */
+    #main-nav .container > div {
+            display: flex;
+            width: 100%;
     }
 }
