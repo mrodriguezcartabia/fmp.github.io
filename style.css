@@ -222,42 +222,39 @@ html {
 
 /* Ajuste específico para que las cards no corten el contenido en móviles */
 @media (max-width: 768px) {
-    .card {
-        padding: 1.5rem;
-    }
-    
-    .iframe-container {
-        min-height: 400px; 
-    }
+    .card { padding: 1.5rem; }
+    .iframe-container { min-height: 400px; }
 
-    /* Ajuste del menú principal en móvil */
     #nav-menu {
         max-height: 85vh;
         overflow-y: auto;
-        /* Asegura que los elementos se apilen correctamente */
         flex-direction: column; 
     }
 
-    /* EL SUBMENÚ: Forzamos comportamiento de acordeón */
-    .group div.absolute {
+    /* EL SUBMENÚ EN MÓVIL: Estilo acordeón */
+    .submenu-container {
         width: 100% !important;
-        position: relative !important; /* Empuja el contenido hacia abajo */
+        position: relative !important; /* Empuja el botón 'Contacto' abajo */
         left: 0 !important;
         transform: none !important;
-        display: none; /* Oculto por defecto */
-        opacity: 1 !important;
-        visibility: visible !important;
-        background-color: #1f2937 !important; /* Un tono un poco más claro para diferenciarlo */
-        border-top: 1px solid rgba(255,255,255,0.05);
+        display: none; /* Se controla con el hover/click */
+        background-color: #1f2937 !important;
+        border-top: 1px solid rgba(255,255,255,0.1);
     }
 
-    /* Mostrar submenú al interactuar */
-    .group:hover div.absolute,
-    .group:active div.absolute,
-    .group:focus-within div.absolute {
+    /* Mostrar al tocar */
+    .group:hover .submenu-container,
+    .group:active .submenu-container,
+    .group:focus-within .submenu-container {
         display: block !important;
-        height: auto !important;
     }
+
+    .submenu-container .flex {
+        flex-direction: column !important;
+        padding: 1rem 0 !important;
+        gap: 1rem;
+    }
+}
 
     /* Centramos los links internos para que sean fáciles de tocar con el pulgar */
     .submenu-container .flex {
@@ -280,6 +277,43 @@ section[id] {
 }
 
 /* Evita que el submenú se corte si el contenedor tiene restricciones */
-#main-nav {
+#main-nav, 
+#main-nav .container {
     overflow: visible !important;
+}
+
+/* --- MEGA MENÚ PARA PC --- */
+@media (min-width: 769px) {
+    /* Permitimos que el submenú se escape del ancho del botón */
+    .group { position: static !important; }
+
+    .submenu-container {
+        position: absolute !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100vw !important; /* Ancho total de pantalla */
+        top: 100% !important;
+        background-color: #111827 !important; /* Color del nav */
+        border-bottom: 2px solid #5f6ac4; /* Línea decorativa violeta */
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+        visibility: hidden;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 40;
+    }
+
+    /* El contenido dentro de la franja se mantiene centrado con el resto de la web */
+    .submenu-container .flex {
+        max-width: 1200px;
+        margin: 0 auto;
+        justify-content: center;
+        padding: 1.5rem 0 !important;
+    }
+
+    /* Mostrar con efecto suave en PC */
+    .group:hover .submenu-container {
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: auto !important;
+    }
 }
