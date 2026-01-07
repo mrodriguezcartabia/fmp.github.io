@@ -10,6 +10,10 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
 </head>
 <body class="leading-relaxed">
     <div class="parallax-bg" id="parallax"></div>
@@ -71,10 +75,45 @@
                 <h3 class="text-2xl font-bold mb-4" data-en="Gold Option Valuator (Binomial)" data-es="Valuador de Opciones de Oro (Binomial)" data-pt="Valiador de Opções de Ouro (Binomial)">
                     Valuador de Opciones de Oro (Binomial)
                 </h3>
+                
+                <div class="text-left mb-6">
+                    <p class="mb-6">
+                        <strong data-en="Rules:" data-es="Reglas:" data-pt="Regras:">Reglas:</strong> 
+                        <span data-en="we use a binomial model to calculate the price of a gold call." 
+                              data-es="utilizamos un modelo binomial para calcular el precio de un call de oro." 
+                              data-pt="utilizamos um modelo binomial para calcular o preço de um call de ouro.">
+                              utilizamos un modelo binomial para calcular el precio de un call de oro.
+                        </span>
+                    </p>
+                
+                    <div class="border-t border-white/10 pt-4">
+                        <p class="cursor-pointer text-indigo-400 hover:text-indigo-300 transition-colors inline-block" onclick="toggleCalculations()">
+                            <strong data-en="Calculations:" data-es="Cálculos:" data-pt="Cálculos:">Cálculos:</strong>
+                            <span class="text-sm ml-1 opacity-70">(click to expand)</span>
+                        </p>
+                        
+                        <div id="calc-content" class="hidden mt-4 space-y-4 text-gray-300 bg-black/20 p-4 rounded-lg">
+                            <p>
+                                en cada paso $\Delta t$ el precio de la acción de oro $S$ tiene dos caminos posibles. 
+                                O bien se multiplica por $u$ (aumenta) o por $1/u$ (disminuye) donde
+                                $$u=e^{\sigma \Delta t^\beta}$$
+                            </p>
+                            <p>
+                                Luego definimos la probabilidad de aumentar como
+                                $$ p=\frac{e^{r\Delta t}-1/u}{u-1/u} $$
+                            </p>
+                            <p>
+                                y, finalmente, hallamos el valor del \textit{call} de la forma
+                                $$C=e^{-rT} E[Max(S(T)-K,0)]$$
+                            </p>
+                        </div>
+                    </div>
+                                
                 <div class="iframe-container" style="height: 850px;">
                     <iframe src="https://calloro-unaiy5fu5zg6hf8ric2uob.streamlit.app/?embed=true" style="width: 100%; height: 100%; border: none;"></iframe> 
                 </div>
             </div>
+        </div>
         </section>
 
         <section id="tug-of-war" class="reveal scroll-mt-24">
