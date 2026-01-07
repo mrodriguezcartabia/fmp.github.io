@@ -15,25 +15,18 @@ body.intro-active {
 
 html { 
     scroll-behavior: smooth; 
-    /* Espacio para que el nav sticky no tape los títulos al scrollear */
-    scroll-padding-top: 85px;
-}
-
-section[id] {
-    scroll-margin-top: 85px; 
 }
 
 /* --- PANTALLA DE BIENVENIDA (INTRO) --- */
 #intro-screen { 
     position: fixed; 
     inset: 0; 
-    z-index: 9999; 
+    z-index: 100; 
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    background-color: #111827; 
-    transition: opacity 0.8s ease-in-out;
-    overflow: hidden;
+    background-color: #0f172a; 
+    transition: opacity 1.2s ease-in-out; 
 }
 
 .shimmer-wrapper { 
@@ -47,6 +40,7 @@ section[id] {
     border-radius: 8px;
 }
 
+/* Estado cuando salen de la pantalla */
 .exit-left {
     transform: translateX(-150vw);
     opacity: 0;
@@ -59,6 +53,20 @@ section[id] {
     transition: all 2.0s ease-in-out !important;
 }
 
+/* Aseguramos que el contenedor padre no oculte el movimiento antes de tiempo */
+#intro-screen {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+    background: #111827; /* Mismo color de fondo */
+    z-index: 9999;
+    transition: opacity 0.8s ease-in-out;
+}
+
+/* El efecto de rayo de luz (shimmer) */
 .shimmer-wrapper::after { 
     content: ''; 
     position: absolute; 
@@ -109,11 +117,19 @@ section[id] {
     border: 1px solid rgba(255, 255, 255, 0.1); 
 }
 
-/* --- NAVEGACIÓN Y BOTONES --- */
-#main-nav, #main-nav .container {
-    overflow: visible !important;
+.card ul li::marker {
+    color: #c7d2fe;
 }
 
+.section-title { 
+    font-size: 2.25rem; 
+    font-weight: 700; 
+    color: #f8fafc; 
+    margin-bottom: 2rem; 
+    text-align: center; 
+}
+
+/* --- NAVEGACIÓN Y BOTONES --- */
 .language-switcher button { 
     background-color: #475569; 
     color: #e2e8f0; 
@@ -135,6 +151,7 @@ section[id] {
     border-bottom: 2px solid #5f6ac4; 
 }
 
+/* Logo en el menú que aparece al bajar */
 #nav-logo { 
     opacity: 0; 
     transform: translateY(-20px); 
@@ -146,96 +163,7 @@ section[id] {
     transform: translateY(0); 
 }
 
-/* --- MEGA MENÚ (ESCRITORIO) --- */
-@media (min-width: 769px) {
-    /* Rompemos el contenedor para que el submenú ocupe el 100% de la pantalla */
-    #main-nav .container { position: static !important; }
-    .group { 
-        position: static !important; 
-        padding-bottom: 15px; /* Puente para que no se cierre el menú */
-        margin-bottom: -15px;
-    }
-
-    .submenu-container {
-        position: absolute !important;
-        left: 0 !important;
-        width: 100% !important; 
-        top: 100% !important;
-        background-color: #111827 !important;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-        visibility: hidden;
-        opacity: 0;
-        transition: all 0.3s ease-in-out;
-        z-index: 40;
-        border: none !important;
-    }
-
-    .submenu-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 3rem;
-        padding: 1.5rem 0;
-        text-transform: uppercase;
-        font-size: 0.75rem;
-        letter-spacing: 0.1em;
-    }
-
-    .group:hover .submenu-container {
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-}
-
-/* --- MENÚ MÓVIL (ACORDEÓN) --- */
-@media (max-width: 768px) {
-    /* Muestra el menú cuando JS añade la clase .active */
-    #nav-menu.active {
-        display: flex !important;
-    }
-
-    .submenu-container {
-        width: 100% !important;
-        position: relative !important;
-        display: none;
-        background-color: #1f2937 !important;
-        border-top: 1px solid rgba(255,255,255,0.05);
-    }
-
-    /* En móvil se abre al tocar (hover/active) */
-    .group:hover .submenu-container,
-    .group:active .submenu-container {
-        display: block !important;
-    }
-
-    .submenu-content {
-        display: flex;
-        flex-direction: column;
-        padding: 1rem 0;
-        gap: 1.2rem;
-    }
-}
-
-/* --- CONTENEDORES DE JUEGOS --- */
-.iframe-container {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background-color: #1a1a1a;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-@media (max-width: 768px) {
-    .iframe-container {
-        min-height: 400px; 
-    }
-}
-
-/* --- ANIMACIONES REVEAL --- */
+/* --- ANIMACIONES DE APARICIÓN (REVEAL) --- */
 .reveal { 
     opacity: 0; 
     transform: translateY(40px); 
@@ -247,7 +175,7 @@ section[id] {
     transform: translateY(0); 
 }
 
-/* Tooltip de Copiado */
+/* Tooltip de "Copiado" */
 @keyframes fadeUp {
     0% { opacity: 0; transform: translate(-50%, 0); }
     20% { opacity: 1; transform: translate(-50%, -10px); }
@@ -265,7 +193,127 @@ section[id] {
     border-radius: 6px; 
     font-size: 12px; 
     font-weight: 600;
+    pointer-events: none; 
     animation: fadeUp 1.5s forwards; 
     white-space: nowrap;
     z-index: 50; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+/* --- Contenedores de Juegos y Herramientas --- */
+
+.iframe-container {
+    width: 100%;
+    position: relative;
+    background-color: #1a1a1a; /* Fondo oscuro mientras carga */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1rem;
+}
+
+/* Forzamos que el iframe ocupe todo el contenedor */
+.iframe-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Ajuste específico para que las cards no corten el contenido en móviles */
+@media (max-width: 768px) {
+    .card { padding: 1.5rem; }
+    .iframe-container { min-height: 400px; }
+
+    #nav-menu {
+        max-height: 85vh;
+        overflow-y: auto;
+        flex-direction: column; 
+    }
+
+    /* EL SUBMENÚ EN MÓVIL: Estilo acordeón */
+    .submenu-container {
+        width: 100% !important;
+        position: relative !important; /* Empuja el botón 'Contacto' abajo */
+        left: 0 !important;
+        transform: none !important;
+        display: none; /* Se controla con el hover/click */
+        background-color: #1f2937 !important;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* Mostrar al tocar */
+    .group:hover .submenu-container,
+    .group:active .submenu-container,
+    .group:focus-within .submenu-container {
+        display: block !important;
+    }
+
+    .submenu-container .flex {
+        flex-direction: column !important;
+        padding: 1rem 0 !important;
+        gap: 1rem;
+    }
+}
+
+    /* Centramos los links internos para que sean fáciles de tocar con el pulgar */
+    .submenu-container .flex {
+        flex-direction: column !important;
+        padding: 1rem 0;
+    }
+}
+
+/* --- MEJORAS PARA EL SUBMENÚ Y SCROLL --- */
+
+html { 
+    scroll-behavior: smooth; 
+    /* Espacio libre arriba para que el menú no tape los títulos */
+    scroll-padding-top: 85px; 
+}
+
+section[id] {
+    /* Valor ajustado a la altura de la barra simple */
+    scroll-margin-top: 85px; 
+}
+
+/* Evita que el submenú se corte si el contenedor tiene restricciones */
+#main-nav, 
+#main-nav .container {
+    overflow: visible !important;
+}
+
+/* --- MEGA MENÚ PARA PC --- */
+@media (min-width: 769px) {
+    /* Permitimos que el submenú se escape del ancho del botón */
+    .group { position: static !important; }
+
+    .submenu-container {
+        position: absolute !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100vw !important; /* Ancho total de pantalla */
+        top: 100% !important;
+        background-color: #111827 !important; /* Color del nav */
+        border-bottom: 2px solid #5f6ac4; /* Línea decorativa violeta */
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+        visibility: hidden;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 40;
+    }
+
+    /* El contenido dentro de la franja se mantiene centrado con el resto de la web */
+    .submenu-container .flex {
+        max-width: 1200px;
+        margin: 0 auto;
+        justify-content: center;
+        padding: 1.5rem 0 !important;
+    }
+
+    /* Mostrar con efecto suave en PC */
+    .group:hover .submenu-container {
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: auto !important;
+    }
 }
