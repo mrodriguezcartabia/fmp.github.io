@@ -1,7 +1,41 @@
+// --- NUEVA FUNCIÓN DE CARGA DE MENÚ ---
+function loadNavbar() {
+    const placeholder = document.getElementById('nav-placeholder');
+    if (!placeholder) return;
+
+    fetch('nav.html')
+        .then(response => response.text())
+        .then(data => {
+            placeholder.innerHTML = data;
+            
+            // Inicializar iconos de Lucide en el menú recién cargado
+            lucide.createIcons();
+
+            // Marcar el link activo según la página actual
+            const currentPage = window.location.pathname.split("/").pop() || 'index.html';
+            document.querySelectorAll('.nav-link').forEach(link => {
+                // Si el href coincide exactamente o si el link es index.html y estamos en la raíz
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // Aplicar el idioma al menú cargado
+            const currentLang = localStorage.getItem('preferredLang') || 'en';
+            setLanguage(currentLang);
+            
+            // IMPORTANTE: Re-asignar eventos o refrescar referencias si es necesario
+            // Como el logo del nav se carga dinámicamente, refrescamos la referencia:
+            window.navLogo = document.getElementById('nav-logo');
+        })
+        .catch(error => console.error('Error cargando el menú:', error));
+}
 // 1. Inicialización de iconos (Lucide)
 lucide.createIcons();
 
-const translations = { en: 'Copied!', es: '¡Copiado!', pt: 'Copiado!' };
+const translations = { en: 'Copied', es: 'Copiado', pt: 'Copiado' };
 
 // 2. Selección de elementos clave
 const navLogo = document.getElementById('nav-logo');
@@ -142,23 +176,17 @@ window.addEventListener("scroll", () => {
     if(parallax) parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
     revealContent();
 
-    if (navLogo) {
-        if (window.scrollY > 150) navLogo.classList.add('visible');
-        else navLogo.classList.remove('visible');
+    // Usamos el ID directamente o la variable actualizada
+    const logo = document.getElementById('nav-logo');
+    if (logo) {
+        if (window.scrollY > 150) logo.classList.add('visible');
+        else logo.classList.remove('visible');
     }
-});
-
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        if (!contactSection) {
-            navLinks.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
-        }
-    });
 });
 
 // 10. Inicialización
 document.addEventListener('DOMContentLoaded', () => { 
+    loadNavbar(); // <--- Llamada clave
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
     startIntro();
     setupNavigationObserver();
