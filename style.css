@@ -234,21 +234,18 @@ html {
 
 /* --- MEJORAS PARA EL SUBMENÚ Y SCROLL --- */
 
-/* Asegura que al usar anclas (#), el contenido no quede debajo del nav fixed */
+html { 
+    scroll-behavior: smooth; 
+    /* Espacio libre arriba para que el menú no tape los títulos */
+    scroll-padding-top: 85px; 
+}
+
 section[id] {
-    scroll-margin-top: 100px; /* Ajusta este valor según el alto de tu menú */
+    /* Valor ajustado a la altura de la barra simple */
+    scroll-margin-top: 85px; 
 }
 
-/* Estilo para los enlaces del submenú de juegos */
-#main-nav .flex.space-x-6 a {
-    transition: color 0.3s ease;
-}
-
-#main-nav .flex.space-x-6 a:hover {
-    color: #c7d2fe;
-}
-
-/* Opcional: una transición más suave para las secciones */
-.reveal {
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+/* Evita que el submenú se corte si el contenedor tiene restricciones */
+#main-nav {
+    overflow: visible !important;
 }
