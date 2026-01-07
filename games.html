@@ -100,17 +100,33 @@
                             </div>
                             
                             <div class="py-2">
-                                $$u = \exp(\sigma \Delta t^\beta),$$
+                                $$ \begin{array}{ccc} 
+                                  & & uS \\ 
+                                  & \nearrow & \\ 
+                                  S & & \\ 
+                                  & \searrow & \\ 
+                                  & & S/u 
+                                  \end{array} $$
+                            </div>
+                            
+                             <div data-en="where" 
+                                 data-es="donde" 
+                                 data-pt="onde">
+                                 donde
+                            </div>
+                            
+                            <div class="py-2">
+                                $$u = \exp\left(\sigma \Delta t^\beta\right),$$
                             </div>
         
-                            <div data-en="then we define the risk-neutral probability $p$ as:" 
-                                 data-es="luego definimos la probabilidad riesgo-neutral $p$ como:" 
-                                 data-pt="então definimos a probabilidade de risco neutro $p$ como:">
-                                 luego definimos la probabilidad riesgo-neutral $p$ como:
+                            <div data-en="then we define the probability $p$ as:" 
+                                 data-es="luego definimos la probabilidad $p$ como:" 
+                                 data-pt="então definimos a probabilidade  $p$ como:">
+                                 luego definimos la probabilidad $p$ como:
                             </div>
         
                             <div class="py-2">
-                                $$p = \frac{\exp(r\Delta t) - d}{u - d}.$$
+                                $$p = \frac{\exp(r\Delta t) - 1/u}{u - 1/u}.$$
                             </div>
         
                             <div data-en="Finally, the call value is found using:" 
@@ -151,7 +167,7 @@
 
     <footer class="bg-gray-900 text-white py-12 rounded-t-xl relative z-10">
         <div class="container text-center">
-            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os derechos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
+            <p class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os direitos reservados.">&copy; 2026 Gamma Solutions. All rights reserved.</p>
         </div>
     </footer>
 
