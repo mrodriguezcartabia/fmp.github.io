@@ -342,3 +342,8 @@ section[id] {
 #nav-logo {
     will-change: opacity, transform;
 }
+
+/* Animación para que el logo del menú aparezca suavemente */
+#nav-logo {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
