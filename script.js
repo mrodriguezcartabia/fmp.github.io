@@ -84,8 +84,20 @@ function setLanguage(lang) {
     localStorage.setItem('preferredLang', lang);
     document.querySelectorAll('[data-en]').forEach(el => { 
         const text = el.dataset[lang];
-        if(text) el.textContent = text;
+        if(text) el.innerHTML = text; // IMPORTANTE: Usar innerHTML
     });
+
+    // Esto "limpia" los $ y dibuja las fórmulas de nuevo
+    if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false}
+            ]
+        });
+    }
+
+    
     document.querySelectorAll('.language-switcher button').forEach(btn => 
         btn.classList.toggle('active', btn.id === `lang-${lang}`)
     );
