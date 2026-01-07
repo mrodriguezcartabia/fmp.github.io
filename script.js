@@ -198,21 +198,16 @@ window.addEventListener("scroll", () => {
 
     // Lógica del logo
     if (navLogo) {
-        if (window.scrollY > 150) {
-            navLogo.classList.add('visible');
-            navLogo.style.opacity = "1"; 
-            navLogo.style.transform = "translateY(0)"; // Aseguramos que suba
-        } else {
-            navLogo.classList.remove('visible');
-            // Solo lo ocultamos si la intro está activa (Home al inicio)
-            if (document.body.classList.contains('intro-active')) {
-                navLogo.style.opacity = "0";
-                navLogo.style.transform = "translateY(-20px)";
-            } else {
-                // En páginas externas (Who/Games), el logo SIEMPRE se ve
+            if (window.scrollY > 150) {
+                // Cuando bajamos: se hace visible
                 navLogo.style.opacity = "1";
+                navLogo.style.pointerEvents = "auto"; // Permite hacer clic
                 navLogo.style.transform = "translateY(0)";
+            } else {
+                // Cuando estamos arriba: desaparece por completo
+                navLogo.style.opacity = "0";
+                navLogo.style.pointerEvents = "none"; // Evita clics accidentales mientras es invisible
+                navLogo.style.transform = "translateY(-10px)";
             }
         }
-    }
 });
