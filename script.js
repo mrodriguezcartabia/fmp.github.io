@@ -167,4 +167,37 @@ document.addEventListener('DOMContentLoaded', () => {
     startIntro();
     setupNavigationObserver();
     setupClickListeners();
+
+    // Lógica para el menú hamburguesa en móviles
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const navMenu = document.getElementById('nav-menu');
+
+    if (mobileBtn && navMenu) {
+        mobileBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Evita que el clic se propague
+            navMenu.classList.toggle('hidden');
+            navMenu.classList.toggle('flex');
+        });
+
+        // Cerrar menú al hacer clic en un link real, pero NO en el desplegable de Games
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                // Si el link NO tiene submenú (o si es un link final de juego)
+                if (window.innerWidth < 768 && !link.closest('.group')) {
+                    navMenu.classList.add('hidden');
+                    navMenu.classList.remove('flex');
+                }
+            });
+        });
+        
+        // Especial para los links dentro del submenú de Games
+        navMenu.querySelectorAll('.group div a').forEach(subLink => {
+            subLink.addEventListener('click', () => {
+                if (window.innerWidth < 768) {
+                    navMenu.classList.add('hidden');
+                    navMenu.classList.remove('flex');
+                }
+            });
+        });
+    }
 });
