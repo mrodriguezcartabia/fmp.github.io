@@ -1,15 +1,13 @@
 /* --- 1. CONFIGURACIÓN Y REFERENCIAS --- */
 const translations = { en: 'Copied', es: 'Copiado', pt: 'Copiado' };
 
-// Función para obtener los links en cualquier momento (evita errores de referencia)
 const getNavLinks = () => document.querySelectorAll('.nav-link');
 const getContactSection = () => document.getElementById('contact-section');
 
-/* --- 2. GESTIÓN DE NAVEGACIÓN ACTIVA (ESTÁTICO) --- */
+/* --- 2. GESTIÓN DE NAVEGACIÓN ACTIVA --- */
 function setActiveLink() {
     const currentPage = window.location.pathname.split("/").pop() || 'index.html';
     getNavLinks().forEach(link => {
-        // Si el href coincide con la página actual, activamos la barra violeta
         if (link.getAttribute('href') === currentPage) {
             link.classList.add('active');
         } else {
@@ -18,7 +16,7 @@ function setActiveLink() {
     });
 }
 
-/* --- 3. FUNCIONES DE UTILIDAD (COPIADO Y REVEAL) --- */
+/* --- 3. UTILIDADES (COPIADO Y REVEAL) --- */
 function copyEmail(email, btn) {
     navigator.clipboard.writeText(email).then(() => {
         const iconElement = btn.querySelector('i');
@@ -47,18 +45,6 @@ function revealContent() {
     });
 }
 
-function checkScrollParam() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const contactSection = getContactSection();
-    if (urlParams.get('scroll') === 'contact' && contactSection) {
-        window.history.replaceState({}, document.title, window.location.pathname);
-        setTimeout(() => {
-            const offset = 120;
-            window.scrollTo({ top: contactSection.offsetTop - offset, behavior: 'smooth' });
-        }, 800); 
-    }
-}
-
 /* --- 4. PANTALLA DE BIENVENIDA (INTRO) --- */
 function startIntro() {
     const introScreen = document.getElementById('intro-screen');
@@ -69,7 +55,6 @@ function startIntro() {
     if (sessionStorage.getItem('introShown') || !introScreen) { 
         if (introScreen) introScreen.remove(); 
         revealContent();
-        checkScrollParam(); 
         return; 
     }
 
@@ -88,7 +73,6 @@ function startIntro() {
                 sessionStorage.setItem('introShown', 'true'); 
                 if (introScreen) introScreen.remove(); 
                 revealContent();
-                checkScrollParam(); 
             }, 2000);
         }, 2500);
     }, 300);
@@ -106,7 +90,7 @@ function setLanguage(lang) {
     );
 }
 
-/* --- 6. OBSERVADOR DE NAVEGACIÓN (Solo en Home) --- */
+/* --- 6. OBSERVADOR DE NAVEGACIÓN --- */
 function setupNavigationObserver() {
     const contactSection = getContactSection();
     const navLinks = getNavLinks();
@@ -121,7 +105,6 @@ function setupNavigationObserver() {
                 contactBtn.classList.add('active');
                 homeBtn.classList.remove('active');
             } else {
-                // Solo volvemos a marcar Home si estamos realmente en index.html
                 if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
                     contactBtn.classList.remove('active');
                     homeBtn.classList.add('active');
@@ -133,50 +116,38 @@ function setupNavigationObserver() {
     observer.observe(contactSection);
 }
 
-/* --- 7. EVENT LISTENERS Y LÓGICA DE CARGA --- */
+/* --- 7. INICIALIZACIÓN Y EVENTOS (DOM CONTENT LOADED) --- */
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. GESTIÓN DE ANCLAS (Evita el parpadeo negro)
+    // Manejo de anclas (Hash) - Mismo offset de 85px
     const currentHash = window.location.hash;
-    
     if (currentHash) {
-        // Desactivamos scroll suave para que el salto sea instantáneo y no se vea el "viaje"
         document.documentElement.style.scrollBehavior = 'auto';
-        
         const target = document.querySelector(currentHash);
         if (target) {
             window.scrollTo(0, target.offsetTop - 85); 
         }
-
-        // Si va a contacto, eliminamos la intro de inmediato para que no estorbe
-        if (currentHash === '#contact-section' || currentHash === '#contacto') {
+        if (currentHash === '#contact-section') {
             const intro = document.getElementById('intro-screen');
             if (intro) intro.remove(); 
             document.body.classList.remove('intro-active');
             sessionStorage.setItem('introShown', 'true'); 
         }
-
-        // Devolvemos el scroll suave tras 100ms para el resto de la navegación
         setTimeout(() => {
             document.documentElement.style.scrollBehavior = 'smooth';
         }, 100);
     } 
 
-    // 2. INICIALIZACIÓN DE COMPONENTES (Lo que ya tenías)
+    // Ejecución de funciones base
     lucide.createIcons();
     setActiveLink(); 
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
     
-    // Solo mostramos la intro si NO hay un ancla en la URL
-    if (!currentHash) {
-        startIntro();
-    } else {
-        revealContent(); // Revelar elementos si no hay intro
-    }
+    if (!currentHash) startIntro();
+    else revealContent();
 
     setupNavigationObserver();
-    if (typeof setupClickListeners === 'function') setupClickListeners();
 
-    // 3. MENÚ MÓVIL (Hamburguesa)
+    // Menú Móvil
     const mobileBtn = document.getElementById('mobile-menu-btn');
     const navMenu = document.getElementById('nav-menu');
 
@@ -188,36 +159,26 @@ document.addEventListener('DOMContentLoaded', () => {
     
         navMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                if (window.innerWidth < 769) {
-                    navMenu.classList.remove('active');
-                }
+                if (window.innerWidth < 769) navMenu.classList.remove('active');
             });
-        });
-        
-        // Cerrar al tocar fuera del menú
-        document.addEventListener('click', (e) => {
-            if (!navMenu.contains(e.target) && !mobileBtn.contains(e.target)) {
-                navMenu.classList.remove('active');
-            }
         });
     }
 });
 
-/* --- 8. EFECTOS DINÁMICOS (Scroll, Parallax y Logo) --- */
+/* --- 8. EFECTOS DE SCROLL (PARALLAX Y LOGO) --- */
 window.addEventListener("scroll", () => {
-    const parallax = document.getElementById("parallax");
-    const navLogo = document.getElementById('nav-logo');
-    
-    // Movimiento Parallax
-    if(parallax) {
+    // Parallax de la foto de fondo
+    const parallax = document.querySelector('.parallax-bg');
+    if (parallax) {
         parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
     }
-    
-    // Mostrar logo en el nav al bajar
+
+    // Logo del Nav
+    const navLogo = document.getElementById('nav-logo');
     if (navLogo) {
         if (window.scrollY > 150) navLogo.classList.add('visible');
         else navLogo.classList.remove('visible');
     }
-    
-    revealContent(); // Activa las animaciones de aparición al hacer scroll
+
+    revealContent();
 });
