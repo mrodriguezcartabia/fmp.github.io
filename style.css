@@ -85,17 +85,17 @@ section[id] {
 }
 
 /* --- ELEMENTOS VISUALES COMPARTIDOS --- */
-.parallax-bg { 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), url('photo.jpg'); 
-    background-size: cover; 
-    z-index: -1; 
-    transform: scale(1.1); 
-    transition: transform 0.1s ease-out; 
+.parallax-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), url('photo.jpg');
+    background-size: cover;
+    z-index: -1;
+    /* Aplicamos la escala base aquí también */
+    transform: scale(1.1);
 }
 
 .container { 
