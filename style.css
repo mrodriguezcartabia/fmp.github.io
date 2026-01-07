@@ -40,32 +40,6 @@ html {
     border-radius: 8px;
 }
 
-/* Estado cuando salen de la pantalla */
-.exit-left {
-    transform: translateX(-150vw);
-    opacity: 0;
-    transition: all 2.0s ease-in-out !important;
-}
-
-.exit-right {
-    transform: translateX(150vw);
-    opacity: 0;
-    transition: all 2.0s ease-in-out !important;
-}
-
-/* Aseguramos que el contenedor padre no oculte el movimiento antes de tiempo */
-#intro-screen {
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    inset: 0;
-    background: #111827; /* Mismo color de fondo */
-    z-index: 9999;
-    transition: opacity 0.8s ease-in-out;
-}
-
 /* El efecto de rayo de luz (shimmer) */
 .shimmer-wrapper::after { 
     content: ''; 
@@ -200,52 +174,40 @@ html {
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
-/* --- Contenedores de Juegos y Herramientas --- */
-
-.iframe-container {
-    width: 100%;
-    position: relative;
-    background-color: #1a1a1a; /* Fondo oscuro mientras carga */
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 1rem;
+/* --- CONTENEDORES DE JUEGOS (IFRAMES) --- */
+.iframe-container { 
+    width: 100%; 
+    border-radius: 0.5rem; 
+    background: #ffffff; 
+    overflow: hidden; 
 }
 
-/* Forzamos que el iframe ocupe todo el contenedor */
-.iframe-container iframe {
-    width: 100%;
-    height: 100%;
+/* CLASE PARA ACHICAR EL CONTENIDO DEL JUEGO */
+.game-iframe-scaled {
+    width: 125%;          /* Expande el área interna */
+    height: 125%;         /* Expande el área interna */
     border: none;
-}
-
-/* Ajuste específico para que las cards no corten el contenido en móviles */
-@media (max-width: 768px) {
-    .card {
-        padding: 1.5rem; /* Un poco menos de padding en móvil */
-    }
-    
-    .iframe-container {
-        /* En móviles muy pequeños, forzamos una altura mínima para que Streamlit sea usable */
-        min-height: 400px; 
-    }
+    transform: scale(0.8); /* Encoge visualmente al 80% (zoom out) */
+    transform-origin: top left;
 }
 
 /* --- MEJORAS PARA EL SUBMENÚ Y SCROLL --- */
 
-html { 
-    scroll-behavior: smooth; 
-    /* Espacio libre arriba para que el menú no tape los títulos */
-    scroll-padding-top: 85px; 
-}
-
+/* Asegura que al usar anclas (#), el contenido no quede debajo del nav fixed */
 section[id] {
-    /* Valor ajustado a la altura de la barra simple */
-    scroll-margin-top: 85px; 
+    scroll-margin-top: 100px; /* Ajusta este valor según el alto de tu menú */
 }
 
-/* Evita que el submenú se corte si el contenedor tiene restricciones */
-#main-nav {
-    overflow: visible !important;
+/* Estilo para los enlaces del submenú de juegos */
+#main-nav .flex.space-x-6 a {
+    transition: color 0.3s ease;
+}
+
+#main-nav .flex.space-x-6 a:hover {
+    color: #c7d2fe;
+}
+
+/* Opcional: una transición más suave para las secciones */
+.reveal {
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
