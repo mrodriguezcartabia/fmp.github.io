@@ -133,44 +133,59 @@ function setupNavigationObserver() {
     observer.observe(contactSection);
 }
 
-/* --- 7. EVENT LISTENERS --- */
-// Usamos 'DOMContentLoaded' en lugar de 'load' para que sea más rápido
+/* --- 7. EVENT LISTENERS Y LÓGICA DE CARGA --- */
 document.addEventListener('DOMContentLoaded', () => {
-    if (window.location.hash) {
-        // 1. Quitamos el scroll suave de raíz en el HTML
+    // 1. GESTIÓN DE ANCLAS (Evita el parpadeo negro)
+    const currentHash = window.location.hash;
+    
+    if (currentHash) {
+        // Desactivamos scroll suave para que el salto sea instantáneo y no se vea el "viaje"
         document.documentElement.style.scrollBehavior = 'auto';
         
-        // 2. Forzamos que el cuerpo no se vea hasta estar en posición (opcional)
-        const target = document.querySelector(window.location.hash);
+        const target = document.querySelector(currentHash);
         if (target) {
-            // Saltamos instantáneamente al destino
             window.scrollTo(0, target.offsetTop - 85); 
         }
-        
-        // 3. Devolvemos el comportamiento suave después de un breve delay
+
+        // Si va a contacto, eliminamos la intro de inmediato para que no estorbe
+        if (currentHash === '#contact-section' || currentHash === '#contacto') {
+            const intro = document.getElementById('intro-screen');
+            if (intro) intro.remove(); 
+            document.body.classList.remove('intro-active');
+            sessionStorage.setItem('introShown', 'true'); 
+        }
+
+        // Devolvemos el scroll suave tras 100ms para el resto de la navegación
         setTimeout(() => {
             document.documentElement.style.scrollBehavior = 'smooth';
         }, 100);
     } 
+
+    // 2. INICIALIZACIÓN DE COMPONENTES (Lo que ya tenías)
     lucide.createIcons();
     setActiveLink(); 
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
-    startIntro();
-    setupNavigationObserver();
-    setupClickListeners();
+    
+    // Solo mostramos la intro si NO hay un ancla en la URL
+    if (!currentHash) {
+        startIntro();
+    } else {
+        revealContent(); // Revelar elementos si no hay intro
+    }
 
-    // Lógica para el menú hamburguesa en móviles
+    setupNavigationObserver();
+    if (typeof setupClickListeners === 'function') setupClickListeners();
+
+    // 3. MENÚ MÓVIL (Hamburguesa)
     const mobileBtn = document.getElementById('mobile-menu-btn');
     const navMenu = document.getElementById('nav-menu');
 
     if (mobileBtn && navMenu) {
         mobileBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            // Usamos 'active' para que coincida con tu CSS
             navMenu.classList.toggle('active'); 
         });
     
-        // Cerrar al hacer clic en cualquier link (Home, Who, Games, Contact)
         navMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 if (window.innerWidth < 769) {
@@ -178,28 +193,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
+        
+        // Cerrar al tocar fuera del menú
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !mobileBtn.contains(e.target)) {
+                navMenu.classList.remove('active');
+            }
+        });
     }
 });
 
-/* --- 8. EFECTOS DE SCROLL (Parallax y Logo) --- */
+/* --- 8. EFECTOS DINÁMICOS (Scroll, Parallax y Logo) --- */
 window.addEventListener("scroll", () => {
     const parallax = document.getElementById("parallax");
     const navLogo = document.getElementById('nav-logo');
     
-    // Efecto Parallax suave
+    // Movimiento Parallax
     if(parallax) {
         parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
     }
     
-    // Aparecer/Desaparecer logo en el menú pegajoso
+    // Mostrar logo en el nav al bajar
     if (navLogo) {
-        if (window.scrollY > 150) {
-            navLogo.classList.add('visible');
-        } else {
-            navLogo.classList.remove('visible');
-        }
+        if (window.scrollY > 150) navLogo.classList.add('visible');
+        else navLogo.classList.remove('visible');
     }
     
-    // Activar animaciones de aparición de cartas
-    revealContent();
+    revealContent(); // Activa las animaciones de aparición al hacer scroll
 });
