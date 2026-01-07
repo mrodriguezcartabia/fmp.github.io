@@ -299,11 +299,11 @@ section[id] {
     #nav-menu {
         display: flex !important;
         flex-direction: row !important;
-        justify-content: space-around !important; /* Distribuye el espacio equitativamente */
+        justify-content: center !important; 
         align-items: center;
         width: 100% !important;
         padding: 10px 0 !important;
-        gap: 2px !important; /* Espacio mínimo entre palabras */
+        gap: 1.2rem !important; /* Espacio mínimo entre palabras */
     }
 
     .nav-link {
@@ -312,7 +312,7 @@ section[id] {
         text-transform: uppercase;
         white-space: nowrap; /* Prohíbe que el texto salte de línea */
         letter-spacing: -0.2px; /* Junta un poquito las letras para ganar milímetros */
-        flex: 1;
+        flex: none !important;
         text-align: center;
     }
 
