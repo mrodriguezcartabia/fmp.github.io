@@ -8,7 +8,8 @@ const getContactSection = () => document.getElementById('contact-section');
 function setActiveLink() {
     const currentPage = window.location.pathname.split("/").pop() || 'index.html';
     getNavLinks().forEach(link => {
-        if (link.getAttribute('href') === currentPage) {
+        const linkPage = link.getAttribute('href').split('?')[0].split('#')[0]; // Limpia parámetros
+        if (linkPage === currentPage) {
             link.classList.add('active');
         } else {
             link.classList.remove('active');
@@ -186,24 +187,31 @@ document.addEventListener('DOMContentLoaded', () => {
 /* --- 8. EFECTOS DE SCROLL (PARALLAX Y LOGO) --- */
 window.addEventListener("scroll", () => {
     const parallax = document.getElementById("parallax");
-    // Volvemos a la fórmula matemática original
+    const navLogo = document.getElementById('nav-logo'); // <--- AÑADIR ESTA LÍNEA
+    
+    // Fórmula matemática original para el Parallax
     if(parallax) {
         parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
     }
     
     revealContent();
 
-    // El logo solo aparece si bajamos más de 150px
+    // Lógica del logo
     if (navLogo) {
         if (window.scrollY > 150) {
             navLogo.classList.add('visible');
-            navLogo.style.opacity = "1"; // Forzamos visibilidad
+            navLogo.style.opacity = "1"; 
+            navLogo.style.transform = "translateY(0)"; // Aseguramos que suba
         } else {
             navLogo.classList.remove('visible');
-            // Si estamos en una página sin intro, el logo no debería desaparecer del todo
-            // pero para seguir tu JS viejo, lo dejamos así:
+            // Solo lo ocultamos si la intro está activa (Home al inicio)
             if (document.body.classList.contains('intro-active')) {
                 navLogo.style.opacity = "0";
+                navLogo.style.transform = "translateY(-20px)";
+            } else {
+                // En páginas externas (Who/Games), el logo SIEMPRE se ve
+                navLogo.style.opacity = "1";
+                navLogo.style.transform = "translateY(0)";
             }
         }
     }
