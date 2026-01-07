@@ -116,36 +116,67 @@ function setupNavigationObserver() {
     observer.observe(contactSection);
 }
 
-/* --- 7. INICIALIZACIÓN Y EVENTOS (DOM CONTENT LOADED) --- */
+/* --- 7. INICIALIZACIÓN Y LÓGICA DE SCROLL --- */
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. MANEJO DE ANCLAS (HASH) - Evita el parpadeo negro al ir a Contacto
+    // 1. CAPTURAMOS LOS DATOS DE LA URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const scrollAction = urlParams.get('scroll'); 
     const currentHash = window.location.hash;
-    if (currentHash) {
+    const contactSection = getContactSection();
+
+    // 2. CASO ESPECIAL: VIENE DE PÁGINA EXTERNA (Who we are / Games) A CONTACTO
+    // Detecta el enlace: index.html?scroll=contact
+    if (scrollAction === 'contact' && contactSection) {
+        // Limpiamos la URL para que no scrollee de nuevo al refrescar
+        window.history.replaceState({}, document.title, window.location.pathname);
+        
+        // Matamos la intro de inmediato para que no estorbe
+        const intro = document.getElementById('intro-screen');
+        if (intro) intro.remove();
+        document.body.classList.remove('intro-active');
+        sessionStorage.setItem('introShown', 'true');
+
+        // LA PAUSA DE MEDIO SEGUNDO: El usuario ve el Home arriba y luego baja
+        setTimeout(() => {
+            window.scrollTo({
+                top: contactSection.offsetTop - 85,
+                behavior: 'smooth'
+            });
+        }, 500);
+
+    // 3. CASO NORMAL: CLICS CON # (Ej: entrar directo con un link guardado)
+    } else if (currentHash) {
+        // Quitamos el smooth del CSS un segundo para que el salto inicial sea exacto
         document.documentElement.style.scrollBehavior = 'auto';
         const target = document.querySelector(currentHash);
         if (target) {
-            window.scrollTo(0, target.offsetTop - 85); 
+            window.scrollTo(0, target.offsetTop - 85);
         }
+        
+        // Si es contacto, fuera intro
         if (currentHash === '#contact-section') {
             const intro = document.getElementById('intro-screen');
-            if (intro) intro.remove(); 
-            document.body.classList.remove('intro-active');
-            sessionStorage.setItem('introShown', 'true'); 
+            if (intro) intro.remove();
+            sessionStorage.setItem('introShown', 'true');
         }
+        
+        // Restauramos el smooth del CSS para clics futuros
         setTimeout(() => {
             document.documentElement.style.scrollBehavior = 'smooth';
         }, 100);
-    } 
 
-    // 2. EJECUCIÓN DE FUNCIONES BASE
+    // 4. CASO BASE: ENTRADA NORMAL A LA HOME
+    } else {
+        startIntro();
+    }
+
+    // EJECUCIÓN DE FUNCIONES BASE
     lucide.createIcons();
     setActiveLink(); 
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
     
-    // 3. LÓGICA DE INTRO VS CONTENIDO DIRECTO
-    if (!currentHash) {
-        startIntro();
-    } else {
+    // Si no hubo salto especial ni hash, revelamos contenido tras la intro
+    if (scrollAction || currentHash) {
         revealContent();
     }
 
