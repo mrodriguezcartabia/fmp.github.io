@@ -134,33 +134,24 @@ function setupNavigationObserver() {
 }
 
 /* --- 7. EVENT LISTENERS --- */
-window.addEventListener("scroll", () => {
-    const parallax = document.getElementById("parallax");
-    const navLogo = document.getElementById('nav-logo');
-    
-    if(parallax) parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
-    revealContent();
-
-    if (navLogo) {
-        if (window.scrollY > 150) navLogo.classList.add('visible');
-        else navLogo.classList.remove('visible');
-    }
-});
-
-// Re-activar el manejo de clics manuales para que la barra cambie antes del scroll
-function setupClickListeners() {
-    getNavLinks().forEach(link => {
-        link.addEventListener('click', () => {
-            if (!getContactSection()) { // Si no estamos en Home, el cambio es directo
-                getNavLinks().forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-            }
-        });
-    });
-}
-
-/* --- 8. INICIALIZACIÓN --- */
-document.addEventListener('DOMContentLoaded', () => { 
+// Usamos 'DOMContentLoaded' en lugar de 'load' para que sea más rápido
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.hash) {
+        // 1. Quitamos el scroll suave de raíz en el HTML
+        document.documentElement.style.scrollBehavior = 'auto';
+        
+        // 2. Forzamos que el cuerpo no se vea hasta estar en posición (opcional)
+        const target = document.querySelector(window.location.hash);
+        if (target) {
+            // Saltamos instantáneamente al destino
+            window.scrollTo(0, target.offsetTop - 85); 
+        }
+        
+        // 3. Devolvemos el comportamiento suave después de un breve delay
+        setTimeout(() => {
+            document.documentElement.style.scrollBehavior = 'smooth';
+        }, 100);
+    } 
     lucide.createIcons();
     setActiveLink(); 
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
@@ -174,30 +165,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (mobileBtn && navMenu) {
         mobileBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Evita que el clic se propague
-            navMenu.classList.toggle('hidden');
-            navMenu.classList.toggle('flex');
+            e.stopPropagation();
+            // Usamos 'active' para que coincida con tu CSS
+            navMenu.classList.toggle('active'); 
         });
-
-        // Cerrar menú al hacer clic en un link real, pero NO en el desplegable de Games
+    
+        // Cerrar al hacer clic en cualquier link (Home, Who, Games, Contact)
         navMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                // Si el link NO tiene submenú (o si es un link final de juego)
-                if (window.innerWidth < 768 && !link.closest('.group')) {
-                    navMenu.classList.add('hidden');
-                    navMenu.classList.remove('flex');
-                }
-            });
-        });
-        
-        // Especial para los links dentro del submenú de Games
-        navMenu.querySelectorAll('.group div a').forEach(subLink => {
-            subLink.addEventListener('click', () => {
-                if (window.innerWidth < 768) {
-                    navMenu.classList.add('hidden');
-                    navMenu.classList.remove('flex');
+                if (window.innerWidth < 769) {
+                    navMenu.classList.remove('active');
                 }
             });
         });
     }
+});
+
+/* --- 8. EFECTOS DE SCROLL (Parallax y Logo) --- */
+window.addEventListener("scroll", () => {
+    const parallax = document.getElementById("parallax");
+    const navLogo = document.getElementById('nav-logo');
+    
+    // Efecto Parallax suave
+    if(parallax) {
+        parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
+    }
+    
+    // Aparecer/Desaparecer logo en el menú pegajoso
+    if (navLogo) {
+        if (window.scrollY > 150) {
+            navLogo.classList.add('visible');
+        } else {
+            navLogo.classList.remove('visible');
+        }
+    }
+    
+    // Activar animaciones de aparición de cartas
+    revealContent();
 });
