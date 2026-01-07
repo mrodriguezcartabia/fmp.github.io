@@ -223,25 +223,53 @@ html {
 /* Ajuste específico para que las cards no corten el contenido en móviles */
 @media (max-width: 768px) {
     .card {
-        padding: 1.5rem; /* Un poco menos de padding en móvil */
+        padding: 1.5rem;
     }
     
     .iframe-container {
-        /* En móviles muy pequeños, forzamos una altura mínima para que Streamlit sea usable */
         min-height: 400px; 
     }
-    /* Evita que la barra horizontal 'w-[100vw]' rompa el scroll lateral en móviles */
-    .group div {
-        width: 100%;
-        position: static;
+
+    /* Ajuste del menú principal en móvil */
+    #nav-menu {
+        max-height: 85vh;
+        overflow-y: auto;
+        /* Asegura que los elementos se apilen correctamente */
+        flex-direction: column; 
+    }
+
+    /* EL SUBMENÚ: Forzamos comportamiento de acordeón */
+    .group div.absolute {
+        width: 100% !important;
+        position: relative !important; /* Empuja el contenido hacia abajo */
+        left: 0 !important;
         transform: none !important;
+        display: none; /* Oculto por defecto */
         opacity: 1 !important;
         visibility: visible !important;
-        display: none; /* Se puede manejar con JS o dejarlo estático */
+        background-color: #1f2937 !important; /* Un tono un poco más claro para diferenciarlo */
+        border-top: 1px solid rgba(255,255,255,0.05);
     }
-    
-    .group:hover div {
-        display: block;
+
+    /* Mostrar submenú al interactuar */
+    .group:hover div.absolute,
+    .group:active div.absolute,
+    .group:focus-within div.absolute {
+        display: block !important;
+        height: auto !important;
+    }
+
+    /* Ajuste de los links del submenú para que sean fáciles de tocar */
+    .group div.absolute .flex {
+        flex-direction: column !important;
+        space-x: 0 !important;
+        padding: 1rem 0;
+    }
+
+    .group div.absolute a {
+        padding: 0.75rem 1rem !important;
+        width: 100%;
+        text-align: center;
     }
 }
 
