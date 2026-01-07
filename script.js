@@ -1,16 +1,23 @@
-// 1. Inicialización de iconos (Lucide)
-lucide.createIcons();
-
+/* --- 1. CONFIGURACIÓN Y REFERENCIAS --- */
 const translations = { en: 'Copied!', es: '¡Copiado!', pt: 'Copiado!' };
 
-// 2. Selección de elementos clave
-const navLogo = document.getElementById('nav-logo');
-const introScreen = document.getElementById('intro-screen');
-const introContent = document.getElementById('intro-content');
-const navLinks = document.querySelectorAll('.nav-link');
-const contactSection = document.getElementById('contact-section');
+const getNavLinks = () => document.querySelectorAll('.nav-link');
+const getContactSection = () => document.getElementById('contact-section');
 
-// 3. Funciones de Utilidad (Copiado de Email)
+/* --- 2. GESTIÓN DE NAVEGACIÓN ACTIVA --- */
+function setActiveLink() {
+    const currentPage = window.location.pathname.split("/").pop() || 'index.html';
+    getNavLinks().forEach(link => {
+        const linkPage = link.getAttribute('href').split('?')[0].split('#')[0]; // Limpia parámetros
+        if (linkPage === currentPage) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+}
+
+/* --- 3. UTILIDADES (COPIADO Y REVEAL) --- */
 function copyEmail(email, btn) {
     navigator.clipboard.writeText(email).then(() => {
         const iconElement = btn.querySelector('i');
@@ -33,118 +40,179 @@ function copyEmail(email, btn) {
     });
 }
 
-// 4. Animación de aparición (Reveal)
 function revealContent() {
     document.querySelectorAll(".reveal").forEach(el => { 
         if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add("active");
     });
 }
 
-// 5. Gestión de scroll desde otras páginas
-function checkScrollParam() {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('scroll') === 'contact') {
-        window.history.replaceState({}, document.title, window.location.pathname);
-        setTimeout(() => {
-            if (contactSection) {
-                const offset = 120;
-                window.scrollTo({ top: contactSection.offsetTop - offset, behavior: 'smooth' });
-            }
-        }, 800); 
-    }
-}
-
-// 6. Pantalla de Bienvenida (Intro)
+/* --- 4. PANTALLA DE BIENVENIDA (INTRO) --- */
 function startIntro() {
+    const introScreen = document.getElementById('intro-screen');
+    const introContent = document.getElementById('intro-content');
+    const introLogo = document.getElementById('intro-logo');
+    const introText = document.getElementById('intro-text');
+
     if (sessionStorage.getItem('introShown') || !introScreen) { 
         if (introScreen) introScreen.remove(); 
         revealContent();
-        checkScrollParam(); 
         return; 
     }
+
     document.body.classList.add('intro-active');
     setTimeout(() => {
         if (introContent) introContent.classList.remove('opacity-0');
         setTimeout(() => introContent && introContent.classList.add('shimmer-active'), 500);
+
         setTimeout(() => {
-            if (introContent) introContent.style.opacity = '0';
-            if (introScreen) introScreen.style.opacity = '0';
+            if (introLogo) introLogo.classList.add('exit-left');
+            if (introText) introText.classList.add('exit-right');
+            setTimeout(() => { if (introScreen) introScreen.style.opacity = '0'; }, 400);
+
             setTimeout(() => { 
                 document.body.classList.remove('intro-active'); 
                 sessionStorage.setItem('introShown', 'true'); 
                 if (introScreen) introScreen.remove(); 
                 revealContent();
-                checkScrollParam(); 
-            }, 1200);
+            }, 2000);
         }, 2500);
     }, 300);
 }
 
-// 7. Sistema de Idiomas
+/* --- 5. SISTEMA DE IDIOMAS --- */
 function setLanguage(lang) {
     localStorage.setItem('preferredLang', lang);
     document.querySelectorAll('[data-en]').forEach(el => { 
         const text = el.dataset[lang];
         if(text) el.textContent = text;
     });
-    document.querySelectorAll('.language-switcher button').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${lang}`));
+    document.querySelectorAll('.language-switcher button').forEach(btn => 
+        btn.classList.toggle('active', btn.id === `lang-${lang}`)
+    );
 }
 
-// 8. LÓGICA DE NAVEGACIÓN ACTIVA (INTERSECTION OBSERVER)
+/* --- 6. OBSERVADOR DE NAVEGACIÓN --- */
 function setupNavigationObserver() {
-    if (!contactSection) return;
+    const contactSection = getContactSection();
+    const navLinks = getNavLinks();
+    if (!contactSection || navLinks.length === 0) return;
 
     const homeBtn = navLinks[0];
     const contactBtn = navLinks[navLinks.length - 1];
 
-    const observerOptions = {
-        root: null,
-        threshold: 0.5 // Se activa cuando el 50% de la sección es visible
-    };
-
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            // Limpiamos ambos primero
-            homeBtn.classList.remove('active');
-            contactBtn.classList.remove('active');
-
             if (entry.isIntersecting) {
-                // Si la sección de contacto es visible, activamos Contacto
                 contactBtn.classList.add('active');
+                homeBtn.classList.remove('active');
             } else {
-                // Si no es visible, por defecto estamos en Home
-                homeBtn.classList.add('active');
+                if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
+                    contactBtn.classList.remove('active');
+                    homeBtn.classList.add('active');
+                }
             }
         });
-    }, observerOptions);
+    }, { threshold: 0.5 });
 
     observer.observe(contactSection);
 }
 
-// 9. Event Listeners
+/* --- 7. INICIALIZACIÓN Y LÓGICA DE SCROLL --- */
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. CAPTURAMOS LOS DATOS DE LA URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const scrollAction = urlParams.get('scroll'); 
+    const currentHash = window.location.hash;
+    const contactSection = getContactSection();
+
+    // 2. CASO ESPECIAL: VIENE DE PÁGINA EXTERNA (Who we are / Games) A CONTACTO
+    // Detecta el enlace: index.html?scroll=contact
+    if (scrollAction === 'contact' && contactSection) {
+        // Limpiamos la URL para que no scrollee de nuevo al refrescar
+        window.history.replaceState({}, document.title, window.location.pathname);
+        
+        // Matamos la intro de inmediato para que no estorbe
+        const intro = document.getElementById('intro-screen');
+        if (intro) intro.remove();
+        document.body.classList.remove('intro-active');
+        sessionStorage.setItem('introShown', 'true');
+
+        // LA PAUSA DE MEDIO SEGUNDO: El usuario ve el Home arriba y luego baja
+        setTimeout(() => {
+            window.scrollTo({
+                top: contactSection.offsetTop - 85,
+                behavior: 'smooth'
+            });
+        }, 500);
+
+    // 3. CASO NORMAL: CLICS CON # (Ej: entrar directo con un link guardado)
+    } else if (currentHash) {
+        // Quitamos el smooth del CSS un segundo para que el salto inicial sea exacto
+        document.documentElement.style.scrollBehavior = 'auto';
+        const target = document.querySelector(currentHash);
+        if (target) {
+            window.scrollTo(0, target.offsetTop - 85);
+        }
+        
+        // Si es contacto, fuera intro
+        if (currentHash === '#contact-section') {
+            const intro = document.getElementById('intro-screen');
+            if (intro) intro.remove();
+            sessionStorage.setItem('introShown', 'true');
+        }
+        
+        // Restauramos el smooth del CSS para clics futuros
+        setTimeout(() => {
+            document.documentElement.style.scrollBehavior = 'smooth';
+        }, 100);
+
+    // 4. CASO BASE: ENTRADA NORMAL A LA HOME
+    } else {
+        startIntro();
+    }
+
+    // EJECUCIÓN DE FUNCIONES BASE
+    lucide.createIcons();
+    setActiveLink(); 
+    setLanguage(localStorage.getItem('preferredLang') || 'en'); 
+    
+    // Si no hubo salto especial ni hash, revelamos contenido tras la intro
+    if (scrollAction || currentHash) {
+        revealContent();
+    }
+
+    setupNavigationObserver();
+});
+
+/* --- 8. EFECTOS DE SCROLL (PARALLAX Y LOGO) --- */
 window.addEventListener("scroll", () => {
     const parallax = document.getElementById("parallax");
-    if(parallax) parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
+    const navLogo = document.getElementById('nav-logo'); // <--- AÑADIR ESTA LÍNEA
+    
+    // Fórmula matemática original para el Parallax
+    if(parallax) {
+        parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
+    }
+    
     revealContent();
 
+    // Lógica del logo
     if (navLogo) {
-        if (window.scrollY > 150) navLogo.classList.add('visible');
-        else navLogo.classList.remove('visible');
-    }
-});
-
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        if (!contactSection) {
-            navLinks.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
+        if (window.scrollY > 150) {
+            navLogo.classList.add('visible');
+            navLogo.style.opacity = "1"; 
+            navLogo.style.transform = "translateY(0)"; // Aseguramos que suba
+        } else {
+            navLogo.classList.remove('visible');
+            // Solo lo ocultamos si la intro está activa (Home al inicio)
+            if (document.body.classList.contains('intro-active')) {
+                navLogo.style.opacity = "0";
+                navLogo.style.transform = "translateY(-20px)";
+            } else {
+                // En páginas externas (Who/Games), el logo SIEMPRE se ve
+                navLogo.style.opacity = "1";
+                navLogo.style.transform = "translateY(0)";
+            }
         }
-    });
-});
-
-// 10. Inicialización
-document.addEventListener('DOMContentLoaded', () => { 
-    setLanguage(localStorage.getItem('preferredLang') || 'en'); 
-    startIntro();
-    setupNavigationObserver();
+    }
 });
