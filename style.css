@@ -296,37 +296,36 @@ section[id] {
 /* --- MENÚ MÓVIL (VISIBLE SIEMPRE) --- */
 @media (max-width: 768px) {
     /* Ocultamos el logo pequeño en móvil para ganar espacio */
-    #nav-logo { 
+    #nav-logo, #mobile-menu-btn { 
         display: none !important; 
     }
 
-    /* El botón hamburguesa ya no es necesario */
-    #mobile-menu-btn {
-        display: none !important;
-    }
-
     #nav-menu {
-        display: flex !important; /* Siempre visible */
-        flex-direction: row;      /* En fila */
-        flex-wrap: wrap;          /* Por si no caben en una línea */
-        justify-content: center;
-        gap: 0.5rem;
-        width: 100%;
-        background-color: transparent; /* Se integra al nav */
-        position: static;         /* Ya no flota sobre el contenido */
-        padding: 0.5rem 0;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-around !important; /* Distribuye el espacio equitativamente */
+        align-items: center;
+        width: 100% !important;
+        padding: 10px 0 !important;
+        gap: 2px !important; /* Espacio mínimo entre palabras */
     }
 
     .nav-link {
-        padding: 0.5rem 0.75rem;
-        font-size: 0.8rem;        /* Un poco más pequeño para que quepan todos */
+        font-size: 10px !important; /* Letra bien pequeña para garantizar que quepa */
+        padding: 5px 2px !important;
         text-transform: uppercase;
-        white-space: nowrap;      /* Evita que se rompan las palabras */
+        white-space: nowrap; /* Prohíbe que el texto salte de línea */
+        letter-spacing: -0.2px; /* Junta un poquito las letras para ganar milímetros */
+        flex: 1;
+        text-align: center;
     }
 
+    /* Ajuste para que la barra violeta de 'active' no sea demasiado gruesa */
+    .nav-link.active {
+        border-bottom-width: 2px;
+    } 
     /* Ocultamos el submenú de Games en móvil para evitar caos visual */
     .submenu-container {
         display: none !important;
     }
-}
 }
