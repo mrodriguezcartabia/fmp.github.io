@@ -118,7 +118,7 @@ function setupNavigationObserver() {
 
 /* --- 7. INICIALIZACIÓN Y EVENTOS (DOM CONTENT LOADED) --- */
 document.addEventListener('DOMContentLoaded', () => {
-    // Manejo de anclas (Hash) - Mismo offset de 85px
+    // 1. MANEJO DE ANCLAS (HASH) - Evita el parpadeo negro al ir a Contacto
     const currentHash = window.location.hash;
     if (currentHash) {
         document.documentElement.style.scrollBehavior = 'auto';
@@ -137,32 +137,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
     } 
 
-    // Ejecución de funciones base
+    // 2. EJECUCIÓN DE FUNCIONES BASE
     lucide.createIcons();
     setActiveLink(); 
     setLanguage(localStorage.getItem('preferredLang') || 'en'); 
     
-    if (!currentHash) startIntro();
-    else revealContent();
+    // 3. LÓGICA DE INTRO VS CONTENIDO DIRECTO
+    if (!currentHash) {
+        startIntro();
+    } else {
+        revealContent();
+    }
 
     setupNavigationObserver();
-
-    // Menú Móvil
-    const mobileBtn = document.getElementById('mobile-menu-btn');
-    const navMenu = document.getElementById('nav-menu');
-
-    if (mobileBtn && navMenu) {
-        mobileBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            navMenu.classList.toggle('active'); 
-        });
-    
-        navMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth < 769) navMenu.classList.remove('active');
-            });
-        });
-    }
 });
 
 /* --- 8. EFECTOS DE SCROLL (PARALLAX Y LOGO) --- */
