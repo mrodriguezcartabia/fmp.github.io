@@ -259,17 +259,10 @@ html {
         height: auto !important;
     }
 
-    /* Ajuste de los links del submenú para que sean fáciles de tocar */
-    .group div.absolute .flex {
+    /* Centramos los links internos para que sean fáciles de tocar con el pulgar */
+    .submenu-container .flex {
         flex-direction: column !important;
-        space-x: 0 !important;
         padding: 1rem 0;
-    }
-
-    .group div.absolute a {
-        padding: 0.75rem 1rem !important;
-        width: 100%;
-        text-align: center;
     }
 }
 
