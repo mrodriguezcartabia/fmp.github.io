@@ -11,6 +11,7 @@ body {
 /* Bloqueo de scroll durante la intro */
 body.intro-active { 
     overflow: hidden; 
+    scroll-padding-top: 85px;
 }
 
 html { 
@@ -18,15 +19,17 @@ html {
 }
 
 /* --- PANTALLA DE BIENVENIDA (INTRO) --- */
-#intro-screen { 
-    position: fixed; 
-    inset: 0; 
-    z-index: 100; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    background-color: #0f172a; 
-    transition: opacity 1.2s ease-in-out; 
+/* Aseguramos que el contenedor padre no oculte el movimiento antes de tiempo */
+#intro-screen {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+    background: #111827; /* Mismo color de fondo */
+    z-index: 9999;
+    transition: opacity 0.8s ease-in-out;
 }
 
 .shimmer-wrapper { 
@@ -51,19 +54,6 @@ html {
     transform: translateX(150vw);
     opacity: 0;
     transition: all 2.0s ease-in-out !important;
-}
-
-/* Aseguramos que el contenedor padre no oculte el movimiento antes de tiempo */
-#intro-screen {
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    inset: 0;
-    background: #111827; /* Mismo color de fondo */
-    z-index: 9999;
-    transition: opacity 0.8s ease-in-out;
 }
 
 /* El efecto de rayo de luz (shimmer) */
@@ -284,6 +274,11 @@ section[id] {
 
 /* --- MENÚ MÓVIL (ACORDEÓN) --- */
 @media (max-width: 768px) {
+    /* Ocultamos el menú por defecto en móvil */
+    #nav-menu {
+        display: none; 
+    }
+    
     /* Muestra el menú cuando JS añade la clase .active */
     #nav-menu.active {
         display: flex !important;
