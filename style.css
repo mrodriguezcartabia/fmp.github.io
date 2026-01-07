@@ -325,3 +325,17 @@ section[id] {
         display: none !important;
     }
 }
+    /* Ajuste fino para navegación en móviles muy pequeños */
+@media (max-width: 380px) {
+    #nav-menu {
+        gap: 0.5rem; /* Reduce el espacio entre links */
+    }
+    .nav-link {
+        font-size: 0.75rem; /* Achica un poco la letra */
+    }
+}
+
+/* Para que el logo no "parpadee" al cargar */
+#nav-logo {
+    will-change: opacity, transform;
+}
