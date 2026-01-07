@@ -288,47 +288,38 @@ section[id] {
         opacity: 1 !important;
     }
 }
-/* --- MENÚ MÓVIL (ACORDEÓN) --- */
+/* --- MENÚ MÓVIL --- */
 @media (max-width: 768px) {
-    /* 1. OCULTAR LOGO EN MÓVIL (Petición específica) */
     #nav-logo { 
         display: none !important; 
     }
-    
-    #nav-menu {
-        display: none; 
-    }
 
-    /* 2. Ajuste del menú desplegable */
-    #nav-menu.active {
-        display: flex !important;
+    #nav-menu {
+        display: none;
         flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0;
         width: 100%;
         background-color: #111827;
-        padding: 1.5rem 0;
-        border-top: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .submenu-container {
-        width: 100% !important;
-        position: relative !important;
-        display: none;
-        background-color: #1f2937 !important;
-    }
-
-    /* Abrir submenú al tocar */
-    .group:hover .submenu-container,
-    .group:active .submenu-container {
-        display: block !important;
-    }
-
-    .submenu-content {
-        display: flex;
-        flex-direction: column;
+        position: absolute;
+        top: 100%; 
+        left: 0;
         padding: 1rem 0;
-        gap: 1.2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #nav-menu.active {
+        display: flex !important;
+    }
+
+    /* Games se verá como un link normal */
+    .nav-link {
+        width: 100%;
+        padding: 1rem 1.5rem;
+        text-align: left;
+        display: block;
+    }
+
+    /* OCULTAMOS EL SUBMENÚ COMPLETAMENTE EN MÓVIL */
+    .submenu-container {
+        display: none !important;
     }
 }
