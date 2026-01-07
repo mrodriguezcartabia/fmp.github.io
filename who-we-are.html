@@ -32,21 +32,44 @@
             </div>
         </div>
     </header>
-
-    <nav id="main-nav" class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
-        <div class="container relative flex items-center justify-center mx-auto px-6">
-            <div id="nav-logo" class="absolute left-6 hidden md:block">
-                <a href="index.html"><img src="logo_bordeblanco.png" class="h-8 w-auto"></a>
-            </div>
-            <div class="flex space-x-4 md:space-x-8 text-sm md:text-base">
-                <a href="index.html" class="nav-link" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
-                <a href="who-we-are.html" class="nav-link active" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
-                <a href="games.html" class="nav-link" data-en="Games" data-es="Juegos" data-pt="Jogos">Games</a>
-                <a href="index.html?scroll=contact" class="nav-link" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
+    
+   <nav id="main-nav" class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
+        <div class="container relative flex flex-col items-center justify-center mx-auto px-6">
+            
+            <div class="flex items-center justify-center w-full">
+                <div id="nav-logo" class="absolute left-6 hidden md:block">
+                    <a href="index.html"><img src="logo_bordeblanco.png" class="h-8 w-auto"></a>
+                </div>
+    
+                <div class="flex space-x-4 md:space-x-8 text-sm md:text-base items-center">
+                    <a href="index.html" class="nav-link" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
+                    <a href="who-we-are.html" class="nav-link" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
+                    
+                    <div class="group">
+                        <a href="games.html" class="nav-link flex items-center gap-1" data-en="Games" data-es="Juegos" data-pt="Jogos">
+                            Games
+                            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform group-hover:rotate-180"></i>
+                        </a>
+    
+                        <div class="absolute left-0 right-0 top-full bg-[#111827]/95 backdrop-blur-md border-t border-gray-800 
+                                    opacity-0 invisible translate-y-2 
+                                    group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 
+                                    transition-all duration-300 ease-out shadow-2xl w-full">
+                            
+                            <div class="flex space-x-6 text-[10px] md:text-xs uppercase tracking-widest text-gray-400 py-4 justify-center">
+                                <a href="games.html#valuator" class="hover:text-[#5f6ac4] transition-colors" data-en="Option Valuator" data-es="Valuador de Opciones" data-pt="Valiador de Opções">Option Valuator</a>
+                                <span class="text-gray-700">|</span>
+                                <a href="games.html#tug-of-war" class="hover:text-[#5f6ac4] transition-colors" data-en="Tug of War" data-es="Juego de la Soga" data-pt="Jogo da Corda">Tug of War</a>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <a href="index.html#contact-section" class="nav-link" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
+                </div>
             </div>
         </div>
     </nav>
-
+    
     <main class="py-24 relative z-10 container mx-auto px-6">
         <section class="reveal">
             <div class="card text-center mb-12">
