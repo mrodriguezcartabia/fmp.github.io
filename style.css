@@ -220,49 +220,6 @@ html {
     border: none;
 }
 
-/* Ajuste específico para que las cards no corten el contenido en móviles */
-@media (max-width: 768px) {
-    .card { padding: 1.5rem; }
-    .iframe-container { min-height: 400px; }
-
-    #nav-menu {
-        max-height: 85vh;
-        overflow-y: auto;
-        flex-direction: column; 
-    }
-
-    /* EL SUBMENÚ EN MÓVIL: Estilo acordeón */
-    .submenu-container {
-        width: 100% !important;
-        position: relative !important; /* Empuja el botón 'Contacto' abajo */
-        left: 0 !important;
-        transform: none !important;
-        display: none; /* Se controla con el hover/click */
-        background-color: #1f2937 !important;
-        border-top: 1px solid rgba(255,255,255,0.1);
-    }
-
-    /* Mostrar al tocar */
-    .group:hover .submenu-container,
-    .group:active .submenu-container,
-    .group:focus-within .submenu-container {
-        display: block !important;
-    }
-
-    .submenu-container .flex {
-        flex-direction: column !important;
-        padding: 1rem 0 !important;
-        gap: 1rem;
-    }
-}
-
-    /* Centramos los links internos para que sean fáciles de tocar con el pulgar */
-    .submenu-container .flex {
-        flex-direction: column !important;
-        padding: 1rem 0;
-    }
-}
-
 /* --- MEJORAS PARA EL SUBMENÚ Y SCROLL --- */
 
 html { 
@@ -282,38 +239,74 @@ section[id] {
     overflow: visible !important;
 }
 
-/* --- MEGA MENÚ PARA PC --- */
+/* --- MEGA MENÚ (ESCRITORIO) --- */
 @media (min-width: 769px) {
-    /* Permitimos que el submenú se escape del ancho del botón */
-    .group { position: static !important; }
+    /* Rompemos el contenedor para que el submenú ocupe el 100% de la pantalla */
+    #main-nav .container { position: static !important; }
+    .group { 
+        position: static !important; 
+        padding-bottom: 15px; /* Puente para que no se cierre el menú */
+        margin-bottom: -15px;
+    }
 
     .submenu-container {
         position: absolute !important;
         left: 0 !important;
-        right: 0 !important;
-        width: 100vw !important; /* Ancho total de pantalla */
+        width: 100% !important; 
         top: 100% !important;
-        background-color: #111827 !important; /* Color del nav */
-        border-bottom: 2px solid #5f6ac4; /* Línea decorativa violeta */
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+        background-color: #111827 !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
         visibility: hidden;
         opacity: 0;
-        transition: all 0.3s ease;
+        transition: all 0.3s ease-in-out;
         z-index: 40;
+        border: none !important;
     }
 
-    /* El contenido dentro de la franja se mantiene centrado con el resto de la web */
-    .submenu-container .flex {
+    .submenu-content {
         max-width: 1200px;
         margin: 0 auto;
+        display: flex;
         justify-content: center;
-        padding: 1.5rem 0 !important;
+        align-items: center;
+        gap: 3rem;
+        padding: 1.5rem 0;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
     }
 
-    /* Mostrar con efecto suave en PC */
     .group:hover .submenu-container {
         visibility: visible !important;
         opacity: 1 !important;
-        height: auto !important;
+    }
+}
+
+/* --- MENÚ MÓVIL (ACORDEÓN) --- */
+@media (max-width: 768px) {
+    /* Muestra el menú cuando JS añade la clase .active */
+    #nav-menu.active {
+        display: flex !important;
+    }
+
+    .submenu-container {
+        width: 100% !important;
+        position: relative !important;
+        display: none;
+        background-color: #1f2937 !important;
+        border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* En móvil se abre al tocar (hover/active) */
+    .group:hover .submenu-container,
+    .group:active .submenu-container {
+        display: block !important;
+    }
+
+    .submenu-content {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 0;
+        gap: 1.2rem;
     }
 }
