@@ -293,48 +293,40 @@ section[id] {
         opacity: 1 !important;
     }
 }
-/* --- MENÚ MÓVIL --- */
+/* --- MENÚ MÓVIL (VISIBLE SIEMPRE) --- */
 @media (max-width: 768px) {
+    /* Ocultamos el logo pequeño en móvil para ganar espacio */
     #nav-logo { 
         display: none !important; 
     }
 
+    /* El botón hamburguesa ya no es necesario */
+    #mobile-menu-btn {
+        display: none !important;
+    }
+
     #nav-menu {
-        display: none;
-        flex-direction: column;
+        display: flex !important; /* Siempre visible */
+        flex-direction: row;      /* En fila */
+        flex-wrap: wrap;          /* Por si no caben en una línea */
+        justify-content: center;
+        gap: 0.5rem;
         width: 100%;
-        background-color: #111827;
-        position: absolute;
-        top: 100%; 
-        left: 0;
-        padding: 1rem 0;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        background-color: transparent; /* Se integra al nav */
+        position: static;         /* Ya no flota sobre el contenido */
+        padding: 0.5rem 0;
     }
 
-    #nav-menu.active {
-        display: flex !important;
-    }
-
-    /* Games se verá como un link normal */
     .nav-link {
-        width: 100%;
-        padding: 1rem 1.5rem;
-        text-align: left;
-        display: block;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;        /* Un poco más pequeño para que quepan todos */
+        text-transform: uppercase;
+        white-space: nowrap;      /* Evita que se rompan las palabras */
     }
 
-    /* OCULTAMOS EL SUBMENÚ COMPLETAMENTE EN MÓVIL */
+    /* Ocultamos el submenú de Games en móvil para evitar caos visual */
     .submenu-container {
         display: none !important;
     }
-    #mobile-menu-btn {
-            margin-left: auto;
-            display: block;
-    }
-
-    /* Asegura que el contenedor del botón use todo el ancho */
-    #main-nav .container > div {
-            display: flex;
-            width: 100%;
-    }
+}
 }
