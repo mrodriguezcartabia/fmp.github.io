@@ -1,26 +1,28 @@
 /* --- CONFIGURACIÓN BASE --- */ 
 html {
-    /* Mantenemos auto por defecto; el JS lo cambiará a smooth tras cargar */
-    scroll-behavior: auto !important;
+    /* Mantenemos smooth por defecto para Who We Are y clics internos */
+    scroll-behavior: smooth; 
+    /* Espacio arriba para que el menú no tape los títulos */
+    scroll-padding-top: 85px;
     background-color: #111827; 
 }
 
 body { 
     font-family: 'Inter', sans-serif; 
     color: #e2e8f0; 
-    background-color: transparent; /* Deja ver la parallax-bg */
+    background-color: transparent; 
     margin: 0; 
     overflow-x: hidden; 
     line-height: 1.6;
 }
 
-/* Bloqueo de scroll durante la intro */
-body.intro-active { 
-    overflow: hidden; 
+/* Solo usamos auto cuando el JS lo necesite (se aplicará vía JS o clase) */
+html.no-smooth {
+    scroll-behavior: auto !important;
 }
 
-html { 
-    scroll-behavior: smooth; 
+section[id] {
+    scroll-margin-top: 85px; 
 }
 
 /* --- PANTALLA DE BIENVENIDA (INTRO) --- */
@@ -216,12 +218,6 @@ html {
 }
 
 /* --- MEJORAS PARA EL SUBMENÚ Y SCROLL --- */
-
-html { 
-    scroll-behavior: smooth; 
-    /* Espacio libre arriba para que el menú no tape los títulos */
-    scroll-padding-top: 85px; 
-}
 
 section[id] {
     /* Valor ajustado a la altura de la barra simple */
