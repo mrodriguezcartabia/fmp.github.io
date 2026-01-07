@@ -185,18 +185,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* --- 8. EFECTOS DE SCROLL (PARALLAX Y LOGO) --- */
 window.addEventListener("scroll", () => {
-    // Parallax de la foto de fondo
-    const parallax = document.querySelector('.parallax-bg');
-    if (parallax) {
+    const parallax = document.getElementById("parallax");
+    // Volvemos a la fórmula matemática original
+    if(parallax) {
         parallax.style.transform = `translateY(${window.scrollY * 0.3}px) scale(1.1)`;
     }
-
-    // Logo del Nav
-    const navLogo = document.getElementById('nav-logo');
-    if (navLogo) {
-        if (window.scrollY > 150) navLogo.classList.add('visible');
-        else navLogo.classList.remove('visible');
-    }
-
+    
     revealContent();
+
+    // El logo solo aparece si bajamos más de 150px
+    if (navLogo) {
+        if (window.scrollY > 150) {
+            navLogo.classList.add('visible');
+            navLogo.style.opacity = "1"; // Forzamos visibilidad
+        } else {
+            navLogo.classList.remove('visible');
+            // Si estamos en una página sin intro, el logo no debería desaparecer del todo
+            // pero para seguir tu JS viejo, lo dejamos así:
+            if (document.body.classList.contains('intro-active')) {
+                navLogo.style.opacity = "0";
+            }
+        }
+    }
 });
