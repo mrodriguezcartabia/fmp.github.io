@@ -300,20 +300,23 @@ section[id] {
         display: flex !important;
         flex-direction: row !important;
         justify-content: center !important; 
-        align-items: center;
+        align-items: center !important;
         width: 100% !important;
-        padding: 10px 0 !important;
-        gap: 1.2rem !important; /* Espacio mínimo entre palabras */
+        gap: 15px !important; 
     }
-
-    .nav-link {
-        font-size: 10px !important; /* Letra bien pequeña para garantizar que quepa */
-        padding: 5px 2px !important;
-        text-transform: uppercase;
-        white-space: nowrap; /* Prohíbe que el texto salte de línea */
-        letter-spacing: -0.2px; /* Junta un poquito las letras para ganar milímetros */
+    
+    #nav-menu .nav-link,
+    #nav-menu .group {
+        display: inline-block !important;
         flex: none !important;
-        text-align: center;
+        width: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        /* Propiedades de texto unificadas aquí mismo */
+        font-size: 11px !important;
+        text-transform: uppercase !important;
+        white-space: nowrap !important;
+        vertical-align: middle !important;
     }
 
     /* Ajuste para que la barra violeta de 'active' no sea demasiado gruesa */
@@ -331,7 +334,7 @@ section[id] {
         gap: 0.5rem; /* Reduce el espacio entre links */
     }
     .nav-link {
-        font-size: 0.75rem; /* Achica un poco la letra */
+        font-size: 9px; /* Achica un poco la letra */
     }
 }
 
