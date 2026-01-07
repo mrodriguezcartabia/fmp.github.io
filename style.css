@@ -1,32 +1,42 @@
-/* --- CONFIGURACIÓN BASE --- */
+/* --- CONFIGURACIÓN BASE --- */ 
+html {
+    /* Mantenemos smooth por defecto para Who We Are y clics internos */
+    scroll-behavior: smooth; 
+    /* Espacio arriba para que el menú no tape los títulos */
+    scroll-padding-top: 85px;
+    background-color: #111827; 
+}
+
 body { 
     font-family: 'Inter', sans-serif; 
     color: #e2e8f0; 
-    background-color: #0f172a; 
+    background-color: transparent; 
     margin: 0; 
     overflow-x: hidden; 
     line-height: 1.6;
 }
 
-/* Bloqueo de scroll durante la intro */
-body.intro-active { 
-    overflow: hidden; 
+/* Solo usamos auto cuando el JS lo necesite (se aplicará vía JS o clase) */
+html.no-smooth {
+    scroll-behavior: auto !important;
 }
 
-html { 
-    scroll-behavior: smooth; 
+section[id] {
+    scroll-margin-top: 85px; 
 }
 
 /* --- PANTALLA DE BIENVENIDA (INTRO) --- */
-#intro-screen { 
-    position: fixed; 
-    inset: 0; 
-    z-index: 100; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    background-color: #0f172a; 
-    transition: opacity 1.2s ease-in-out; 
+/* Aseguramos que el contenedor padre no oculte el movimiento antes de tiempo */
+#intro-screen {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+    background: #111827; /* Mismo color de fondo */
+    z-index: 9999;
+    transition: opacity 0.8s ease-in-out;
 }
 
 .shimmer-wrapper { 
@@ -38,6 +48,19 @@ html {
     transition: opacity 1s ease-in-out; 
     overflow: hidden; 
     border-radius: 8px;
+}
+
+/* Estado cuando salen de la pantalla */
+.exit-left {
+    transform: translateX(-150vw);
+    opacity: 0;
+    transition: all 2.0s ease-in-out !important;
+}
+
+.exit-right {
+    transform: translateX(150vw);
+    opacity: 0;
+    transition: all 2.0s ease-in-out !important;
 }
 
 /* El efecto de rayo de luz (shimmer) */
@@ -62,17 +85,17 @@ html {
 }
 
 /* --- ELEMENTOS VISUALES COMPARTIDOS --- */
-.parallax-bg { 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), url('photo.jpg'); 
-    background-size: cover; 
-    z-index: -1; 
-    transform: scale(1.1); 
-    transition: transform 0.1s ease-out; 
+.parallax-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), url('photo.jpg');
+    background-size: cover;
+    z-index: -1;
+    /* Aplicamos la escala base aquí también */
+    transform: scale(1.1);
 }
 
 .container { 
@@ -174,40 +197,131 @@ html {
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
-/* --- CONTENEDORES DE JUEGOS (IFRAMES) --- */
-.iframe-container { 
-    width: 100%; 
-    border-radius: 0.5rem; 
-    background: #ffffff; 
-    overflow: hidden; 
+/* --- Contenedores de Juegos y Herramientas --- */
+
+.iframe-container {
+    width: 100%;
+    position: relative;
+    background-color: #1a1a1a; /* Fondo oscuro mientras carga */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1rem;
 }
 
-/* CLASE PARA ACHICAR EL CONTENIDO DEL JUEGO */
-.game-iframe-scaled {
-    width: 125%;          /* Expande el área interna */
-    height: 125%;         /* Expande el área interna */
+/* Forzamos que el iframe ocupe todo el contenedor */
+.iframe-container iframe {
+    width: 100%;
+    height: 100%;
     border: none;
-    transform: scale(0.8); /* Encoge visualmente al 80% (zoom out) */
-    transform-origin: top left;
 }
 
 /* --- MEJORAS PARA EL SUBMENÚ Y SCROLL --- */
 
-/* Asegura que al usar anclas (#), el contenido no quede debajo del nav fixed */
 section[id] {
-    scroll-margin-top: 100px; /* Ajusta este valor según el alto de tu menú */
+    /* Valor ajustado a la altura de la barra simple */
+    scroll-margin-top: 85px; 
 }
 
-/* Estilo para los enlaces del submenú de juegos */
-#main-nav .flex.space-x-6 a {
-    transition: color 0.3s ease;
+/* Evita que el submenú se corte si el contenedor tiene restricciones */
+#main-nav, 
+#main-nav .container {
+    overflow: visible !important;
 }
 
-#main-nav .flex.space-x-6 a:hover {
-    color: #c7d2fe;
-}
+/* --- MEGA MENÚ (ESCRITORIO) --- */
+@media (min-width: 769px) {
+    #main-nav .container { position: static !important; }
+    
+    .group { 
+        position: static !important; 
+        display: inline-flex; /* Alineación perfecta con el resto de links */
+        align-items: center;
+        height: 100%; /* Asegura que ocupe la misma altura que el nav */
+    }
 
-/* Opcional: una transición más suave para las secciones */
-.reveal {
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    /* Puente invisible para que el menú no se cierre al bajar el mouse */
+    .group::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100px; /* Cubre desde el link hasta el fondo del submenú */
+        z-index: -1;
+        pointer-events: none;
+    }
+    
+    .group:hover::after {
+        pointer-events: auto;
+    }
+
+    .submenu-container {
+        position: absolute !important;
+        left: 0 !important;
+        width: 100% !important; 
+        top: 100% !important;
+        background-color: #111827 !important;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        visibility: hidden;
+        opacity: 0;
+        transition: all 0.3s ease-in-out;
+        z-index: 40;
+        border: none !important;
+    }
+
+    .submenu-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+        padding: 1.5rem 0;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+    }
+
+    .group:hover .submenu-container {
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+}
+/* --- MENÚ MÓVIL (VISIBLE SIEMPRE) --- */
+@media (max-width: 768px) {
+    /* Ocultamos el logo pequeño en móvil para ganar espacio */
+    #nav-logo, #mobile-menu-btn { 
+        display: none !important; 
+    }
+
+    #nav-menu {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-around !important; /* Distribuye el espacio equitativamente */
+        align-items: center;
+        width: 100% !important;
+        padding: 10px 0 !important;
+        gap: 2px !important; /* Espacio mínimo entre palabras */
+    }
+
+    .nav-link {
+        font-size: 10px !important; /* Letra bien pequeña para garantizar que quepa */
+        padding: 5px 2px !important;
+        text-transform: uppercase;
+        white-space: nowrap; /* Prohíbe que el texto salte de línea */
+        letter-spacing: -0.2px; /* Junta un poquito las letras para ganar milímetros */
+        flex: 1;
+        text-align: center;
+    }
+
+    /* Ajuste para que la barra violeta de 'active' no sea demasiado gruesa */
+    .nav-link.active {
+        border-bottom-width: 2px;
+    } 
+    /* Ocultamos el submenú de Games en móvil para evitar caos visual */
+    .submenu-container {
+        display: none !important;
+    }
 }
