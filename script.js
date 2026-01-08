@@ -99,8 +99,13 @@ function setLanguage(lang) {
             throwOnError: false
         });
     }
-
-    
+    const iframe = document.getElementById('streamlit-app');
+    if (iframe) {
+        // Obtenemos la URL base (sin el parámetro lang anterior si existiera)
+        const baseUrl = "https://calloro-unaiy5fu5zg6hf8ric2uob.streamlit.app/?embed=true";
+        // Recargamos el iframe con el nuevo idioma
+        iframe.src = `${baseUrl}&lang=${lang}`;
+    }    
     document.querySelectorAll('.language-switcher button').forEach(btn => 
         btn.classList.toggle('active', btn.id === `lang-${lang}`)
     );
