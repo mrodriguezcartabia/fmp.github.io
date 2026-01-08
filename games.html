@@ -72,31 +72,36 @@
         
         <section id="valuator" class="reveal scroll-mt-24">
             <div class="card">
-                <h3 class="text-2xl font-bold mb-4" data-en="Gold Option Valuator (Binomial)" data-es="Valuador de call de oro" data-pt="Valiador de Opções de Ouro (Binomial)">
+                <h3 class="text-2xl font-bold mb-4" data-en="Gold call valuator" data-es="Valuador de <span class='highlight'>call</span> de oro" data-pt="Valiador de <span class='highlight'>call</span> de ouro">
                     Valuador de Opciones de Oro (Binomial)
                 </h3>
                 
                 <div class="text-left mb-6">
-                    <p class="mb-6">
-                        <strong data-en="Rules:" data-es="Reglas:" data-pt="Regras:">Reglas:</strong> 
-                        <span data-en="we use a binomial model to calculate the price of a gold call." 
-                              data-es="utilizamos un modelo binomial para calcular el precio de un call de oro." 
-                              data-pt="utilizamos um modelo binomial para calcular o preço de um call de ouro.">
-                              utilizamos un modelo binomial para calcular el precio de un call de oro.
-                        </span>
-                    </p>
+                    <div class="border-t border-white/10 pt-4">
+                        <p class="cursor-pointer text-indigo-400 hover:text-indigo-300 transition-colors inline-block" onclick="toggleCalculations('reglas-call')">
+                            <strong data-en="Rules:" data-es="Reglas:" data-pt="Regras:">Reglas:</strong>
+                            <span class="text-sm ml-1 opacity-70">(click to expand)</span>
+                        </p>
+                        
+                        <div id="reglas-call" class="hidden mt-4 space-y-4 text-gray-300 bg-black/20 p-4 rounded-lg">
+                            <div data-en="We use a binomial model to calculate the gold call price. The variables are $\alpha$, $\beta$, volatility, and interest rate. The application then uses the binomial model to find the derivative values based on different strike prices for next month's expiration." 
+                                 data-es="Utilizamos un modelo binomial para calcular el precio de un call de oro. Las variables son $\alpha$, $\beta$, volatilidad y tasa de interés. Luego la aplicación utiliza el modelo binomial para hallar los valores del derivado en función de los diferentes valores de strike para el vencimiento del mes próximo." 
+                                 data-pt="Utilizamos um modelo binomial para calcular o preço de um call de ouro. As variáveis são $\alpha$, $\beta$, volatilidade e taxa de juros. Em seguida, o aplicativo utiliza o modelo binomial para encontrar os valores do derivado com base em diferentes preços de strike para o vencimento do próximo mês.">
+                                Utilizamos un modelo binomial para calcular el precio de un call de oro. Las variables son $\alpha$, $\beta$, volatilidad y tasa de interés. Luego la aplicación utiliza el modelo binomial para hallar los valores del derivado en función de los diferentes valores de strike para el vencimiento del mes próximo.
+                            </div>
+                        </div>
                 
                     <div class="border-t border-white/10 pt-4">
-                        <p class="cursor-pointer text-indigo-400 hover:text-indigo-300 transition-colors inline-block" onclick="toggleCalculations()">
+                        <p class="cursor-pointer text-indigo-400 hover:text-indigo-300 transition-colors inline-block" onclick="toggleCalculations('calc-call')">
                             <strong data-en="Calculations:" data-es="Cálculos:" data-pt="Cálculos:">Cálculos:</strong>
                             <span class="text-sm ml-1 opacity-70">(click to expand)</span>
                         </p>
                         
-                        <div id="calc-content" class="hidden mt-4 space-y-4 text-gray-300 bg-black/20 p-4 rounded-lg">
-                            <div data-en="in each step $\Delta t$, the gold price $S$ has two possible paths:" 
-                                 data-es="en cada paso $\Delta t$, el precio del oro $S$ tiene dos caminos posibles:" 
-                                 data-pt="em cada passo $\Delta t$, o preço do ouro $S$ tem dois caminhos possíveis:">
-                                 en cada paso $\Delta t$, el precio del oro $S$ tiene dos caminos posibles:
+                        <div id="calc-call" class="hidden mt-4 space-y-4 text-gray-300 bg-black/20 p-4 rounded-lg">
+                            <div data-en="In each step $\Delta t$, the gold price $S$ has two possible paths:" 
+                                 data-es="En cada paso $\Delta t$, el precio del oro $S$ tiene dos caminos posibles:" 
+                                 data-pt="Em cada passo $\Delta t$, o preço do ouro $S$ tem dois caminhos possíveis:">
+                                 En cada paso $\Delta t$, el precio del oro $S$ tiene dos caminos posibles:
                             </div>
                             
                             <div class="py-2">
@@ -166,27 +171,24 @@
         <section id="tug-of-war" class="reveal scroll-mt-24">
             <div class="card text-center">
                 <h3 class="text-2xl font-bold mb-4" data-en="Tug of War Game" data-es="Juego de la soga" data-pt="Jogo da corda">Tug of War Game</h3>
-
-                <div class="text-left mb-6">
-                    <p class="mb-6">
-                        <strong data-en="Rules:" data-es="Reglas:" data-pt="Regras:">Reglas:</strong> 
-                        <span 
-                            data-en="it is played in turns against the computer and ends when the dark green dot reaches any of the edge squares.
-                            Who plays each turn is decided by tossing a heavy coin, and the goal is to get the highest possible payout.
-                            To move the point, you must select a position within the light green circle. As a help, we can place a harmonic function on the board." 
-                            data-es="se juega por turnos contra la computadora y concluye cuando el punto verde oscuro alcanza alguno de los cuadrados del borde. 
-                            Quién juega en cada turno se decide mediante el lanzamiento de una moneda bien pesada y el objetivo es obtener el mayor pago posible, 
-                            para mover el punto hay que seleccionar alguna posición dentro del círculo verde claro. Como ayuda podemos colocar una función armónica en el tablero." 
-                            data-pt="é jogado em turnos contra o computador e termina quando o ponto verde alcança a borda. 
-                            A escolha do jogador em cada turno é feita através do lançamento de uma moeda pesada, e o objetivo é obter o maior pagamento possível.
-                             Para mover o ponto, você deve selecionar uma posição dentro do círculo verde claro. Como ajuda, podemos colocar uma função harmônica no tabuleiro.">
-                            
-                            se juega por turnos contra la computadora y concluye cuando el punto verde oscuro alcanza alguno de los cuadrados del borde. 
-                            Quién juega en cada turno se decide mediante el lanzamiento de una moneda bien pesada y el objetivo es obtener el mayor pago posible. 
-                            Como ayuda podemos colocar una función armónica en el tablero.
-                            
-                        </span>
-                    </p>
+                
+               <div class="border-t border-white/10 pt-4">
+                        <p class="cursor-pointer text-indigo-400 hover:text-indigo-300 transition-colors inline-block" onclick="toggleCalculations('reglas-tug')">
+                            <strong data-en="Rules:" data-es="Reglas:" data-pt="Regras:">Reglas:</strong> 
+                            <span class="text-sm ml-1 opacity-70">(click to expand)</span>
+                        </p>
+                        
+                        <div id="reglas-tug" class="hidden mt-4 space-y-4 text-gray-300 bg-black/20 p-4 rounded-lg">
+                            <div data-en="1. The goal is to get the highest possible payout from the squares on the edge. The game ends when the dark green dot reaches any edge square. 2. It is played in turns against the computer; the player is decided by a weighted coin toss. 3. On your turn, you must select a position within the light green circle." 
+                                 data-es="1. El objetivo es obtener el mayor pago posible de los cuadros del borde. El juego concluye cuando el punto verde oscuro alcanza alguno de los cuadrados del borde. 2. Se juega por turnos contra la computadora; quién juega se decide mediante el lanzamiento de una moneda bien pesada. 3. En el turno propio hay que seleccionar una posición dentro del círculo verde claro." 
+                                 data-pt="1. O objetivo é obter o maior pagamento possível nos quadrados da borda. O jogo termina quando o ponto verde escuro atinge qualquer quadrado da borda. 2. É jogado em turnos contra o computador; quem joga é decidido pelo lançamento de uma moeda pesada. 3. Na sua vez, você deve selecionar uma posição dentro do círculo verde claro.">
+                                <ol class="list-decimal ml-5 space-y-2">
+                                    <li>El objetivo es el mayor pago posible de los cuadros que figuran en el borde del cuadrado. El juego concluye cuando el punto verde oscuro alcanza alguno de los cuadrados del borde.</li>
+                                    <li>Se juega por turnos contra la computadora. Quién juega en cada uno se decide mediante el lanzamiento de una moneda bien pesada.</li>
+                                    <li>En un turno propio hay que seleccionar alguna posición dentro del círculo verde claro.</li>
+                                </ol>
+                            </div>
+                        </div>
                 </div>
                 
                 <div class="iframe-container mx-auto w-full md:w-4/5 lg:w-2/3" style="aspect-ratio: 960 / 600; height: auto; position: relative;">
