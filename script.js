@@ -233,15 +233,9 @@ window.addEventListener("scroll", () => {
 });
 
 /* --- 9. MENÚ DESPLEGABLE --- */
-function toggleCalculations() {
-    const content = document.getElementById('calc-content');
-    const arrow = document.getElementById('calc-arrow');
-    
-    // Mostramos/Ocultamos el contenido
-    content.classList.toggle('hidden');
-    
-    // Rotamos la flechita si la agregaste
-    if (arrow) {
-        arrow.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+function toggleCalculations(elementId) {
+    const content = document.getElementById(elementId);
+    if (content) {
+        content.classList.toggle('hidden')
     }
 }
