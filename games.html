@@ -92,20 +92,23 @@
                             <div data-en="We use a binomial model to calculate the gold call price. The variables are $\alpha$, $\beta$, volatility, and interest rate. 
                                 The application then uses the binomial model to find the derivative values based on different strike prices for next month's expiration. 
                                 <a href='https://www.cmegroup.com/markets/metals/precious/gold.quotes.options.html#strikeRange=ATM' target='_blank' class='text-indigo-400 underline'>This link of CME Group</a> 
-                                can find current values ​​of derivatives." 
+                                can find current values ​​of derivatives. At each step the value of the stock can be multiplied by $u$ (increases) or by $d$ (decreases) where" 
                                  data-es="Utilizamos un modelo binomial para calcular el precio de un call de oro. Las variables son $\alpha$, $\beta$, volatilidad y tasa de interés. 
                                 Luego la aplicación utiliza el modelo binomial para hallar los valores del derivado en función de los diferentes valores de strike para el vencimiento del mes próximo. En
                                 <a href='https://www.cmegroup.com/markets/metals/precious/gold.quotes.options.html#strikeRange=ATM' target='_blank' class='text-indigo-400 underline'>este link de CME Group</a>  
-                                podemos encontrar valores actuales de derivados." 
+                                podemos encontrar valores actuales de derivados. En cada paso el valor de la acción puede multiplicaser por $u$ (aumenta) o por $d$ (disminuye) donde" 
                                  data-pt="Utilizamos um modelo binomial para calcular o preço de um call de ouro. As variáveis são $\alpha$, $\beta$, volatilidade e taxa de juros. 
                                 Em seguida, o aplicativo utiliza o modelo binomial para encontrar os valores do derivado com base em diferentes preços de strike para o vencimento do próximo mês. 
                                  <a href='https://www.cmegroup.com/markets/metals/precious/gold.quotes.options.html#strikeRange=ATM' target='_blank' class='text-indigo-400 underline'>Este link de CME Group</a>  
-                                pode encontrar os valores atuais das derivadas.">
+                                pode encontrar os valores atuais das derivadas. A cada passo, o valor da ação pode ser multiplicado por $u$ (aumenta) ou por $d$ (diminui), onde">
                                 Utilizamos un modelo binomial para calcular el precio de un call de oro. Las variables son $\alpha$, $\beta$, volatilidad y tasa de interés. 
                                 Luego la aplicación utiliza el modelo binomial para hallar los valores del derivado en función de los diferentes valores de strike para el vencimiento del mes próximo. En
                                 <a href="https://www.cmegroup.com/markets/metals/precious/gold.quotes.options.html#strikeRange=ATM" target='_blank' class='text-indigo-400 underline'>este link de CME Group</a>
-                                podemos encontrar valores actuales de derivados.
-                             </div>
+                                podemos encontrar valores actuales de derivados. En cada paso el valor de la acción puede multiplicaser por $u$ (aumenta) o por $d$ (disminuye) donde
+                             </div>                            
+                            <div class="py-2">
+                                $$u = \exp\left( \sigma \Delta t^\beta\right\alpha),\qquad d= \exp\left(- \sigma \Delta t^\beta\right/\alpha)$$
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -132,28 +135,18 @@
                                   & \nearrow & \\ 
                                   S & & \\ 
                                   & \searrow & \\ 
-                                  & & S/u 
+                                  & & dS  
                                   \end{array} $$
                             </div>
-                            
-                             <div data-en="where" 
-                                 data-es="donde" 
-                                 data-pt="onde">
-                                 donde
-                            </div>
-                            
-                            <div class="py-2">
-                                $$u = \exp\left(\sigma \Delta t^\beta\right),$$
-                            </div>
         
-                            <div data-en="then we define the probability $p$ as:" 
-                                 data-es="luego definimos la probabilidad $p$ como:" 
-                                 data-pt="então definimos a probabilidade  $p$ como:">
+                            <div data-en="Then we define the probability $p$ as:" 
+                                 data-es="Luego definimos la probabilidad $p$ como:" 
+                                 data-pt="Então definimos a probabilidade  $p$ como:">
                                  luego definimos la probabilidad $p$ como:
                             </div>
         
                             <div class="py-2">
-                                $$p = \frac{\exp(r\Delta t) - 1/u}{u - 1/u}.$$
+                                $$p = \frac{\exp(r\Delta t) - d}{u - d}.$$
                             </div>
         
                             <div data-en="Finally, the call value is found using:" 
