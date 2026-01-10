@@ -89,31 +89,46 @@
                         </p>
                         
                         <div id="reglas-call" class="hidden mt-4 space-y-4 text-gray-300 bg-black/20 p-4 rounded-lg">
-                            <div data-en="We use a binomial model to calculate the gold call price. The variables are $\alpha$, $\beta$, $\sigma$ (volatility), and interest rate. 
-                                Additionally, the time steps measure $\Delta t$.
-                                The application then uses the binomial model to find the derivative values based on different strike prices for next month's expiration. 
-                                <a href='https://www.cmegroup.com/markets/metals/precious/gold.quotes.options.html#strikeRange=ATM' target='_blank' class='text-indigo-400 underline'>This link of CME Group</a> 
-                                can find current values ​​of derivatives. At each step the value of the stock can be multiplied by $u$ (increases) or by $d$ (decreases) where" 
-                                 data-es="Utilizamos un modelo binomial para calcular el precio de un call de oro. Las variables son $\alpha$, $\beta$, $\sigma$ (volatilidad) y tasa de interés. 
-                                Además los pasos temporales miden $\Delta t$.
-                                Luego la aplicación utiliza el modelo binomial para hallar los valores del derivado en función de los diferentes valores de strike para el vencimiento del mes próximo. En
-                                <a href='https://www.cmegroup.com/markets/metals/precious/gold.quotes.options.html#strikeRange=ATM' target='_blank' class='text-indigo-400 underline'>este link de CME Group</a>  
-                                podemos encontrar valores actuales de derivados. En cada paso el valor de la acción puede multiplicaser por $u$ (aumenta) o por $d$ (disminuye) donde" 
-                                 data-pt="Utilizamos um modelo binomial para calcular o preço de um call de ouro. As variáveis são $\alpha$, $\beta$, $\sigma$ volatilidade e taxa de juros. 
-                                Além disso, os intervalos de tempo medem $\Delta t$.
-                                Em seguida, o aplicativo utiliza o modelo binomial para encontrar os valores do derivado com base em diferentes preços de strike para o vencimento do próximo mês. 
-                                 <a href='https://www.cmegroup.com/markets/metals/precious/gold.quotes.options.html#strikeRange=ATM' target='_blank' class='text-indigo-400 underline'>Este link de CME Group</a>  
-                                pode encontrar os valores atuais das derivadas. A cada passo, o valor da ação pode ser multiplicado por $u$ (aumenta) ou por $d$ (diminui), onde">
-                                Utilizamos un modelo binomial para calcular el precio de un call de oro. Las variables son $\alpha$, $\beta$, volatilidad y tasa de interés. Además los pasos temporales miden $\Delta t$. 
-                                Luego la aplicación utiliza el modelo binomial para hallar los valores del derivado en función de los diferentes valores de strike para el vencimiento del mes próximo. En
-                                <a href="https://www.cmegroup.com/markets/metals/precious/gold.quotes.options.html#strikeRange=ATM" target='_blank' class='text-indigo-400 underline'>este link de CME Group</a>
-                                podemos encontrar valores actuales de derivados. En cada paso el valor de la acción puede multiplicaser por $u$ (aumenta) o por $d$ (disminuye) donde
-                             </div>                            
+                            <div data-en="We use a binomial model to calculate the gold call price. We start with the value of the gold future price for next month. 
+                                The variables are $\alpha$, $\beta$, $\sigma$ (annual volatility), and $r$ (interest rate). Additionally, the time steps measure $\Delta t$ and can be modified as multiples of 
+                                $10^{-1}$. At each step, the stock value can be multiplied by $u$ (up) or $d$ (down) where" 
+                                 data-es="Utilizamos un modelo binomial para calcular el precio de un call de oro. Iniciamos con el valor del precio futuro del oro para el próximo mes. 
+                                Las variables son $\alpha$, $\beta$, $\sigma$ (volatilidad anual) y $r$ (tasa de interés). Además, los pasos temporales miden $\Delta t$ y se pueden modificar como múltiplos de 
+                                $10^{-1}$. En cada paso, el valor de la acción puede multiplicarse por $u$ (aumenta) o por $d$ (disminuye) donde" 
+                                 data-pt="Utilizamos um modelo binomial para calcular o preço de uma call de ouro. Iniciamos com o valor do preço futuro do ouro para o próximo mês. 
+                                As variáveis são $\alpha$, $\beta$, $\sigma$ (volatilidade anual) e $r$ (taxa de juros). Além disso, os intervalos de tempo medem $\Delta t$ e podem ser modificados como múltiplos de 
+                                $10^{-1}$. Em cada etapa, o valor da ação pode ser multiplicado por $u$ (aumento) ou por $d$ (diminuição) onde">
+                                Utilizamos un modelo binomial para calcular el precio de un call de oro. Iniciamos el juego con el valor del precio futuro del oro para el próximo mes. 
+                                Luego las variables son $\alpha$, $\beta$, $\sigma$ (volatilidad anual) y $r$ (tasa de interés). Además los pasos temporales miden $\Delta t$ y se pueden modificar como múltiplos de 
+                                $10^{-1}$ y en cada paso el valor de la acción puede multiplicarse por $u$ (aumenta) o por $d$ (disminuye) donde
+                            </div>
+                            
                             <div class="py-2">
                                 $$\begin{aligned}
-                                u &= \exp\left( \sigma \Delta t^\beta\alpha\right), \\
-                                d &= \exp\left(- \sigma \Delta t^\beta/\alpha\right).
+                                u &= \exp\left( \sigma \Delta t^\beta \alpha \right), \\
+                                d &= \exp\left(- \sigma \Delta t^\beta / \alpha \right).
                                 \end{aligned}$$
+                            </div>
+                            
+                            <div data-en="Thus we obtain the derivative values based on the different strike prices for next month's gold future expiration. 
+                                In <a href='https://www.cmegroup.com/markets/metals/precious/gold.quotes.options.html#strikeRange=ATM' target='_blank' class='text-indigo-400 underline'>this CME Group link</a> 
+                                current derivative values can be found. If $\beta=1/2$, then the limit of this model as $\Delta t$ approaches zero is the Black-Scholes model.
+                                Furthermore, the application allows for the inverse process: if we input the different strike prices, we can use least squares to find the $\sigma$ value that best fits the model."
+                                 data-es="Así obtenemos los valores del derivado en función de los diferentes precios de strike para el vencimiento del mes próximo sobre oro futuro. 
+                                En <a href='https://www.cmegroup.com/markets/metals/precious/gold.quotes.options.html#strikeRange=ATM' target='_blank' class='text-indigo-400 underline'>este link de CME Group</a> 
+                                podemos encontrar valores actuales de derivados. Si $\beta=1/2$, entonces el límite de este modelo cuando $\Delta t$ tiende a cero es el de Black-Scholes. 
+                                Además, el juego permite hacer el proceso inverso: si ingresamos los valores de los diferentes precios strike, podemos utilizar mínimos cuadrados para hallar el valor de $\sigma$ 
+                                que mejor ajusta al modelo."
+                                 data-pt="Assim, obtemos os valores do derivado com base nos diferentes preços de strike para o vencimento do futuro de ouro do próximo mês. 
+                                Neste <a href='https://www.cmegroup.com/markets/metals/precious/gold.quotes.options.html#strikeRange=ATM' target='_blank' class='text-indigo-400 underline'>link do CME Group</a> 
+                                podem ser encontrados os valores atuais dos derivados. Se $\beta=1/2$, então o limite deste modelo quando $\Delta t$ tende a zero é o de Black-Scholes. 
+                                Além disso, o aplicativo permite realizar o processo inverso: se inserirmos os valores dos diferentes preços de strike, podemos utilizar mínimos quadrados para encontrar o valor de 
+                                $\sigma$ que melhor se ajusta ao modelo.">
+                                Así obtenemos los valores del derivado en función de los diferentes precios de strike para el vencimiento del mes próximo sobre oro futuro. 
+                                En <a href='https://www.cmegroup.com/markets/metals/precious/gold.quotes.options.html#strikeRange=ATM' target='_blank' class='text-indigo-400 underline'>este link de CME Group</a> 
+                                podemos encontrar valores actuales de derivados. Si $\beta=1/2$, entonces el límite de este modelo cuando $\Delta t$ tiende a cero es el de Black-Scholes. 
+                                Además el juego permite hacer el proceso inverso: si ingresamos los valores de los diferentes precios strike, podemos utilizar mínimos cuadrados para hallar el valor de $\sigma$ 
+                                que mejor ajusta al modelo.
                             </div>
                         </div>
                     </div>
