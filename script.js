@@ -102,7 +102,7 @@ function setLanguage(lang) {
     const iframe = document.getElementById('streamlit-app');
     if (iframe) {
         // Obtenemos la URL base (sin el parámetro lang anterior si existiera)
-        const baseUrl = "https://calloro-unaiy5fu5zg6hf8ric2uob.streamlit.app/?embed=true";
+        const baseUrl = "https://https://callamzn-mys8k7ezb75qeov5gvpc4i.streamlit.app//?embed=true";
         // Recargamos el iframe con el nuevo idioma
         iframe.src = `${baseUrl}&lang=${lang}`;
     }    
