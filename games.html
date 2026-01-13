@@ -69,72 +69,34 @@
     </nav>
 
     <main class="py-24 relative z-10 container mx-auto px-6 space-y-12">
+
+        <section class="reveal">
+            <div class="card" 
+                 data-en="Some ideas: in this section we present some interactive games for recreation and education purpose." 
+                 data-es="Algunas ideas: en esta sección presentamos algunos juegos interactivos con fines recreativos y educativos." 
+                 data-pt="Algumas ideias: nesta seção apresentamos alguns jogos interativos para fins recreativos e educacionais.">
+                Some ideas: in this section we present some interactive games for recreation and education purpose.
+            </div>
+        </section>
         
         <section id="valuator" class="reveal scroll-mt-24">
             <div class="card">
-                <h3 class="text-2xl font-bold mb-4" data-en="Gold call valuator" data-es="Valuador de <span class='highlight'>call</span> de oro" data-pt="Valiador de <span class='highlight'>call</span> de ouro">
-                    Valuador de Opciones de Oro (Binomial)
+                <h3 class="text-3xl font-bold mb-6 text-indigo-400" 
+                    data-en="Amazon Option Valuator (Binomial)" 
+                    data-es="Valuador de Opciones de Amazon (Binomial)" 
+                    data-pt="Valiador de Opções da Amazon (Binomial)">
+                    Valuador de Opciones de Amazon (Binomial)
                 </h3>
                 
+                <p class="mb-6 text-gray-300" 
+                    data-en="We use a binomial model to calculate the price of an AMZN (Amazon) call option." 
+                    data-es="Utilizamos un modelo binomial para calcular el precio de un derivado financiero <span class='italic'>call</span> de la acción AMZN (Amazon)." 
+                    data-pt="Utilizamos um modelo binomial para calcular o preço de uma opção <span class='italic'>call</span> da ação AMZN (Amazon).">
+                    Utilizamos un modelo binomial para calcular el precio de un derivado financiero <span class='italic'>call</span> de la acción AMZN (Amazon).
+                </p>
                 <div class="text-left mb-6">
-                    <div>
-                        <p class="cursor-pointer text-indigo-400 hover:text-indigo-300 transition-colors inline-block" onclick="toggleCalculations('reglas-call')">
-                            <strong data-en="Rules:" data-es="Reglas:" data-pt="Regras:">Reglas:</strong>
-                            <span class="text-sm ml-1 opacity-70" 
-                                  data-en="(click to expand)" 
-                                  data-es="(clic para expandir)" 
-                                  data-pt="(clique para expandir)">
-                                  (clic para expandir)
-                            </span>
-                        </p>
-                        
-                        <div id="reglas-call" class="hidden mt-4 space-y-4 text-gray-300 bg-black/20 p-4 rounded-lg">
-                            <div data-en="We use a binomial model to calculate the gold call price. We start with the value of the gold future price for next month. 
-                                The variables are $\alpha$, $\beta$, $\sigma$ (annual volatility), and $r$ (interest rate). Additionally, the time steps measure $\Delta t$ and can be modified as multiples of 
-                                $10^{-1}$. At each step, the stock value can be multiplied by $u$ (up) or $d$ (down) where" 
-                                 data-es="Utilizamos un modelo binomial para calcular el precio de un call de oro. Iniciamos con el valor del precio futuro del oro para el próximo mes. 
-                                Las variables son $\alpha$, $\beta$, $\sigma$ (volatilidad anual) y $r$ (tasa de interés). Además, los pasos temporales miden $\Delta t$ y se pueden modificar como múltiplos de 
-                                $10^{-1}$. En cada paso, el valor de la acción puede multiplicarse por $u$ (aumenta) o por $d$ (disminuye) donde" 
-                                 data-pt="Utilizamos um modelo binomial para calcular o preço de uma call de ouro. Iniciamos com o valor do preço futuro do ouro para o próximo mês. 
-                                As variáveis são $\alpha$, $\beta$, $\sigma$ (volatilidade anual) e $r$ (taxa de juros). Além disso, os intervalos de tempo medem $\Delta t$ e podem ser modificados como múltiplos de 
-                                $10^{-1}$. Em cada etapa, o valor da ação pode ser multiplicado por $u$ (aumento) ou por $d$ (diminuição) onde">
-                                Utilizamos un modelo binomial para calcular el precio de un call de oro. Iniciamos el juego con el valor del precio futuro del oro para el próximo mes. 
-                                Luego las variables son $\alpha$, $\beta$, $\sigma$ (volatilidad anual) y $r$ (tasa de interés). Además los pasos temporales miden $\Delta t$ y se pueden modificar como múltiplos de 
-                                $10^{-1}$ y en cada paso el valor de la acción puede multiplicarse por $u$ (aumenta) o por $d$ (disminuye) donde
-                            </div>
-                            
-                            <div class="py-2">
-                                $$\begin{aligned}
-                                u &= \exp\left( \sigma \Delta t^\beta \alpha \right), \\
-                                d &= \exp\left(- \sigma \Delta t^\beta / \alpha \right).
-                                \end{aligned}$$
-                            </div>
-                            
-                            <div data-en="Thus we obtain the derivative values based on the different strike prices for next month's gold future expiration. 
-                                In <a href='https://www.cboe.com/delayed_quotes/amzn/quote_table' target='_blank' class='text-indigo-400 underline'>this CME Group link</a> 
-                                current derivative values can be found. If $\beta=1/2$, then the limit of this model as $\Delta t$ approaches zero is the Black-Scholes model.
-                                <br>Furthermore, the application allows for the inverse process: if we input the different strike prices, we can use least squares to find the $\sigma$ value that best fits the model."
-                                 data-es="Así obtenemos los valores del derivado en función de los diferentes precios de strike para el vencimiento del mes próximo sobre oro futuro. 
-                                En <a href='https://www.cboe.com/delayed_quotes/amzn/quote_table' target='_blank' class='text-indigo-400 underline'>este link de CME Group</a> 
-                                podemos encontrar valores actuales de derivados. Si $\beta=1/2$, entonces el límite de este modelo cuando $\Delta t$ tiende a cero es el de Black-Scholes. 
-                                <br>Además, el juego permite hacer el proceso inverso: si ingresamos los valores de los diferentes precios strike, podemos utilizar mínimos cuadrados para hallar el valor de $\sigma$ 
-                                que mejor ajusta al modelo."
-                                 data-pt="Assim, obtemos os valores do derivado com base nos diferentes preços de strike para o vencimento do futuro de ouro do próximo mês. 
-                                Neste <a href='https://www.cboe.com/delayed_quotes/amzn/quote_table' target='_blank' class='text-indigo-400 underline'>link do CME Group</a> 
-                                podem ser encontrados os valores atuais dos derivados. Se $\beta=1/2$, então o limite deste modelo quando $\Delta t$ tende a zero é o de Black-Scholes. 
-                                <br>Além disso, o aplicativo permite realizar o processo inverso: se inserirmos os valores dos diferentes preços de strike, podemos utilizar mínimos quadrados para encontrar o valor de 
-                                $\sigma$ que melhor se ajusta ao modelo.">
-                                Así obtenemos los valores del derivado en función de los diferentes precios de strike para el vencimiento del mes próximo sobre oro futuro. 
-                                En <a href='https://www.cboe.com/delayed_quotes/amzn/quote_table' target='_blank' class='text-indigo-400 underline'>este link de CME Group</a> 
-                                podemos encontrar valores actuales de derivados. Si $\beta=1/2$, entonces el límite de este modelo cuando $\Delta t$ tiende a cero es el de Black-Scholes. 
-                                <br>Además el juego permite hacer el proceso inverso: si ingresamos los valores de los diferentes precios strike, podemos utilizar mínimos cuadrados para hallar el valor de $\sigma$ 
-                                que mejor ajusta al modelo.
-                            </div>
-                        </div>
-                    </div>
-                    <div>
                         <p class="cursor-pointer text-indigo-400 hover:text-indigo-300 transition-colors inline-block" onclick="toggleCalculations('calc-call')">
-                            <strong data-en="Calculations:" data-es="Cálculos:" data-pt="Cálculos:">Cálculos:</strong>
+                            <strong data-en="Explanation of the model:" data-es="Explicación del modelo:" data-pt="Explicação do modelo:">Explicación del modelo:</strong>
                              <span class="text-sm ml-1 opacity-70" 
                                   data-en="(click to expand)" 
                                   data-es="(clic para expandir)" 
@@ -144,10 +106,18 @@
                         </p>
                         
                         <div id="calc-call" class="hidden mt-4 space-y-4 text-gray-300 bg-black/20 p-4 rounded-lg">
-                            <div data-en="In each step $\Delta t$, the gold price $S$ has two possible paths:" 
-                                 data-es="En cada paso $\Delta t$, el precio del oro $S$ tiene dos caminos posibles:" 
-                                 data-pt="Em cada passo $\Delta t$, o preço do ouro $S$ tem dois caminhos possíveis:">
-                                 En cada paso $\Delta t$, el precio del oro $S$ tiene dos caminos posibles:
+                            <div data-en="Given an option's expiration date, let $T$ be the time remaining from today until that date. Then we divide $T$ into smaller time <span class='italic'>steps</span>
+                                of length $\Delta t$ and, in each one, the stock value can be multiplied by $u$ (increase) or $d$ (decrease). 
+                                For example, if the stock is worth $S$, after a single time step it has two possible values:" 
+                                 data-es="Dada una fecha de vencimiento del derivado, sea $T$ el tiempo que resta desde hoy hasta esta fecha. Entonces dividimos a $T$ en <span class='italic'>pasos</span> 
+                                temporales más pequeños de longitud $\Delta t$ y, en cada uno, el valor de la acción puede multiplicarse por $u$ (aumentar) o por $d$ (disminuir). 
+                                Por ejemplo, si la acción vale $S$, luego de un solo paso temporal tiene dos valores posibles:" 
+                                 data-pt="Dada uma data de vencimento do derivado, seja $T$ o tempo que resta de hoje até essa data. Então dividimos $T$ em  <span class='italic'>etapas</span>
+                                temporais menores de comprimento $\Delta t$ e, em cada uma, o valor da ação pode ser multiplicado por $u$ (aumento) ou por $d$ (diminuição). 
+                                Por exemplo, se a ação vale $S$, após uma única etapa temporal ela tem dois valores possíveis:">
+                                 Dada una fecha de vencimiento del derivado, sea $T$ el tiempo que resta desde hoy hasta esta fecha. Entonces dividimos a $T$ en <span class='italic'>pasos</span> 
+                                temporales más pequeños de longitud $\Delta t$ y, en cada uno, el valor de la acción puede multiplicarse por $u$ (aumentar) o por $d$ (disminuir). 
+                                Por ejemplo, si la acción vale $S$, luego de un solo paso temporal tiene dos valores posibles:
                             </div>
                             
                             <div class="py-2">
@@ -159,28 +129,93 @@
                                   & & dS.  
                                   \end{array} $$
                             </div>
-        
-                            <div data-en="Then we define the probability $p$ as:" 
-                                 data-es="Luego definimos la probabilidad $p$ como:" 
-                                 data-pt="Então definimos a probabilidade  $p$ como:">
-                                 luego definimos la probabilidad $p$ como:
+
+                            <div data-en="where" data-es="donde" data-pt="onde">donde</div>
+                            
+                            <div class="py-2">
+                                $$\begin{aligned}
+                                u &= \exp\left( \sigma \Delta t^\beta \alpha \right), \\
+                                d &= \exp\left(- \sigma \Delta t^\beta / \alpha \right)
+                                \end{aligned}$$
+                            </div>
+                            
+                            <div data-en="with $\sigma$ being the annual volatility of the stock and $\alpha$ and $\beta$ parameters to be determined. 
+                                 <br> If $r$ represents the risk-free market interest rate, we can define a probability $p$ as" 
+                                 data-es="con $\sigma$ siendo la volatilidad anual de la acción y $\alpha$ y $\beta$ parámetros a determinar. 
+                                 <br> Si $r$ representa la tasa de interés libre de riesgo del mercado, podemos definir una probabilidad $p$ como" 
+                                 data-pt="com $\sigma$ sendo a volatilidade anual da ação e $\alpha$ e $\beta$ parâmetros a serem determinados. 
+                                 <br> Se $r$ representa a taxa de juros livre de risco do mercado, podemos definir uma probabilidade $p$ como">
+                                 con $\sigma$ siendo la volatilidad anual de la acción y $\alpha$ y $\beta$ parámetros a determinar. 
+                                 <br> Si $r$ representa la tasa de interés libre de riesgo del mercado, podemos definir una probabilidad $p$ como
                             </div>
         
                             <div class="py-2">
-                                $$p = \frac{\exp(r\Delta t) - d}{u - d}.$$
+                                $$p = \frac{\exp(r\Delta t) - d}{u - d}.$$ 
                             </div>
-        
-                            <div data-en="Finally, the call value is found using:" 
-                                 data-es="Finalmente, el valor del call se halla mediante:" 
-                                 data-pt="Finalmente, o valor do call é encontrado usando:">
-                                 Finalmente, el valor del call se halla mediante:
+
+                            <div data-en="Finally, given a strike price $K$, the model consists of calculating the derivative price $C$ using the formula:" 
+                                 data-es="Finalmente, dado un precio de ejercicio <span class='italic'>Strike</span> $K$, el modelo consiste en calcular el precio de derivado $C$ usando la fórmula:" 
+                                 data-pt="Finalmente, dado um preço de exercício <span class='italic'>Strike</span> $K$, o modelo consiste em calcular o preço do derivado $C$ usando a fórmula:">
+                                 Finalmente, dado un precio de ejercicio <span class='italic'>Strike</span> $K$, el modelo consiste en calcular el precio de derivado $C$ usando la fórmula:
                             </div>
         
                             <div class="py-2">
                                 $$C = \exp(-rT) E[\max\{S(T) - K, 0\}].$$
                             </div>
+
+                            <div data-en="The importance of the binomial model lies in the fact that it is enough to assume $\beta=1/2$ so that the limit of $C$ when $\Delta t$ tends to zero 
+                                verifies the formula of the Black-Scholes model." 
+                                 data-es="La importancia del modelo binomial radica en que basta asumir $\beta=1/2$ para que el límite de $C$ cuando $\Delta t$ tiende a cero 
+                                verifique la fórmula del modelo de Black-Scholes." 
+                                 data-pt="A importância do modelo binomial reside no fato de que basta assumir $\beta=1/2$ para que o limite de $C$ quando $\Delta t$ tende a zero 
+                                verifique a fórmula do modelo Black-Scholes.">
+                                 La importancia del modelo binomial radica en que basta asumir $\beta=1/2$ para que el límite de $C$ cuando $\Delta t$ tiende a cero 
+                                verifique la fórmula del modelo de Black-Scholes.
+                            </div>
+                        </div>
+                    <div>
+                        <p class="cursor-pointer text-indigo-400 hover:text-indigo-300 transition-colors inline-block" onclick="toggleCalculations('reglas-call')">
+                            <strong data-en="Rules:" data-es="Reglas:" data-pt="Regras:">Reglas:</strong>
+                            <span class="text-sm ml-1 opacity-70" 
+                                  data-en="(click to expand)" 
+                                  data-es="(clic para expandir)" 
+                                  data-pt="(clique para expandir)">
+                                  (clic para expandir)
+                            </span>
+                        </p>
+                        
+                        <div id="reglas-call" class="hidden mt-4 space-y-4 text-gray-300 bg-black/20 p-4 rounded-lg">      
+                            <div data-en="The variables that this application allows to modify are $\alpha$, $\beta$, the number of days until expiration, $\sigma$, the risk-free rate 
+                                and the current stock price. In addition, the time steps must be powers of $10^{-1}$. Thus, the model allows calculating the derivative values based on the different 
+                                prices of $K$. 
+                                In <a href='https://www.cboe.com/delayed_quotes/amzn/quote_table' target='_blank' class='text-indigo-400 underline'>this Cboe website</a> 
+                                there are market values of the derivative that we can introduce into the application to compare with the model. 
+                                <br>Furthermore, the game allows doing the inverse process in the following sense. Suppose we have fixed $T$ and the current value and loaded the $K$ values from the market. 
+                                Then we can leave three of the variables $\alpha$, $\beta$, $\sigma$ or $r$ fixed and use least squares to find the fourth that best fits the model." 
+                             data-es="Las variables que permite modificar esta aplicación son $\alpha$, $\beta$, la cantidad de días hasta el vencimiento, $\sigma$, la tasa libre de riesgo 
+                                y el precio actual de la acción. Además los pasos temporales deben ser potencias de $10^{-1}$. Así el modelo permite calcular los valores del derivado en función de los 
+                                diferentes precios de $K$. 
+                                En <a href='https://www.cboe.com/delayed_quotes/amzn/quote_table' target='_blank' class='text-indigo-400 underline'>esta página web de Cboe</a> 
+                                encontramos valores de mercado del derivado que pondemos introductir en la aplicación para comparar con el modelo. 
+                                <br>Además el juego permite hacer el proceso inverso en el siguiente sentido. Supongmaos que tenemos fijados $T$ y el valor actual y cargados los valores de $K$ del mercado. 
+                                Entonces podemos dejando tres de las variables $\alpha$, $\beta$, $\sigma$ o $r$ fijas y utilizar mínimos cuadrados para hallar la cuarta que mejor ajusta el modelo." 
+                             data-pt="As variáveis que este aplicativo permite modificar são $\alpha$, $\beta$, o número de dias até o vencimento, $\sigma$, a taxa livre de risco e o preço atual da ação. 
+                                Além disso, as etapas de tempo devem ser potências de $10^{-1}$. Assim, o modelo permite calcular os valores dos derivados com base nos diferentes preços de $K$. 
+                                Neste <a href='https://www.cboe.com/delayed_quotes/amzn/quote_table' target='_blank' class='text-indigo-400 underline'>site da Cboe</a> 
+                                nós encontramos valores de mercado do derivado que podemos introduzir no aplicativo para comparar com o modelo. 
+                                <br>Além disso, o jogo permite fazer o processo inverso no seguinte sentido. Suponha que fixamos $T$ e o valor atual e carregamos os valores de $K$ do mercado. 
+                                Então podemos deixar três das variáveis $\alpha$, $\beta$, $\sigma$ ou $r$ fixas e usar mínimos quadrados para encontrar a quarta que melhor se ajusta ao modelo.">
+                             Las variables que permite modificar esta aplicación son $\alpha$, $\beta$, la cantidad de días hasta el vencimiento, $\sigma$, la tasa libre de riesgo 
+                             y el precio actual de la acción. Además los pasos temporales deben ser potencias de $10^{-1}$. Así el modelo permite calcular los valores del derivado en función de los 
+                             diferentes precios de $K$. 
+                             En <a href='https://www.cboe.com/delayed_quotes/amzn/quote_table' target='_blank' class='text-indigo-400 underline'>esta página web de Cboe</a> 
+                              encontramos valores de mercado del derivado que pondemos introductir en la aplicación para comparar con el modelo. 
+                                <br>Además el juego permite hacer el proceso inverso en el siguiente sentido. Supongmaos que tenemos fijados $T$ y el valor actual y cargados los valores de $K$ del mercado.
+                                Entonces podemos dejando tres de las variables $\alpha$, $\beta$, $\sigma$ o $r$ fijas y utilizar mínimos cuadrados para hallar la cuarta que mejor ajusta el modelo.
+                        </div>
                         </div>
                     </div>
+                </div>
                     
                 <div class="iframe-container" style="height: 850px;">
                     <div class="text-right mb-2">
