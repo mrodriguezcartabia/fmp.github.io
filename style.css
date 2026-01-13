@@ -93,7 +93,6 @@ section[id] {
     height: 100%;
     background-image: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.1)), url('photo.jpg');
     background-size: cover;
-    background-position: center center;
     z-index: -1;
     /* Aplicamos la escala base aquí también */
     transform: scale(1.1);
@@ -295,6 +294,11 @@ section[id] {
     /* Ocultamos el logo pequeño en móvil para ganar espacio */
     #nav-logo, #mobile-menu-btn { 
         display: none !important; 
+    }
+
+    /* centramos la imagen de fondo */
+    .parallax-bg {
+        background-position: center center;
     }
 
     #nav-menu {
