@@ -347,3 +347,16 @@ section[id] {
 #nav-logo {
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
+   /* Para pantallas táctiles */
+@media (pointer: coarse) {
+    /* Si el usuario usa el dedo, el 'hover' no existe realmente. 
+       Es mejor ocultar el submenú que depende del mouse. */
+    .submenu-container {
+        display: none !important;
+    }
+    
+    /* Evitamos que el contenedor 'group' intente hacer espacio para un submenú que no verá */
+    .group:hover .submenu-container {
+        display: none !important;
+    }
+}
