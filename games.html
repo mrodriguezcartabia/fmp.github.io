@@ -71,11 +71,31 @@
     <main class="py-24 relative z-10 container mx-auto px-6 space-y-12">
 
         <section class="reveal">
-            <div class="card" 
-                 data-en="Some ideas: in this section we present some interactive games for recreation and education purpose." 
-                 data-es="Algunas ideas: en esta sección presentamos algunos juegos interactivos con fines recreativos y educativos." 
-                 data-pt="Algumas ideias: nesta seção apresentamos alguns jogos interativos para fins recreativos e educacionais.">
-                Some ideas: in this section we present some interactive games for recreation and education purpose.
+            <div class="card text-center mb-12">
+                <p class="text-lg"
+                    data-en="In this section we present some interactive games. 
+                    In the <a href='#valuator' class='text-indigo-400 underline'>Amazon Call Valuator</a> we study the price of a call using a binomial model with finite time steps. 
+                    It is interesting because as the number of steps tends to infinity, the model becomes the Black-Scholes formula. 
+                    <a href='#tug-of-war' class='text-indigo-400 underline'>Tug of War</a> is a zero-sum game against the computer and serves to see the properties of the harmonic function 
+                    given that the domain is a square and the boundary is fixed."
+                    data-es="En esta sección presentamos algunos juegos interactivos. 
+                    En el <a href='#valuator' class='text-indigo-400 underline'>Valuador de call de Amazon</a> estudiamos el precio de un <span class='italic'>call</span> utilizando un 
+                    modelo binomial con una cantidad de pasos temporales finitos. Es interesante porque al hacer tender la cantidad de pasos a infinito el modelo se convierte en la fórmula de Black-Scholes. 
+                    El <a href='#tug-of-war' class='text-indigo-400 underline'>Juego de la Soga</a> es un juego de suma cero contra la computadora y sirve para ver las propiedades de la función armónica 
+                    dado que el dominio es un cuadrado y la frontera está fija."
+                    data-pt="Nesta seção apresentamos alguns jogos interativos. 
+                    No <a href='#valuator' class='text-indigo-400 underline'>Valiador de call da Amazon</a> estudamos o preço de um <span class='italic'>call</span> utilizando um modelo binomial com 
+                    um número finito de etapas temporais. É interessante porque, à medida que o número de etapas tende ao infinito, o modelo se torna a fórmula de Black-Scholes. 
+                    O <a href='#tug-of-war' class='text-indigo-400 underline'>Jogo da Corda</a> é um jogo de soma zero contra o computador e serve para observar as propriedades da função harmônica, 
+                    dado que o domínio é um quadrado e a fronteira é fixa.">
+                    
+                    En esta sección presentamos algunos juegos interactivos. En el 
+                    <a href="#valuator" class="text-indigo-400 underline">Valuador de <span class='italic'>call</span> de Amazon</a> 
+                    estudiamos el precio de un <span class='italic'>call</span> utilizando un modelo binomial con una cantidad de 
+                    pasos temporales finitos. Es interesante porque al hacer tender la cantidad de pasos a infinito el modelo se convierte en la fórmula de Black-Scholes. 
+                    El <a href="#tug-of-war" class="text-indigo-400 underline">Juego de la Soga</a> es un juego de 
+                    suma cero contra la computadora y sirve para ver las propiedades de la función armónica dado que el dominio es un cuadrado y la frontera está fija.
+                </p>
             </div>
         </section>
         
@@ -83,9 +103,9 @@
             <div class="card">
                 <h3 class="text-3xl font-bold mb-6 text-indigo-400" 
                     data-en="Amazon Option Valuator (Binomial)" 
-                    data-es="Valuador de Opciones de Amazon (Binomial)" 
+                    data-es="Valuador de <span class='italic'>call</span> de Amazon" 
                     data-pt="Valiador de Opções da Amazon (Binomial)">
-                    Valuador de Opciones de Amazon (Binomial)
+                    Valuador de <span class='italic'>call</span> de Amazon
                 </h3>
                 
                 <p class="mb-6 text-gray-300" 
@@ -213,7 +233,6 @@
                                 <br>Además el juego permite hacer el proceso inverso en el siguiente sentido. Supongmaos que tenemos fijados $T$ y el valor actual y cargados los valores de $K$ del mercado.
                                 Entonces podemos dejando tres de las variables $\alpha$, $\beta$, $\sigma$ o $r$ fijas y utilizar mínimos cuadrados para hallar la cuarta que mejor ajusta el modelo.
                         </div>
-                        </div>
                     </div>
                 </div>
                     
@@ -243,6 +262,22 @@
                 <h3 class="text-2xl font-bold mb-4" data-en="Tug of War Game" data-es="Juego de la soga" data-pt="Jogo da corda">
                     Tug of War Game
                 </h3>
+                <p class="mb-6 text-gray-300" 
+                    data-en="." >
+                    Presentamos un juego de suma cero para competir contra la computadora: hay que <span class='italic'>tirar</span> del punto verde oscuro hasta que llegue a algún cuadrado del borde y ese será 
+                    nuestro pago (o nuestra deuda).
+                </p>
+                <p class="mb-6 text-gray-300" 
+                    data-en="We present a zero-sum game to compete against the computer: you must <span class='italic'>pull</span> the dark green dot until it reaches a square on the edge, 
+                    which will determine your payout (or your debt)." 
+                    data-es="Presentamos un juego de suma cero para competir contra la computadora: hay que <span class='italic'>tirar</span> del punto verde oscuro hasta que llegue a algún cuadrado del 
+                    borde y este será nuestro pago (o nuestra deuda)." 
+                    data-pt="Apresentamos um jogo de soma zero para competir contra o computador: você deve <span class='italic'>puxar</span> o ponto verde escuro até que ele atinja algum quadrado na borda, 
+                    o que determinará o seu pagamento (ou a sua dívida).">
+                    
+                    Presentamos un juego de suma cero para competir contra la computadora: hay que <span class='italic'>tirar</span> del punto verde oscuro hasta que llegue a algún cuadrado del borde 
+                    y este será nuestro pago (o nuestra deuda).
+                </p>
 
                <div class="text-left mb-6">
                         <p class="cursor-pointer text-indigo-400 hover:text-indigo-300 transition-colors inline-block" onclick="toggleCalculations('reglas-tug')">
