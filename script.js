@@ -132,7 +132,7 @@ function setupNavigationObserver() {
                 }
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.7 });
 
     observer.observe(contactSection);
 }
