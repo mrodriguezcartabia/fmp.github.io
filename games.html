@@ -74,13 +74,13 @@
             <div class="card text-left mb-12">
                 <p class="text-lg"
                     data-en="In this section we present some interactive games. 
-                    In the <a href='#valuator' class='text-indigo-400 underline'>Amazon Call Pricing</a> we study the price of a call using a binomial model with finite time steps. 
+                    In the <a href='#valuator' class='text-indigo-400 underline'>Amazon Call Pricing</a> we study the price of a call using a binomial model with a finite number of time steps. 
                     It is interesting because as the number of steps tends to infinity, the model becomes the Black-Scholes formula. 
                     <a href='#tug-of-war' class='text-indigo-400 underline'>Tug of War</a> is a zero-sum game against the computer and serves to see the properties of the harmonic function 
                     given that the domain is a square and the boundary is fixed."
                     data-es="En esta sección presentamos algunos juegos interactivos. 
                     En el <a href='#valuator' class='text-indigo-400 underline'>Valuador de <span class='italic'>call</span> de Amazon</a> estudiamos el precio de un <span class='italic'>call</span> utilizando un 
-                    modelo binomial con una cantidad de pasos temporales finitos. Es interesante porque, al hacer tender la cantidad de pasos a infinito, el modelo se convierte en la fórmula de Black-Scholes. 
+                    modelo binomial con una cantidad finita de pasos temporales. Es interesante porque, al hacer tender la cantidad de pasos a infinito, el modelo se convierte en la fórmula de Black-Scholes. 
                     El <a href='#tug-of-war' class='text-indigo-400 underline'>Juego de la Soga</a> es un juego de suma cero contra la computadora y sirve para ver las propiedades de la función armónica 
                     dado que el dominio es un cuadrado y la frontera está fija."
                     data-pt="Nesta seção apresentamos alguns jogos interativos. 
@@ -91,8 +91,8 @@
                     
                     En esta sección presentamos algunos juegos interactivos. En el 
                     <a href="#valuator" class="text-indigo-400 underline">Valuador de <span class='italic'>call</span> de Amazon</a> 
-                    estudiamos el precio de un <span class='italic'>call</span> utilizando un modelo binomial con una cantidad de 
-                    pasos temporales finitos. Es interesante porque, al hacer tender la cantidad de pasos a infinito, el modelo se convierte en la fórmula de Black-Scholes. 
+                    estudiamos el precio de un <span class='italic'>call</span> utilizando un modelo binomial con una cantidad finita de 
+                    pasos temporales. Es interesante porque, al hacer tender la cantidad de pasos a infinito, el modelo se convierte en la fórmula de Black-Scholes. 
                     El <a href="#tug-of-war" class="text-indigo-400 underline">Juego de la Soga</a> es un juego de 
                     suma cero contra la computadora y sirve para ver las propiedades de la función armónica dado que el dominio es un cuadrado y la frontera está fija.
                 </p>
@@ -112,11 +112,11 @@
                     data-en="We use a binomial model to calculate the price of an AMZN (Amazon) call option.
                     We are interested in working with this stock because the company's policy is not to pay dividends, and this simplifies the study of financial derivatives." 
                     data-es="Utilizamos un modelo binomial para calcular el precio de un derivado financiero <span class='italic'>call</span> de la acción AMZN (Amazon).
-                    Nos interesa trabajar con esta acción debido a que la política de la empresa es no pagar dividendos y esto simplifica el estudio de los derivados financieros." 
+                    Nos interesa trabajar con este activo financiero debido a que la política de la empresa es no pagar dividendos y esto simplifica el estudio de los derivados financieros." 
                     data-pt="Utilizamos um modelo binomial para calcular o preço de uma opção <span class='italic'>call</span> da ação AMZN (Amazon).
-                    Temos interesse em trabalhar com essa ação porque a política da empresa é não pagar dividendos, o que simplifica o estudo de derivativos financeiros.">
+                    Temos interesse em trabalhar com esse ativo financeiro porque a política da empresa é não pagar dividendos, o que simplifica o estudo de derivativos financeiros.">
                     Utilizamos un modelo binomial para calcular el precio de un derivado financiero <span class='italic'>call</span> de la acción AMZN (Amazon). 
-                    Nos interesa trabajar con esta acción debido a que la política de la empresa es no pagar dividendos y esto simplifica el estudio de los derivados financieros.
+                    Nos interesa trabajar con este activo financiero debido a que la política de la empresa es no pagar dividendos y esto simplifica el estudio de los derivados financieros.
                 </p>
                 <div class="text-left mb-6">
                         <p class="cursor-pointer text-indigo-400 hover:text-indigo-300 transition-colors inline-block" onclick="toggleCalculations('calc-call')">
@@ -209,6 +209,7 @@
                                 verifique la fórmula del modelo de Black-Scholes.
                             </div>
                         </div>
+                    </div>
                     <div>
                         <p class="cursor-pointer text-indigo-400 hover:text-indigo-300 transition-colors inline-block" onclick="toggleCalculations('reglas-call')">
                             <strong data-en="Rules:" data-es="Reglas:" data-pt="Regras:">Reglas:</strong>
@@ -250,7 +251,6 @@
                                 <br>Además, el juego permite hacer el proceso inverso en el siguiente sentido. Supongamos que tenemos fijados $T$ y el valor actual y cargados los valores de $K$ del mercado.
                                 Entonces podemos elegir una de las cuatro variables $\alpha$, $\beta$, $\sigma$ y $r$ y utilizar mínimos cuadrados para hallar el valor que mejor ajusta el modelo 
                                 (con las otras tres fijas). 
-                        </div>
                         </div>
                     </div>
                 </div>
