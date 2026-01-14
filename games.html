@@ -109,10 +109,14 @@
                 </h3>
                 
                 <p class="mb-6 text-gray-300" 
-                    data-en="We use a binomial model to calculate the price of an AMZN (Amazon) call option." 
-                    data-es="Utilizamos un modelo binomial para calcular el precio de un derivado financiero <span class='italic'>call</span> de la acción AMZN (Amazon)." 
-                    data-pt="Utilizamos um modelo binomial para calcular o preço de uma opção <span class='italic'>call</span> da ação AMZN (Amazon).">
-                    Utilizamos un modelo binomial para calcular el precio de un derivado financiero <span class='italic'>call</span> de la acción AMZN (Amazon).
+                    data-en="We use a binomial model to calculate the price of an AMZN (Amazon) call option.
+                    We are interested in working with this stock because the company's policy is not to pay dividends, and this simplifies the study of financial derivatives." 
+                    data-es="Utilizamos un modelo binomial para calcular el precio de un derivado financiero <span class='italic'>call</span> de la acción AMZN (Amazon).
+                    Nos interesa trabajar con esta acción debido a que la política de la empresa es no pagar dividendos y esto simplifica el estudio de los derivados financieros." 
+                    data-pt="Utilizamos um modelo binomial para calcular o preço de uma opção <span class='italic'>call</span> da ação AMZN (Amazon).
+                    Temos interesse em trabalhar com essa ação porque a política da empresa é não pagar dividendos, o que simplifica o estudo de derivativos financeiros.">
+                    Utilizamos un modelo binomial para calcular el precio de un derivado financiero <span class='italic'>call</span> de la acción AMZN (Amazon). 
+                    Nos interesa trabajar con esta acción debido a que la política de la empresa es no pagar dividendos y esto simplifica el estudio de los derivados financieros.
                 </p>
                 <div class="text-left mb-6">
                         <p class="cursor-pointer text-indigo-400 hover:text-indigo-300 transition-colors inline-block" onclick="toggleCalculations('calc-call')">
@@ -150,7 +154,9 @@
                                   \end{array} $$
                             </div>
 
-                            <div data-en="where" data-es="donde" data-pt="onde">donde</div>
+                            <div data-en="For the change at each step we use" 
+                                data-es="Para el cambio en cada paso usamos" 
+                                data-pt="Para a alteração em cada etapa, usamos">Para el cambio en cada paso usamos</div>
                             
                             <div class="py-2">
                                 $$\begin{aligned}
@@ -160,17 +166,28 @@
                             </div>
                             
                             <div data-en="with $\sigma$ being the annual volatility of the stock and $\alpha$ and $\beta$ parameters to be determined. 
-                                 <br> If $r$ represents the risk-free market interest rate, we can define a probability $p$ as" 
-                                 data-es="con $\sigma$ siendo la volatilidad anual de la acción y $\alpha$ y $\beta$ parámetros a determinar. 
-                                 <br> Si $r$ representa la tasa de interés libre de riesgo del mercado, podemos definir una probabilidad $p$ como" 
-                                 data-pt="com $\sigma$ sendo a volatilidade anual da ação e $\alpha$ e $\beta$ parâmetros a serem determinados. 
-                                 <br> Se $r$ representa a taxa de juros livre de risco do mercado, podemos definir uma probabilidade $p$ como">
-                                 con $\sigma$ siendo la volatilidad anual de la acción y $\alpha$ y $\beta$ parámetros a determinar. 
-                                 <br> Si $r$ representa la tasa de interés libre de riesgo del mercado, podemos definir una probabilidad $p$ como
+                                 <br> Let $r$ represent the market's risk-free annual interest rate and thus define a probability $p$ as" 
+                                 data-es="donde $\sigma$ es la volatilidad anual de la acción y $\alpha$ y $\beta$ son parámetros a determinar. 
+                                 <br> Representemos con $r$ a la tasa de interés anual libre de riesgo del mercado y así definimos una probabilidad $p$ como" 
+                                 data-pt="onde $\sigma$ é a volatilidade anual da ação e $\alpha$ e $\beta$ são parâmetros a serem determinados.
+                                 <br> Seja $r$ a taxa de juros anual livre de risco do mercado e, portanto, defina uma probabilidade $p$ como">
+                                 donde $\sigma$ es la volatilidad anual de la acción y $\alpha$ y $\beta$ son parámetros a determinar. 
+                                 <br> Representemos con $r$ a la tasa de interés anual libre de riesgo del mercado y así definimos una probabilidad $p$ como
                             </div>
         
                             <div class="py-2">
-                                $$p = \frac{\exp(r\Delta t) - d}{u - d}.$$ 
+                                $$p = \frac{\exp(r\Delta t) - d}{u - d}$$ 
+                            </div>
+
+                            <div data-en="provided that" 
+                                 data-es="siempre que" 
+                                 data-pt="com $\sigma$ sendo a volatilidade anual da ação e $\alpha$ e $\beta$ parâmetros a serem determinados. 
+                                 <br> desde que">
+                                 siempre que
+                            </div>
+        
+                            <div class="py-2">
+                                $$d<\exp(r\Delta t) <u.$$ 
                             </div>
 
                             <div data-en="Finally, given a strike price $K$, the model consists of calculating the derivative price $C$ using the formula:" 
@@ -210,28 +227,30 @@
                                 prices of $K$. 
                                 In <a href='https://www.cboe.com/delayed_quotes/amzn/quote_table' target='_blank' class='text-indigo-400 underline'>this Cboe website</a> 
                                 there are market values of the derivative that we can introduce into the application to compare with the model. 
-                                <br>Furthermore, the game allows doing the inverse process in the following sense. Suppose we have fixed $T$ and the current value and loaded the $K$ values from the market. 
-                                Then we can leave three of the variables $\alpha$, $\beta$, $\sigma$ or $r$ fixed and use least squares to find the fourth that best fits the model." 
+                                <br>Furthermore, the game allows the reverse process to be performed in the following direction. Suppose we have fixed $T$ and the current value, and loaded the market values ​​of $K$.
+                                Then we can choose one of the four variables $\alpha$, $\beta$, $\sigma$, and $r$ and use least squares to find the value that best fits the model (with the other three fixed)." 
                              data-es="Las variables que permite modificar esta aplicación son $\alpha$, $\beta$, la cantidad de días hasta el vencimiento, $\sigma$, la tasa libre de riesgo 
                                 y el precio actual de la acción. Además los pasos temporales deben ser potencias de $10^{-1}$. Así el modelo permite calcular los valores del derivado en función de los 
                                 diferentes precios de $K$. 
                                 En <a href='https://www.cboe.com/delayed_quotes/amzn/quote_table' target='_blank' class='text-indigo-400 underline'>esta página web de Cboe</a> 
                                 encontramos valores de mercado del derivado que pondemos introductir en la aplicación para comparar con el modelo. 
-                                <br>Además el juego permite hacer el proceso inverso en el siguiente sentido. Supongamaos que tenemos fijados $T$ y el valor actual y cargados los valores de $K$ del mercado. 
-                                Entonces podemos dejando tres de las variables $\alpha$, $\beta$, $\sigma$ o $r$ fijas y utilizar mínimos cuadrados para hallar la cuarta que mejor ajusta el modelo." 
+                                <br>Además, el juego permite hacer el proceso inverso en el siguiente sentido. Supongamaos que tenemos fijados $T$ y el valor actual y cargados los valores de $K$ del mercado.
+                                Entonces podemos elegir una de las cuatro variables $\alpha$, $\beta$, $\sigma$ y $r$ y utilizar mínimos cuadrados para hallar el valor que mejor ajusta el modelo 
+                                (con las otras tres fijas)." 
                              data-pt="As variáveis que este aplicativo permite modificar são $\alpha$, $\beta$, o número de dias até o vencimento, $\sigma$, a taxa livre de risco e o preço atual da ação. 
                                 Além disso, as etapas de tempo devem ser potências de $10^{-1}$. Assim, o modelo permite calcular os valores dos derivados com base nos diferentes preços de $K$. 
                                 Neste <a href='https://www.cboe.com/delayed_quotes/amzn/quote_table' target='_blank' class='text-indigo-400 underline'>site da Cboe</a> 
                                 nós encontramos valores de mercado do derivado que podemos introduzir no aplicativo para comparar com o modelo. 
-                                <br>Além disso, o jogo permite fazer o processo inverso no seguinte sentido. Suponha que fixamos $T$ e o valor atual e carregamos os valores de $K$ do mercado. 
-                                Então podemos deixar três das variáveis $\alpha$, $\beta$, $\sigma$ ou $r$ fixas e usar mínimos quadrados para encontrar a quarta que melhor se ajusta ao modelo.">
+                                <br>Além disso, o jogo permite que o processo inverso seja realizado na seguinte direção. Suponha que tenhamos fixado $T$ e o valor atual, e carregado os valores de mercado de $K$.
+                                Então podemos escolher uma das quatro variáveis ​​$\alpha$, $\beta$, $\sigma$ e $r$ e usar o método dos mínimos quadrados para encontrar o valor que melhor se ajusta ao modelo (com as outras três fixas).">
                              Las variables que permite modificar esta aplicación son $\alpha$, $\beta$, la cantidad de días hasta el vencimiento, $\sigma$, la tasa libre de riesgo 
                              y el precio actual de la acción. Además los pasos temporales deben ser potencias de $10^{-1}$. Así el modelo permite calcular los valores del derivado en función de los 
                              diferentes precios de $K$. 
                              En <a href='https://www.cboe.com/delayed_quotes/amzn/quote_table' target='_blank' class='text-indigo-400 underline'>esta página web de Cboe</a> 
                               encontramos valores de mercado del derivado que pondemos introductir en la aplicación para comparar con el modelo. 
-                                <br>Además el juego permite hacer el proceso inverso en el siguiente sentido. Supongamaos que tenemos fijados $T$ y el valor actual y cargados los valores de $K$ del mercado.
-                                Entonces podemos dejando tres de las variables $\alpha$, $\beta$, $\sigma$ o $r$ fijas y utilizar mínimos cuadrados para hallar la cuarta que mejor ajusta el modelo.
+                                <br>Además, el juego permite hacer el proceso inverso en el siguiente sentido. Supongamaos que tenemos fijados $T$ y el valor actual y cargados los valores de $K$ del mercado.
+                                Entonces podemos elegir una de las cuatro variables $\alpha$, $\beta$, $\sigma$ y $r$ y utilizar mínimos cuadrados para hallar el valor que mejor ajusta el modelo 
+                                (con las otras tres fijas). 
                         </div>
                         </div>
                     </div>
