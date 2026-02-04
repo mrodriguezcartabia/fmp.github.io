@@ -2,6 +2,7 @@
 const translations = { en: 'Copied!', es: '¡Copiado!', pt: 'Copiado!' };
 const getNavLinks = () => document.querySelectorAll('.nav-link');
 const getContactSection = () => document.getElementById('contact-section');
+let isTypingActive = false;  //para no romper la animación de los bullets
 
 /* --- 2. GESTIÓN DE NAVEGACIÓN ACTIVA --- */
 function setActiveLink() {
@@ -46,7 +47,7 @@ function revealContent() {
 }
 
 /* --- 4. PANTALLA DE BIENVENIDA (INTRO) --- */
-function startIntro() {
+async function startIntro() {
     const introScreen = document.getElementById('intro-screen');
     const introContent = document.getElementById('intro-content');
     const introLogo = document.getElementById('intro-logo');
@@ -77,44 +78,48 @@ function startIntro() {
                 sessionStorage.setItem('introShown', 'true'); 
                 if (introScreen) introScreen.remove(); 
                 revealContent();
+                // Espera luego de la intro
+                await new Promise(resolve => setTimeout(resolve, 800)); 
                 // Animación secuencial de los bullets
+                isTypingActive = true;
                 const bullets = document.querySelectorAll('.bullet-item');
-
-                bullets.forEach((bullet, index) => {
-                    setTimeout(() => {
-                        // 1. Hacemos visible el li (el punto de la lista)
-                        bullet.classList.remove('opacity-0');
-                        
-                        // 2. Se escribe el texto
-                        const container = bullet.querySelector('.typing-container');
-                        if (container) {
-                            const textoOriginal = container.innerText;
-                            typeWriter(container, textoOriginal, 25);
-                        }
-                    }, index * 2500); // 2.5 segundos entre cada bullet para que de tiempo a leer
-                });
+                for (const bullet of bullets) {
+                    // 1. Hacemos visible el li (el punto de la lista)
+                    bullet.classList.remove('opacity-0');
+                    // 2. Se escribe el texto
+                    const container = bullet.querySelector('.typing-container');
+                    if (container) {
+                        const textoOriginal = container.innerText;
+                        await typeWriter(container, textoOriginal, 25);
+                        await new Promise(resolve => setTimeout(resolve, 500));
+                    }
+                }
+                isTypingActive = false;
             }, 2000);
         }, 2500);
     }, 300);
 }
 function typeWriter(element, text, speed = 30) {
-    let i = 0;
-    element.innerHTML = ""; // Limpiamos el texto inicial
-    element.classList.add("cursor-active"); // Ponemos el cursor
-
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        } else {
-            // Cuando termina, quitamos el cursor después de un momento
-            setTimeout(() => {
-                element.classList.remove("cursor-active");
-            }, 1000);
+    return new Promise((resolve) => {
+        let i = 0;
+        element.innerHTML = ""; // Limpiamos el texto inicial
+        element.classList.add("cursor-active"); // Ponemos el cursor
+    
+        function type() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            } else {
+                // Cuando termina, quitamos el cursor después de un momento
+                setTimeout(() => {
+                    element.classList.remove("cursor-active");
+                    resolve();
+                }, 1000);
+            }
         }
-    }
-    type();
+        type();
+    });
 }
 
 /* --- 5. SISTEMA DE IDIOMAS --- */
@@ -125,7 +130,11 @@ function setLanguage(lang) {
         if(text) {
             // Si el elemento es el que tiene la animación, mantenemos la clase
             if (el.classList.contains('typing-container')) {
-                el.textContent = text; 
+                // Solo actualiza el texto si no se está escribiendo en este momento
+                if (!isTypingActive) {
+                    el.textContent = text;
+                    el.style.visibility = 'visible'; // Asegura que se vea
+                }
             } else {
                 el.innerHTML = text;  // IMPORTANTE: Usar innerHTML
             }
