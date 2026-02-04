@@ -91,31 +91,38 @@ section[id] {
 
 /*Animamos los bullets */
 .bullet-item {
-    display: flex;             /* Alinea bullet y texto en la misma fila */
-    align-items: flex-start;   /* Alinea el punto de la lista arriba con el texto */
-    justify-content: flex-start; /* Fuerza izquierda */
-    margin-bottom: 1rem;
+    display: block;             
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
     text-align: left; /* Evita el centrado heredado */
-    list-style-position: inside;
+}
+/* Recuperamos el bullet con un pseudo-elemento para control total */
+.bullet-item::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #818cf8;
+    font-size: 1.5em;
+    line-height: 1;
+    top: 0.1em;
 }
 /* Contenedor del efecto */
 .typing-container {
   display: inline-block;
   position: relative;
   overflow: hidden; /* Esconde el texto que aún no se "escribe" */
-  white-space: normal; 
+  vertical-align: top;; 
   width: 100%;  
-  max-width: fit-content;
 }
 .typing-active::after {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background-color: #1e293b; /* mismo fondo que la .card */
     border-left: 3px solid #7f9cf5; /* El cursor (indigo-400)*/
+    z-index: 10;
+    box-shadow: -10px 0 15px 5px #1e293b;
     animation: reveal-text 2s steps(40) forwards;
 }
 /* La animación */
