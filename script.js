@@ -157,14 +157,24 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('intro-active');
         sessionStorage.setItem('introShown', 'true');
 
-        // LA PAUSA DE MEDIO SEGUNDO: El usuario ve el Home arriba y luego baja
-        setTimeout(() => {
-            window.scrollTo({
-                top: contactSection.offsetTop - 85,
-                behavior: 'smooth'
-            });
-        }, 500);
+        // Función que ejecuta el scroll
+        const performScroll = () => {
+            setTimeout(() => { // Un pequeño respiro para el renderizado final
+                window.scrollTo({
+                    top: contactSection.offsetTop - 85,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        };
 
+        // Si la página ya cargó todo (incluyendo imágenes), scrolleamos ya.
+        // Si no, esperamos al evento 'load'.
+        if (document.readyState === 'complete') {
+            performScroll();
+        } else {
+            window.addEventListener('load', performScroll);
+        }
+        
     // 3. CASO NORMAL: CLICS CON # (Ej: entrar directo con un link guardado)
     } else if (currentHash) {
         // Quitamos el smooth del CSS un segundo para que el salto inicial sea exacto
