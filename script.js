@@ -74,27 +74,16 @@ async function startIntro() {
 
             setTimeout(async () => { 
                 document.body.classList.remove('intro-active'); 
-                sessionStorage.setItem('introShown', 'true'); 
                 if (introScreen) introScreen.remove(); 
                 revealContent();
                 // Espera luego de la intro
                 await new Promise(resolve => setTimeout(resolve, 2000)); 
                 // Animación secuencial de los bullets
-                const bullets = document.querySelectorAll('.bullet-item');
-                for (const bullet of bullets) {
-                    const animationIdAtStart = currentAnimationId;
-                    // Hacemos visible el li (el punto de la lista)
-                    bullet.classList.remove('opacity-0');
-                    // Se escribe el texto
-                    const container = bullet.querySelector('.typing-container');
-                    if (container) {
-                        const currentLang = localStorage.getItem('preferredLang') || 'en';
-                        const textoOriginal = container.getAttribute(`data-${currentLang}`) || container.innerText;
-                        const sucess = await typeWriter(container, textoOriginal, 25);
-                        if (animationIdAtStart !== currentAnimationId) break;
-                        await new Promise(resolve => setTimeout(resolve, 200));
-                    }
-                }
+               // Marcamos como 'false' temporalmente para que la animación inicial corra, y luego setLanguage la respete.
+                sessionStorage.setItem('introShown', 'false');
+                startBulletsAnimation().then(() => {
+                    sessionStorage.setItem('introShown', 'true');
+                });
             }, 1000);
         }, 2500);
     }, 300);
@@ -138,22 +127,52 @@ function typeWriter(element, text, speed = 30) {
     });
 }
 
+async function startBulletsAnimation() {
+    const animationIdAtStart = currentAnimationId;
+    const bullets = document.querySelectorAll('.bullet-item');
+
+    // Limpiamos todo antes de empezar el reinicio
+    bullets.forEach(b => {
+        b.classList.add('opacity-0');
+        const container = b.querySelector('.typing-container');
+        if (container) container.innerHTML = '';
+    });
+
+    for (const bullet of bullets) {
+        if (animationIdAtStart !== currentAnimationId) return; // Si cambió el idioma, esta versión de la función muere
+
+        bullet.classList.remove('opacity-0');
+        const container = bullet.querySelector('.typing-container');
+        
+        if (container) {
+            const currentLang = localStorage.getItem('preferredLang') || 'en';
+            const textoOriginal = container.getAttribute(`data-${currentLang}`);
+            
+            await typeWriter(container, textoOriginal, 25);
+            
+            if (animationIdAtStart !== currentAnimationId) return; 
+            await new Promise(resolve => setTimeout(resolve, 200));
+        }
+    }
+}
+
 /* --- 5. SISTEMA DE IDIOMAS --- */
-function setLanguage(lang) {
+function setLanguage(lang, skipAnimation = false) {
     localStorage.setItem('preferredLang', lang);
     currentAnimationId++;
     document.querySelectorAll('[data-en]').forEach(el => { 
         const text = el.dataset[lang];
-        if(text) {
-            // Si el elemento es el que tiene la animación, mantenemos la clase
-            if (el.classList.contains('typing-container')) {
-                typeWriter(el, text, 30);
-            } else {
-                el.innerHTML = text;  // IMPORTANTE: Usar innerHTML
-            }
+        if(text && !el.classList.contains('typing-container')) {
+            el.innerHTML = text;  // IMPORTANTE: Usar innerHTML
+        } else if (text && el.classList.contains('typing-container') && skipAnimation) {
+            // Si es un bullet y pedimos NO animar (porque venimos de otra página)
+            el.innerHTML = text;
         }
     });
-
+    if (sessionStorage.getItem('introShown') !== 'true' && !skipAnimation) {
+        // Si estamos en plena intro, reiniciamos el bucle desde el principio
+        startBulletsAnimation(); 
+    }
     // Esto "limpia" los $ y dibuja las fórmulas de nuevo
     if (window.renderMathInElement) {
         renderMathInElement(document.body, {
@@ -274,7 +293,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // EJECUCIÓN DE FUNCIONES BASE
     lucide.createIcons();
     setActiveLink(); 
-    setLanguage(localStorage.getItem('preferredLang') || 'en'); 
+    const introShown = sessionStorage.getItem('introShown');
+
+    if (introShown === 'true') {
+        // Si ya se mostró, forzamos que no haya animaciones en setLanguage
+        document.querySelectorAll('.bullet-item').forEach(li => {
+            li.classList.remove('opacity-0', 'translate-y-4');
+        });
+        // Llamamos a setLanguage con un flag o simplemente actualizamos el texto sin typeWriter
+        setLanguage(localStorage.getItem('preferredLang') || 'en', true); 
+    } else {
+        setLanguage(localStorage.getItem('preferredLang') || 'en', false);
+    }
     
     // Si no hubo salto especial ni hash, revelamos contenido tras la intro
     if (scrollAction || currentHash) {
