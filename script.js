@@ -2,7 +2,6 @@
 const translations = { en: 'Copied!', es: '¡Copiado!', pt: 'Copiado!' };
 const getNavLinks = () => document.querySelectorAll('.nav-link');
 const getContactSection = () => document.getElementById('contact-section');
-let isTypingActive = false;  //para no romper la animación de los bullets
 
 /* --- 2. GESTIÓN DE NAVEGACIÓN ACTIVA --- */
 function setActiveLink() {
@@ -81,7 +80,6 @@ async function startIntro() {
                 // Espera luego de la intro
                 await new Promise(resolve => setTimeout(resolve, 1000)); 
                 // Animación secuencial de los bullets
-                isTypingActive = true;
                 const bullets = document.querySelectorAll('.bullet-item');
                 for (const bullet of bullets) {
                     // 1. Hacemos visible el li (el punto de la lista)
@@ -89,18 +87,24 @@ async function startIntro() {
                     // 2. Se escribe el texto
                     const container = bullet.querySelector('.typing-container');
                     if (container) {
-                        const textoOriginal = container.innerText;
+                        const currentLang = localStorage.getItem('preferredLang') || 'en';
+                        const textoOriginal = container.getAttribute(`data-${currentLang}`) || container.innerText;
                         await typeWriter(container, textoOriginal, 25);
                         await new Promise(resolve => setTimeout(resolve, 200));
                     }
                 }
-                isTypingActive = false;
             }, 1000);
         }, 2500);
     }, 300);
 }
+// Variable global para rastrear la versión actual de la animación
+let currentAnimationId = 0;
 function typeWriter(element, text, speed = 30) {
+    const animationId = currentAnimationId;
     return new Promise((resolve) => {
+        element.innerHTML = '';
+        element.style.visibility = 'visible';
+        element.classList.add('cursor-active');
         let i = 0;
         // Usamos una estructura que mantenga el espacio ocupado
         element.style.visibility = 'visible';
@@ -110,8 +114,12 @@ function typeWriter(element, text, speed = 30) {
         element.style.minHeight = `${finalHeight}px`;
         element.innerHTML = ""; // Limpiamos el texto inicial
         element.classList.add("cursor-active"); // Ponemos el cursor
-    
         function type() {
+            if (animationId !== currentAnimationId) {
+                element.classList.remove('cursor-active');
+                resolve(); // Resolvemos para no bloquear futuros procesos
+                return;
+            }
             if (i < text.length) {
                 element.innerHTML += text.charAt(i);
                 i++;
@@ -131,16 +139,13 @@ function typeWriter(element, text, speed = 30) {
 /* --- 5. SISTEMA DE IDIOMAS --- */
 function setLanguage(lang) {
     localStorage.setItem('preferredLang', lang);
+    currentAnimationId++;
     document.querySelectorAll('[data-en]').forEach(el => { 
         const text = el.dataset[lang];
         if(text) {
             // Si el elemento es el que tiene la animación, mantenemos la clase
             if (el.classList.contains('typing-container')) {
-                // Solo actualiza el texto si no se está escribiendo en este momento
-                if (!isTypingActive) {
-                    el.textContent = text;
-                    el.style.visibility = 'visible'; // Asegura que se vea
-                }
+                typeWriter(el, text, 30);
             } else {
                 el.innerHTML = text;  // IMPORTANTE: Usar innerHTML
             }
