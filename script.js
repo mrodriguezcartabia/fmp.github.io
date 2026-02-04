@@ -73,7 +73,7 @@ async function startIntro() {
             if (introText) introText.classList.add('exit-right');
             setTimeout(() => { if (introScreen) introScreen.style.opacity = '0'; }, 400);
 
-            setTimeout(() => { 
+            setTimeout(async () => { 
                 document.body.classList.remove('intro-active'); 
                 sessionStorage.setItem('introShown', 'true'); 
                 if (introScreen) introScreen.remove(); 
