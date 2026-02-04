@@ -26,7 +26,7 @@ section[id] {
 }
 /* Color para el símbolo del punto con indigo-200 */
 .bullet-item::marker {
-    color: #c7d2fe; /* Tailwind indigo-200 */
+    color: #818cf8; /* Tailwind indigo-400 */
     font-size: 1.2em; /* Un poco más grande para darle peso visual */
 }
 
