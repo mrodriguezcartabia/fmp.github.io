@@ -91,10 +91,11 @@ function startIntro() {
                         if (textSpan) {
                             textSpan.classList.add('typing-active');
                             
-                            // 3. Opcional: Quitar el cursor después de que termine de escribir (2s)
+                            // 3. Elimina la máscara y el cursor al terminar
                             setTimeout(() => {
-                                textSpan.style.borderRight = "none";
-                            }, 2000);
+                                // Al quitar la clase o limpiar el pseudo-elemento el texto queda limpio y seleccionable.
+                                textSpan.style.overflow = "visible";
+                            }, 2100);
                         }
                     }, index * 2500); // 2.5 segundos entre cada bullet para que de tiempo a leer
                 });
