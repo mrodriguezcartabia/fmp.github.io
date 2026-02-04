@@ -102,6 +102,12 @@ async function startIntro() {
 function typeWriter(element, text, speed = 30) {
     return new Promise((resolve) => {
         let i = 0;
+        // Usamos una estructura que mantenga el espacio ocupado
+        element.style.visibility = 'visible';
+        element.innerHTML = `<span style="opacity: 0">${text}</span>`;
+        // Calculamos la altura actual y la fijamos
+        const finalHeight = element.offsetHeight;
+        element.style.minHeight = `${finalHeight}px`;
         element.innerHTML = ""; // Limpiamos el texto inicial
         element.classList.add("cursor-active"); // Ponemos el cursor
     
