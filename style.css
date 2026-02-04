@@ -91,6 +91,7 @@ section[id] {
     word-wrap: break-word;
     min-height: 1.6em; /* Mantiene la altura de una línea aunque esté vacío */
     vertical-align: top;
+    visibility: hidden;
 }
 
 /* El cursor que parpadea mientras se escribe */
