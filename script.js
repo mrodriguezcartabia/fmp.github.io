@@ -79,7 +79,7 @@ async function startIntro() {
                 if (introScreen) introScreen.remove(); 
                 revealContent();
                 // Espera luego de la intro
-                await new Promise(resolve => setTimeout(resolve, 800)); 
+                await new Promise(resolve => setTimeout(resolve, 1000)); 
                 // Animación secuencial de los bullets
                 isTypingActive = true;
                 const bullets = document.querySelectorAll('.bullet-item');
