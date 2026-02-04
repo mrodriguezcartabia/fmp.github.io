@@ -57,6 +57,11 @@ async function startIntro() {
         //Mostrar bullets inmediatamente sin animación
         document.querySelectorAll('.bullet-item').forEach(li => {
             li.classList.remove('opacity-0', 'translate-y-4');
+            const container = li.querySelector('.typing-container');
+            if(container) {
+                const lang = localStorage.getItem('preferredLang') || 'en';
+                container.innerHTML = container.getAttribute(`data-${lang}`);
+            }
         });
         revealContent();
         return; 
@@ -167,9 +172,12 @@ function setLanguage(lang, skipAnimation = false) {
         } else if (text && el.classList.contains('typing-container') && skipAnimation) {
             // Si es un bullet y pedimos NO animar (porque venimos de otra página)
             el.innerHTML = text;
+            const bullet = el.closest('.buller-item');
+            if (bullet) bullet.classList.remove('opacity-0');
         }
     });
-    if (sessionStorage.getItem('introShown') !== 'true' && !skipAnimation) {
+    const introStatus = sessionStorage.getItem('IntroShown');
+    if (introStatus === 'true' && !skipAnimation) {
         // Si estamos en plena intro, reiniciamos el bucle desde el principio
         startBulletsAnimation(); 
     }
@@ -302,8 +310,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         // Llamamos a setLanguage con un flag o simplemente actualizamos el texto sin typeWriter
         setLanguage(localStorage.getItem('preferredLang') || 'en', true); 
+        revealContent();
     } else {
-        setLanguage(localStorage.getItem('preferredLang') || 'en', false);
+        setLanguage(localStorage.getItem('preferredLang') || 'en', true);
     }
     
     // Si no hubo salto especial ni hash, revelamos contenido tras la intro
