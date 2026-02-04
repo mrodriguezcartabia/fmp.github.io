@@ -78,18 +78,20 @@ async function startIntro() {
                 if (introScreen) introScreen.remove(); 
                 revealContent();
                 // Espera luego de la intro
-                await new Promise(resolve => setTimeout(resolve, 1000)); 
+                await new Promise(resolve => setTimeout(resolve, 2000)); 
                 // Animación secuencial de los bullets
                 const bullets = document.querySelectorAll('.bullet-item');
                 for (const bullet of bullets) {
-                    // 1. Hacemos visible el li (el punto de la lista)
+                    const animationIdAtStart = currentAnimationId;
+                    // Hacemos visible el li (el punto de la lista)
                     bullet.classList.remove('opacity-0');
-                    // 2. Se escribe el texto
+                    // Se escribe el texto
                     const container = bullet.querySelector('.typing-container');
                     if (container) {
                         const currentLang = localStorage.getItem('preferredLang') || 'en';
                         const textoOriginal = container.getAttribute(`data-${currentLang}`) || container.innerText;
-                        await typeWriter(container, textoOriginal, 25);
+                        const sucess = await typeWriter(container, textoOriginal, 25);
+                        if (animationIdAtStart !== currentAnimationId) break;
                         await new Promise(resolve => setTimeout(resolve, 200));
                     }
                 }
@@ -117,7 +119,7 @@ function typeWriter(element, text, speed = 30) {
         function type() {
             if (animationId !== currentAnimationId) {
                 element.classList.remove('cursor-active');
-                resolve(); // Resolvemos para no bloquear futuros procesos
+                resolve(false); // se cancela
                 return;
             }
             if (i < text.length) {
@@ -128,7 +130,7 @@ function typeWriter(element, text, speed = 30) {
                 // Cuando termina, quitamos el cursor después de un momento
                 setTimeout(() => {
                     element.classList.remove("cursor-active");
-                    resolve();
+                    resolve(true);
                 }, 1000);
             }
         }
