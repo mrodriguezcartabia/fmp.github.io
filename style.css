@@ -30,40 +30,6 @@ section[id] {
     font-size: 1.2em; /* Un poco más grande para darle peso visual */
 }
 
-/*Animamos los bullets */
-/* Contenedor del efecto */
-.typing-container {
-  display: inline-block;
-  overflow: hidden; /* Esconde el texto que aún no se "escribe" */
-  white-space: nowrap; /* Evita que el texto salte de línea mientras se escribe */
-  border-right: 3px solid transparent; 
-  width: auto; /* Empieza en cero */
-}
-.typing-active {
-  width: 0; /* Solo se pone en 0 cuando la animación va a empezar */
-  border-right: 3px solid #7f9cf5; /* El cursor (indigo-400) */
-  animation: 
-    typing 2s steps(40, end) forwards,
-    blink 0.5s step-end infinite alternate;
-}
-
-/* La animación */
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
-
-@keyframes blink {
-  50% { border-color: transparent }
-}
-
-/* Clase que activa la animación (la pondrá el JS) */
-.typing-active {
-  animation: 
-    typing 2s steps(40, end) forwards,
-    blink 0.5s step-end infinite alternate;
-}
-
 /* --- PANTALLA DE BIENVENIDA (INTRO) --- */
 /* Aseguramos que el contenedor padre no oculte el movimiento antes de tiempo */
 #intro-screen {
@@ -121,6 +87,53 @@ section[id] {
 
 .glow-logo { 
     filter: drop-shadow(0 0 15px rgba(95, 106, 196, 0.4)); 
+}
+
+/*Animamos los bullets */
+.bullet-item {
+    display: flex;             /* Alinea bullet y texto en la misma fila */
+    align-items: flex-start;   /* Alinea el punto de la lista arriba con el texto */
+    margin-bottom: 1rem;
+    position: relative;
+}
+/* Contenedor del efecto */
+.typing-container {
+  display: inline-block;
+  overflow: hidden; /* Esconde el texto que aún no se "escribe" */
+  white-space: normal; 
+  width: auto; /* Empieza en cero */
+opacity: 1;
+}
+.typing-active::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1e293b; /* mismo fondo que la .card */
+    border-left: 3px solid #7f9cf5; /* El cursor (indigo-400)*/
+    animation: reveal-text 2s steps(40) forwards;
+}
+/* La animación */
+@keyframes reveal-text {
+  from { left: 0 }
+  to { left: 100% }
+}
+/* Ajuste fino para los bullets (puntos) */
+.bullet-item::marker {
+    color: #818cf8;
+    font-size: 1.2em;
+}
+/* El cursor parpadea mientras avanza */
+@keyframes blink-cursor {
+    50% { border-color: transparent; }
+}
+/* Clase que activa la animación (la pondrá el JS) */
+.typing-active::after {
+    animation: 
+        reveal-text 2s steps(40) forwards,
+        blink-cursor 0.5s step-end infinite;
 }
 
 /* --- ELEMENTOS VISUALES COMPARTIDOS --- */
