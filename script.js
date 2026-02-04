@@ -71,7 +71,7 @@ async function startIntro() {
         setTimeout(() => {
             if (introLogo) introLogo.classList.add('exit-left');
             if (introText) introText.classList.add('exit-right');
-            setTimeout(() => { if (introScreen) introScreen.style.opacity = '0'; }, 400);
+            setTimeout(() => { if (introScreen) introScreen.style.opacity = '0'; }, 800);
 
             setTimeout(async () => { 
                 document.body.classList.remove('intro-active'); 
@@ -91,11 +91,11 @@ async function startIntro() {
                     if (container) {
                         const textoOriginal = container.innerText;
                         await typeWriter(container, textoOriginal, 25);
-                        await new Promise(resolve => setTimeout(resolve, 300));
+                        await new Promise(resolve => setTimeout(resolve, 200));
                     }
                 }
                 isTypingActive = false;
-            }, 20000);
+            }, 1000);
         }, 2500);
     }, 300);
 }
