@@ -24,6 +24,11 @@ html.no-smooth {
 section[id] {
     scroll-margin-top: 85px; 
 }
+/* Color para el símbolo del punto con indigo-200 */
+.bullet-item::marker {
+    color: #c7d2fe; /* Tailwind indigo-200 */
+    font-size: 1.2em; /* Un poco más grande para darle peso visual */
+}
 
 /* --- PANTALLA DE BIENVENIDA (INTRO) --- */
 /* Aseguramos que el contenedor padre no oculte el movimiento antes de tiempo */
