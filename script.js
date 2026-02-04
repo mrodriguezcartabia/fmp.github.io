@@ -108,7 +108,14 @@ function setLanguage(lang) {
     localStorage.setItem('preferredLang', lang);
     document.querySelectorAll('[data-en]').forEach(el => { 
         const text = el.dataset[lang];
-        if(text) el.innerHTML = text; // IMPORTANTE: Usar innerHTML
+        if(text) {
+            // Si el elemento es el que tiene la animación, mantenemos la clase
+            if (el.classList.contains('typing-container')) {
+                el.textContent = text; 
+            } else {
+                el.innerHTML = text;  // IMPORTANTE: Usar innerHTML
+            }
+        }
     });
 
     // Esto "limpia" los $ y dibuja las fórmulas de nuevo
