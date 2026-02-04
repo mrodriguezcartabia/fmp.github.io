@@ -85,6 +85,7 @@ async function startIntro() {
                 await new Promise(resolve => setTimeout(resolve, 2000)); 
                 // Animación secuencial de los bullets
                 sessionStorage.setItem('introShown', 'true');
+                startBulletsAnimation();
             }, 1000);
         }, 2500);
     }, 300);
