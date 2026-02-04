@@ -55,6 +55,10 @@ function startIntro() {
 
     if (sessionStorage.getItem('introShown') || !introScreen) { 
         if (introScreen) introScreen.remove(); 
+        //Mostrar bullets inmediatamente sin animación
+        document.querySelectorAll('.bullet-item').forEach(li => {
+            li.classList.remove('opacity-0', 'translate-y-4');
+        });
         revealContent();
         return; 
     }
@@ -74,6 +78,13 @@ function startIntro() {
                 sessionStorage.setItem('introShown', 'true'); 
                 if (introScreen) introScreen.remove(); 
                 revealContent();
+                // Animación secuencial de los bullets
+                const bullets = document.querySelectorAll('.bullet-item');
+                bullets.forEach((bullet, index) => {
+                    setTimeout(() => {
+                        bullet.classList.remove('opacity-0', 'translate-y-4');
+                    }, index * 400); // 400ms de retraso entre cada uno
+                });
             }, 2000);
         }, 2500);
     }, 300);
@@ -174,6 +185,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             window.addEventListener('load', performScroll);
         }
+        // Dentro del caso scrollAction === 'contact'
+        document.querySelectorAll('.bullet-item').forEach(li => li.classList.remove('opacity-0', 'translate-y-4'));
         
     // 3. CASO NORMAL: CLICS CON # (Ej: entrar directo con un link guardado)
     } else if (currentHash) {
@@ -195,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             document.documentElement.style.scrollBehavior = 'smooth';
         }, 100);
+        document.querySelectorAll('.bullet-item').forEach(li => li.classList.remove('opacity-0', 'translate-y-4'));
 
     // 4. CASO BASE: ENTRADA NORMAL A LA HOME
     } else {
