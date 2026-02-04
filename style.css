@@ -93,16 +93,19 @@ section[id] {
 .bullet-item {
     display: flex;             /* Alinea bullet y texto en la misma fila */
     align-items: flex-start;   /* Alinea el punto de la lista arriba con el texto */
+    justify-content: flex-start; /* Fuerza izquierda */
     margin-bottom: 1rem;
-    position: relative;
+    text-align: left; /* Evita el centrado heredado */
+    list-style-position: inside;
 }
 /* Contenedor del efecto */
 .typing-container {
   display: inline-block;
+  position: relative;
   overflow: hidden; /* Esconde el texto que aún no se "escribe" */
   white-space: normal; 
-  width: auto; /* Empieza en cero */
-opacity: 1;
+  width: 100%;  
+  max-width: fit-content;
 }
 .typing-active::after {
     content: "";
@@ -117,8 +120,8 @@ opacity: 1;
 }
 /* La animación */
 @keyframes reveal-text {
-  from { left: 0 }
-  to { left: 100% }
+  from { transform: translateX(0); }
+    to { transform: translateX(101%); } /* Desplaza la máscara fuera del texto */
 }
 /* Ajuste fino para los bullets (puntos) */
 .bullet-item::marker {
