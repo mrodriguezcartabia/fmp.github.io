@@ -94,6 +94,7 @@ function startIntro() {
                             // 3. Elimina la máscara y el cursor al terminar
                             setTimeout(() => {
                                 // Al quitar la clase o limpiar el pseudo-elemento el texto queda limpio y seleccionable.
+                                textSpan.classList.remove('typing-active');
                                 textSpan.style.overflow = "visible";
                             }, 2100);
                         }
