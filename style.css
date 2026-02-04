@@ -24,11 +24,6 @@ html.no-smooth {
 section[id] {
     scroll-margin-top: 85px; 
 }
-/* Color para el símbolo del punto con indigo-200 */
-.bullet-item::marker {
-    color: #818cf8; /* Tailwind indigo-400 */
-    font-size: 1.2em; /* Un poco más grande para darle peso visual */
-}
 
 /* --- PANTALLA DE BIENVENIDA (INTRO) --- */
 /* Aseguramos que el contenedor padre no oculte el movimiento antes de tiempo */
@@ -90,14 +85,44 @@ section[id] {
 }
 
 /*Animamos los bullets */
+/* Estilo para el contenedor del texto */
+.typing-container {
+    display: inline-block; /* Para que fluya con el texto */
+    word-wrap: break-word;
+    min-height: 1.6em; /* Mantiene la altura de una línea aunque esté vacío */
+    vertical-align: top;
+}
+
+/* El cursor que parpadea mientras se escribe */
+.cursor-active::after {
+    content: "|";
+    margin-left: 2px;
+    color: #7f9cf5;
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* El bullet-item se queda como lo tenías, con el ::before */
 .bullet-item {
-    display: block;             
+    display: block;
     position: relative;
     padding-left: 1.5rem;
     margin-bottom: 1.5rem;
-    text-align: left; /* Evita el centrado heredado */
+    text-align: left;
+    opacity: 0; /* Estado inicial */
+    transform: translateY(10px); /* Un pequeño movimiento hacia arriba al aparecer */
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    list-style: none;
 }
-/* Recuperamos el bullet con un pseudo-elemento para control total */
+/* Cuando el JS quita opacity-0, esta clase (o la falta de ella) activa el reveal */
+.bullet-item:not(.opacity-0) {
+    opacity: 1;
+    transform: translateY(0);
+}
 .bullet-item::before {
     content: "•";
     position: absolute;
@@ -106,44 +131,6 @@ section[id] {
     font-size: 1.5em;
     line-height: 1;
     top: 0.1em;
-}
-/* Contenedor del efecto */
-.typing-container {
-  display: inline-block;
-  position: relative;
-  overflow: hidden; /* Esconde el texto que aún no se "escribe" */
-  vertical-align: top;; 
-  width: 100%;  
-}
-.typing-active::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-color: #1e293b; /* mismo fondo que la .card */
-    border-left: 3px solid #7f9cf5; /* El cursor (indigo-400)*/
-    z-index: 10;
-    box-shadow: -10px 0 15px 5px #1e293b;
-    animation: reveal-text 2s steps(40) forwards;
-}
-/* La animación */
-@keyframes reveal-text {
-  from { transform: translateX(0); }
-    to { transform: translateX(101%); } /* Desplaza la máscara fuera del texto */
-}
-/* Ajuste fino para los bullets (puntos) */
-.bullet-item::marker {
-    color: #818cf8;
-    font-size: 1.2em;
-}
-/* El cursor parpadea mientras avanza */
-@keyframes blink-cursor {
-    50% { border-color: transparent; }
-}
-/* Clase que activa la animación (la pondrá el JS) */
-.typing-active::after {
-    animation: 
-        reveal-text 2s steps(40) forwards,
-        blink-cursor 0.5s step-end infinite;
 }
 
 /* --- ELEMENTOS VISUALES COMPARTIDOS --- */
