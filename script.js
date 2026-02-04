@@ -1,6 +1,5 @@
 /* --- 1. CONFIGURACIÓN Y REFERENCIAS --- */
 const translations = { en: 'Copied!', es: '¡Copiado!', pt: 'Copiado!' };
-
 const getNavLinks = () => document.querySelectorAll('.nav-link');
 const getContactSection = () => document.getElementById('contact-section');
 
@@ -52,7 +51,7 @@ function startIntro() {
     const introContent = document.getElementById('intro-content');
     const introLogo = document.getElementById('intro-logo');
     const introText = document.getElementById('intro-text');
-
+    // Si la intro se mostró, mostramos directo
     if (sessionStorage.getItem('introShown') || !introScreen) { 
         if (introScreen) introScreen.remove(); 
         //Mostrar bullets inmediatamente sin animación
@@ -86,23 +85,36 @@ function startIntro() {
                         // 1. Hacemos visible el li (el punto de la lista)
                         bullet.classList.remove('opacity-0');
                         
-                        // 2. Buscamos el span interno y le damos la clase de escribir
-                        const textSpan = bullet.querySelector('.typing-container');
-                        if (textSpan) {
-                            textSpan.classList.add('typing-active');
-                            
-                            // 3. Elimina la máscara y el cursor al terminar
-                            setTimeout(() => {
-                                // Al quitar la clase o limpiar el pseudo-elemento el texto queda limpio y seleccionable.
-                                textSpan.classList.remove('typing-active');
-                                textSpan.style.overflow = "visible";
-                            }, 2100);
+                        // 2. Se escribe el texto
+                        const container = bullet.querySelector('.typing-container');
+                        if (container) {
+                            const textoOriginal = container.innerText;
+                            typeWriter(container, textoOriginal, 25);
                         }
                     }, index * 2500); // 2.5 segundos entre cada bullet para que de tiempo a leer
                 });
             }, 2000);
         }, 2500);
     }, 300);
+}
+function typeWriter(element, text, speed = 30) {
+    let i = 0;
+    element.innerHTML = ""; // Limpiamos el texto inicial
+    element.classList.add("cursor-active"); // Ponemos el cursor
+
+    function type() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        } else {
+            // Cuando termina, quitamos el cursor después de un momento
+            setTimeout(() => {
+                element.classList.remove("cursor-active");
+            }, 1000);
+        }
+    }
+    type();
 }
 
 /* --- 5. SISTEMA DE IDIOMAS --- */
