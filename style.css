@@ -36,8 +36,15 @@ section[id] {
   display: inline-block;
   overflow: hidden; /* Esconde el texto que aún no se "escribe" */
   white-space: nowrap; /* Evita que el texto salte de línea mientras se escribe */
-  border-right: 3px solid #c7d2fe; /* El cursor (indigo-200) */
-  width: 0; /* Empieza en cero */
+  border-right: 3px solid transparent; 
+  width: auto; /* Empieza en cero */
+}
+.typing-active {
+  width: 0; /* Solo se pone en 0 cuando la animación va a empezar */
+  border-right: 3px solid #7f9cf5; /* El cursor (indigo-400) */
+  animation: 
+    typing 2s steps(40, end) forwards,
+    blink 0.5s step-end infinite alternate;
 }
 
 /* La animación */
