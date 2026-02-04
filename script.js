@@ -80,10 +80,23 @@ function startIntro() {
                 revealContent();
                 // Animación secuencial de los bullets
                 const bullets = document.querySelectorAll('.bullet-item');
+
                 bullets.forEach((bullet, index) => {
                     setTimeout(() => {
-                        bullet.classList.remove('opacity-0', 'translate-y-4');
-                    }, index * 400); // 400ms de retraso entre cada uno
+                        // 1. Hacemos visible el li (el punto de la lista)
+                        bullet.classList.remove('opacity-0');
+                        
+                        // 2. Buscamos el span interno y le damos la clase de escribir
+                        const textSpan = bullet.querySelector('.typing-container');
+                        if (textSpan) {
+                            textSpan.classList.add('typing-active');
+                            
+                            // 3. Opcional: Quitar el cursor después de que termine de escribir (2s)
+                            setTimeout(() => {
+                                textSpan.style.borderRight = "none";
+                            }, 2000);
+                        }
+                    }, index * 2500); // 2.5 segundos entre cada bullet para que de tiempo a leer
                 });
             }, 2000);
         }, 2500);
