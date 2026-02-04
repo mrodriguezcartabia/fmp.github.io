@@ -32,7 +32,7 @@ section[id] {
 
 /*Animamos los bullets */
 /* Contenedor del efecto */
-.typing-effect {
+.typing-container {
   display: inline-block;
   overflow: hidden; /* Esconde el texto que aún no se "escribe" */
   white-space: nowrap; /* Evita que el texto salte de línea mientras se escribe */
