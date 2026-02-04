@@ -30,6 +30,33 @@ section[id] {
     font-size: 1.2em; /* Un poco más grande para darle peso visual */
 }
 
+/*Animamos los bullets */
+/* Contenedor del efecto */
+.typing-effect {
+  display: inline-block;
+  overflow: hidden; /* Esconde el texto que aún no se "escribe" */
+  white-space: nowrap; /* Evita que el texto salte de línea mientras se escribe */
+  border-right: 3px solid #c7d2fe; /* El cursor (indigo-200) */
+  width: 0; /* Empieza en cero */
+}
+
+/* La animación */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  50% { border-color: transparent }
+}
+
+/* Clase que activa la animación (la pondrá el JS) */
+.typing-active {
+  animation: 
+    typing 2s steps(40, end) forwards,
+    blink 0.5s step-end infinite alternate;
+}
+
 /* --- PANTALLA DE BIENVENIDA (INTRO) --- */
 /* Aseguramos que el contenedor padre no oculte el movimiento antes de tiempo */
 #intro-screen {
