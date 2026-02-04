@@ -71,7 +71,7 @@ async function startIntro() {
         setTimeout(() => {
             if (introLogo) introLogo.classList.add('exit-left');
             if (introText) introText.classList.add('exit-right');
-            setTimeout(() => { if (introScreen) introScreen.style.opacity = '0'; }, 800);
+            setTimeout(() => { if (introScreen) introScreen.style.opacity = '0'; }, 400);
 
             setTimeout(async () => { 
                 document.body.classList.remove('intro-active'); 
