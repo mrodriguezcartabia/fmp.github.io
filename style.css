@@ -115,8 +115,7 @@ section[id] {
     margin-bottom: 1.5rem;
     text-align: left;
     opacity: 0; /* Estado inicial */
-    transform: translateY(10px); /* Un pequeño movimiento hacia arriba al aparecer */
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transition: opacity 0.8s ease;
     list-style: none;
 }
 /* Cuando el JS quita opacity-0, esta clase (o la falta de ella) activa el reveal */
