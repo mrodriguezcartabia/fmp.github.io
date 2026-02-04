@@ -84,11 +84,7 @@ async function startIntro() {
                 // Espera luego de la intro
                 await new Promise(resolve => setTimeout(resolve, 2000)); 
                 // Animación secuencial de los bullets
-               // Marcamos como 'false' temporalmente para que la animación inicial corra, y luego setLanguage la respete.
-                sessionStorage.setItem('introShown', 'false');
-                startBulletsAnimation().then(() => {
-                    sessionStorage.setItem('introShown', 'true');
-                });
+                sessionStorage.setItem('introShown', 'true');
             }, 1000);
         }, 2500);
     }, 300);
@@ -104,6 +100,7 @@ function typeWriter(element, text, speed = 30) {
         let i = 0;
         // Usamos una estructura que mantenga el espacio ocupado
         element.style.visibility = 'visible';
+        element.style.minHeight = "0px";
         element.innerHTML = `<span style="opacity: 0">${text}</span>`;
         // Calculamos la altura actual y la fijamos
         const finalHeight = element.offsetHeight;
@@ -169,14 +166,16 @@ function setLanguage(lang, skipAnimation = false) {
         const text = el.dataset[lang];
         if(text && !el.classList.contains('typing-container')) {
             el.innerHTML = text;  // IMPORTANTE: Usar innerHTML
+            el.style.minHeight = "auto";
         } else if (text && el.classList.contains('typing-container') && skipAnimation) {
             // Si es un bullet y pedimos NO animar (porque venimos de otra página)
-            el.innerHTML = text;
-            const bullet = el.closest('.buller-item');
+            el.innerHTML = text; 
+            el.style.minHeight = "auto";
+            const bullet = el.closest('.bullet-item');
             if (bullet) bullet.classList.remove('opacity-0');
         }
     });
-    const introStatus = sessionStorage.getItem('IntroShown');
+    const introStatus = sessionStorage.getItem('introShown');
     if (introStatus === 'true' && !skipAnimation) {
         // Si estamos en plena intro, reiniciamos el bucle desde el principio
         startBulletsAnimation(); 
@@ -250,6 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (intro) intro.remove();
         document.body.classList.remove('intro-active');
         sessionStorage.setItem('introShown', 'true');
+        startBulletsAnimation();
 
         // Función que ejecuta el scroll
         const performScroll = () => {
