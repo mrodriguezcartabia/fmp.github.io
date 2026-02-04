@@ -91,11 +91,11 @@ async function startIntro() {
                     if (container) {
                         const textoOriginal = container.innerText;
                         await typeWriter(container, textoOriginal, 25);
-                        await new Promise(resolve => setTimeout(resolve, 500));
+                        await new Promise(resolve => setTimeout(resolve, 300));
                     }
                 }
                 isTypingActive = false;
-            }, 2000);
+            }, 20000);
         }, 2500);
     }, 300);
 }
