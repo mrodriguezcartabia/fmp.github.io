@@ -93,7 +93,9 @@ async function startIntro() {
 
 // Variable global para rastrear la versión actual de la animación
 let currentAnimationId = 0;
-function typeWriter(element, text, speed = 30) {
+let bulletsFinished = false;
+let isAnimating = false;
+function typeWriter(element, text, speed = 25) {
     const animationId = currentAnimationId;
     return new Promise((resolve) => {
         element.style.visibility = 'hidden'; 
@@ -130,7 +132,7 @@ function typeWriter(element, text, speed = 30) {
                 setTimeout(() => {
                     element.classList.remove("cursor-active");
                     resolve(true);
-                }, 1000);
+                }, 100);
             }
         }
         type();
@@ -138,6 +140,7 @@ function typeWriter(element, text, speed = 30) {
 }
 
 async function startBulletsAnimation() {
+    isAnimating = true;
     const animationIdAtStart = currentAnimationId;
     const bullets = document.querySelectorAll('.bullet-item');
 
@@ -164,6 +167,8 @@ async function startBulletsAnimation() {
             await new Promise(resolve => setTimeout(resolve, 200));
         }
     }
+    isAnimating = false;
+    bulletsFinished = true;
 }
 
 /* --- 5. SISTEMA DE IDIOMAS --- */
@@ -172,22 +177,30 @@ function setLanguage(lang, skipAnimation = false) {
     currentAnimationId++;
     document.querySelectorAll('[data-en]').forEach(el => { 
         const text = el.dataset[lang];
-        if(text && !el.classList.contains('typing-container')) {
-            el.innerHTML = text;  // IMPORTANTE: Usar innerHTML
-            el.style.minHeight = "auto";
-        } else if (text && el.classList.contains('typing-container') && skipAnimation) {
-            // Si es un bullet y pedimos NO animar (porque venimos de otra página)
+        if (!text) return;
+        if(el.classList.contains('typing-container')) {
+            const alreadyDone = sessionStorage.getItem('bulletsFinished') || bulletsFinished;
+            if (skipAnimation || alreadyDone) {
+                el.innerHTML = text; 
+                el.style.minHeight = "auto";
+                el.classList.remove('cursor-active');
+                const bullet = el.closest('.bullet-item');
+                if (bullet) bullet.classList.remove('opacity-0');
+            }
+        } else {
             el.innerHTML = text; 
-            el.style.minHeight = "auto";
-            const bullet = el.closest('.bullet-item');
-            if (bullet) bullet.classList.remove('opacity-0');
         }
     });
-    const introStatus = sessionStorage.getItem('introShown');
-    if (introStatus === 'true' && !skipAnimation) {
-        // Si estamos en plena intro, reiniciamos el bucle desde el principio
-        startBulletsAnimation(); 
+    // Solo ejecutar animación si estamos en Home, no se ha hecho, y no pedimos skip
+    const isHome = document.querySelector('.bullet-item');
+    if (isHome && isAnimating && !skipAnimation) {
+        startBulletsAnimation();
     }
+    // Actualizar botones y MathJax
+    updateUI(lang);
+}   
+
+function updateUI(lang) {
     // Esto "limpia" los $ y dibuja las fórmulas de nuevo
     if (window.renderMathInElement) {
         renderMathInElement(document.body, {
@@ -200,17 +213,19 @@ function setLanguage(lang, skipAnimation = false) {
             throwOnError: false
         });
     }
+    // Iframe Streamlit
     const iframe = document.getElementById('streamlit-app');
     if (iframe) {
-        // Obtenemos la URL base (sin el parámetro lang anterior si existiera)
         const baseUrl = "https://callamzn-mys8k7ezb75qeov5gvpc4i.streamlit.app/?embed=true";
         // Recargamos el iframe con el nuevo idioma
         iframe.src = `${baseUrl}&lang=${lang}`;
-    }    
+    }
+    // Botones activos
     document.querySelectorAll('.language-switcher button').forEach(btn => 
         btn.classList.toggle('active', btn.id === `lang-${lang}`)
     );
 }
+
 
 /* --- 6. OBSERVADOR DE NAVEGACIÓN --- */
 function setupNavigationObserver() {
@@ -258,6 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('intro-active');
         sessionStorage.setItem('introShown', 'true');
         startBulletsAnimation();
+        sessionStorage.setItem('bulletsFinished', 'true');
 
         // Función que ejecuta el scroll
         const performScroll = () => {
