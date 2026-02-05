@@ -2,6 +2,7 @@
 const translations = { en: 'Copied!', es: '¡Copiado!', pt: 'Copiado!' };
 const getNavLinks = () => document.querySelectorAll('.nav-link');
 const getContactSection = () => document.getElementById('contact-section');
+let isAnimating = false;
 
 /* --- 2. GESTIÓN DE NAVEGACIÓN ACTIVA --- */
 function setActiveLink() {
@@ -63,6 +64,7 @@ async function startIntro() {
                 container.innerHTML = container.getAttribute(`data-${lang}`);
             }
         });
+        isAnimating = false;
         revealContent();
         return; 
     }
@@ -90,117 +92,77 @@ async function startIntro() {
         }, 2500);
     }, 300);
 }
-
-// Variable global para rastrear la versión actual de la animación
-let currentAnimationId = 0;
-let bulletsFinished = false;
-let isAnimating = false;
-function typeWriter(element, text, speed = 25) {
-    const animationId = currentAnimationId;
-    return new Promise((resolve) => {
-        element.style.visibility = 'hidden'; 
-        element.style.minHeight = '0px';
-        element.style.height = 'auto'; 
-        element.innerHTML = text;      
-        const fullHeight = element.offsetHeight; 
-        element.style.minHeight = `${fullHeight}px`;
-        element.innerHTML = '';
-        element.style.visibility = 'visible';
-        element.classList.add('cursor-active');
-        let i = 0;
-        // Usamos una estructura que mantenga el espacio ocupado
-        element.style.visibility = 'visible';
-        element.style.minHeight = "0px";
-        element.innerHTML = `<span style="opacity: 0">${text}</span>`;
-        // Calculamos la altura actual y la fijamos
-        const finalHeight = element.offsetHeight;
-        element.style.minHeight = `${finalHeight}px`;
-        element.innerHTML = ""; // Limpiamos el texto inicial
-        element.classList.add("cursor-active"); // Ponemos el cursor
-        function type() {
-            if (animationId !== currentAnimationId) {
-                element.classList.remove('cursor-active');
-                resolve(false); // se cancela
-                return;
-            }
-            if (i < text.length) {
-                element.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(type, speed);
-            } else {
-                // Cuando termina, quitamos el cursor después de un momento
-                setTimeout(() => {
-                    element.classList.remove("cursor-active");
-                    resolve(true);
-                }, 100);
-            }
-        }
-        type();
-    });
-}
-
+ 
 async function startBulletsAnimation() {
-    isAnimating = true;
-    const animationIdAtStart = currentAnimationId;
     const bullets = document.querySelectorAll('.bullet-item');
+    
+    // ETIQUETA DE REINICIO si cambia el idioma
+    mainLoop: while (true) { 
+        // 1. Capturamos el idioma al inicio de este intento
+        let currentLang = localStorage.getItem('preferredLang') || 'en';
 
-    // Limpiamos todo antes de empezar el reinicio
-    bullets.forEach(b => {
-        b.classList.add('opacity-0');
-        const container = b.querySelector('.typing-container');
-        if (container) container.innerHTML = '';
-    });
+        // --- FASE DE LIMPIEZA Y RESERVA DE ESPACIO ---
+        for (const bullet of bullets) {
+            const container = bullet.querySelector('.typing-container');
+            if (!container) continue;
 
-    for (const bullet of bullets) {
-        if (animationIdAtStart !== currentAnimationId) return; // Si cambió el idioma, esta versión de la función muere
-
-        bullet.classList.remove('opacity-0');
-        const container = bullet.querySelector('.typing-container');
-        
-        if (container) {
-            const currentLang = localStorage.getItem('preferredLang') || 'en';
-            const textoOriginal = container.getAttribute(`data-${currentLang}`);
+            const text = container.getAttribute(`data-${currentLang}`);
             
-            await typeWriter(container, textoOriginal, 25);
+            // Medimos y bloqueamos altura para evitar saltos
+            container.style.visibility = 'hidden';
+            container.style.minHeight = '0px';
+            container.innerHTML = text;
+            const height = container.offsetHeight;
+            container.style.minHeight = `${height}px`;
             
-            if (animationIdAtStart !== currentAnimationId) return; 
-            await new Promise(resolve => setTimeout(resolve, 200));
+            container.innerHTML = ''; // Vaciamos
+            container.style.visibility = 'visible';
+            bullet.style.opacity = "0"; // Ocultamos el bullet
+        }
+
+        // --- FASE DE ESCRITURA ---
+        for (const bullet of bullets) {
+            const container = bullet.querySelector('.typing-container');
+            const text = container.getAttribute(`data-${currentLang}`);
+
+            bullet.style.opacity = "1";
+            container.classList.add('cursor-active');
+
+            // --- BUCLE LETRA POR LETRA ---
+            for (let i = 0; i < text.length; i++) {
+                // VERIFICACIÓN CRÍTICA: ¿Cambiaron el idioma mientras escribía esta letra?
+                if (currentLang !== localStorage.getItem('preferredLang')) {
+                    container.classList.remove('cursor-active');
+                    continue mainLoop; // SALTO INSTANTÁNEO AL INICIO
+                }
+
+                // Si se presionó un botón que NO es de idioma (ej: Games), detenemos todo
+                if (!isAnimating) return; 
+
+                container.innerHTML += text.charAt(i);
+                await new Promise(r => setTimeout(r, 25));
+            }
+
+            container.classList.remove('cursor-active');
+            await new Promise(r => setTimeout(r, 100));
+        }
+
+        // Si terminó todos los bullets sin que el idioma cambiara, salimos del while
+        if (currentLang === localStorage.getItem('preferredLang')) {
+            isAnimating = false;
+            break; // Rompe el 'while(true)' porque ya terminó la tarea
         }
     }
-    isAnimating = false;
-    bulletsFinished = true;
 }
-
+ 
 /* --- 5. SISTEMA DE IDIOMAS --- */
-function setLanguage(lang, skipAnimation = false) {
+function setLanguage(lang) {
     localStorage.setItem('preferredLang', lang);
-    currentAnimationId++;
     document.querySelectorAll('[data-en]').forEach(el => { 
         const text = el.dataset[lang];
-        if (!text) return;
-        if(el.classList.contains('typing-container')) {
-            const alreadyDone = sessionStorage.getItem('bulletsFinished') || bulletsFinished;
-            if (skipAnimation || alreadyDone) {
-                el.innerHTML = text; 
-                el.style.minHeight = "auto";
-                el.classList.remove('cursor-active');
-                const bullet = el.closest('.bullet-item');
-                if (bullet) bullet.classList.remove('opacity-0');
-            }
-        } else {
-            el.innerHTML = text; 
-        }
+        if(text) el.innerHTML = text; // IMPORTANTE: Usar innerHTML
     });
-    // Solo ejecutar animación si estamos en Home, no se ha hecho, y no pedimos skip
-    const isHome = document.querySelector('.bullet-item');
-    if (isHome && isAnimating && !skipAnimation) {
-        startBulletsAnimation();
-    }
-    // Actualizar botones y MathJax
-    updateUI(lang);
-}   
 
-function updateUI(lang) {
     // Esto "limpia" los $ y dibuja las fórmulas de nuevo
     if (window.renderMathInElement) {
         renderMathInElement(document.body, {
@@ -213,19 +175,17 @@ function updateUI(lang) {
             throwOnError: false
         });
     }
-    // Iframe Streamlit
     const iframe = document.getElementById('streamlit-app');
     if (iframe) {
+        // Obtenemos la URL base (sin el parámetro lang anterior si existiera)
         const baseUrl = "https://callamzn-mys8k7ezb75qeov5gvpc4i.streamlit.app/?embed=true";
         // Recargamos el iframe con el nuevo idioma
         iframe.src = `${baseUrl}&lang=${lang}`;
-    }
-    // Botones activos
+    }    
     document.querySelectorAll('.language-switcher button').forEach(btn => 
         btn.classList.toggle('active', btn.id === `lang-${lang}`)
     );
-}
-
+} 
 
 /* --- 6. OBSERVADOR DE NAVEGACIÓN --- */
 function setupNavigationObserver() {
@@ -261,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentHash = window.location.hash;
     const contactSection = getContactSection();
 
-    // 2. CASO ESPECIAL: VIENE DE PÁGINA EXTERNA (Who we are / Games) A CONTACTO
+    // CASO ESPECIAL: VIENE DE PÁGINA EXTERNA (Who we are / Games) A CONTACTO
     // Detecta el enlace: index.html?scroll=contact
     if (scrollAction === 'contact' && contactSection) {
         // Limpiamos la URL para que no scrollee de nuevo al refrescar
@@ -295,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Dentro del caso scrollAction === 'contact'
         document.querySelectorAll('.bullet-item').forEach(li => li.classList.remove('opacity-0', 'translate-y-4'));
         
-    // 3. CASO NORMAL: CLICS CON # (Ej: entrar directo con un link guardado)
+    //  CASO NORMAL: CLICS CON # (Ej: entrar directo con un link guardado)
     } else if (currentHash) {
         // Quitamos el smooth del CSS un segundo para que el salto inicial sea exacto
         document.documentElement.style.scrollBehavior = 'auto';
@@ -317,9 +277,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
         document.querySelectorAll('.bullet-item').forEach(li => li.classList.remove('opacity-0', 'translate-y-4'));
 
-    // 4. CASO BASE: ENTRADA NORMAL A LA HOME
+    // CASO BASE: ENTRADA NORMAL A LA HOME
     } else {
-        startIntro();
+        isAnimating = true; 
+        startIntro();        
     }
 
     // EJECUCIÓN DE FUNCIONES BASE
@@ -342,14 +303,28 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         revealContent();
-    } else {
-        setLanguage(localStorage.getItem('preferredLang') || 'en', true);
-    }
-    
+    } 
+    setLanguage(localStorage.getItem('preferredLang') || 'en', true);
+        
     // Si no hubo salto especial ni hash, revelamos contenido tras la intro
     if (scrollAction || currentHash) {
         revealContent();
     }
+
+    /// CAPTURA DE CLICS EN NAVEGACIÓN
+    // Buscamos todos los enlaces que NO sean de idioma
+    const menuLinks = document.querySelectorAll('.nav-link, #nav-logo a');
+
+    menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            // Si el usuario hace clic en Inicio, Games, Who we are o Contacto...
+            // Apagamos la animación de los bullets.
+            if (isAnimating) {
+                console.log("Navegación detectada: Apagando bullets");
+                isAnimating = false;
+            }
+        });
+    });
 
     setupNavigationObserver();
 });
