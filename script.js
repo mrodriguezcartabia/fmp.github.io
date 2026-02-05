@@ -84,7 +84,7 @@ async function startIntro() {
                 if (introScreen) introScreen.remove(); 
                 revealContent();
                 // Espera luego de la intro
-                await new Promise(resolve => setTimeout(resolve, 2000)); 
+                await new Promise(resolve => setTimeout(resolve, 1500)); 
                 // Animación secuencial de los bullets
                 sessionStorage.setItem('introShown', 'true');
                 startBulletsAnimation();
@@ -140,11 +140,11 @@ async function startBulletsAnimation() {
                 if (!isAnimating) return; 
 
                 container.innerHTML += text.charAt(i);
-                await new Promise(r => setTimeout(r, 25));
+                await new Promise(r => setTimeout(r, 35));
             }
 
             container.classList.remove('cursor-active');
-            await new Promise(r => setTimeout(r, 100));
+            await new Promise(r => setTimeout(r, 300));
         }
 
         // Si terminó todos los bullets sin que el idioma cambiara, salimos del while
