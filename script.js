@@ -90,11 +90,18 @@ async function startIntro() {
         }, 2500);
     }, 300);
 }
+
 // Variable global para rastrear la versión actual de la animación
 let currentAnimationId = 0;
 function typeWriter(element, text, speed = 30) {
     const animationId = currentAnimationId;
     return new Promise((resolve) => {
+        element.style.visibility = 'hidden'; 
+        element.style.minHeight = '0px';
+        element.style.height = 'auto'; 
+        element.innerHTML = text;      
+        const fullHeight = element.offsetHeight; 
+        element.style.minHeight = `${fullHeight}px`;
         element.innerHTML = '';
         element.style.visibility = 'visible';
         element.classList.add('cursor-active');
@@ -308,9 +315,16 @@ document.addEventListener('DOMContentLoaded', () => {
         // Si ya se mostró, forzamos que no haya animaciones en setLanguage
         document.querySelectorAll('.bullet-item').forEach(li => {
             li.classList.remove('opacity-0', 'translate-y-4');
+            li.style.opacity = "1";
+            const container = li.querySelector('.typing-container');
+            if (container) {
+                container.classList.remove('cursor-active'); // Quitamos el cursor de escritura
+                container.style.visibility = 'visible';
+                container.style.minHeight = "auto";
+                const lang = localStorage.getItem('preferredLang') || 'en';
+                container.innerHTML = container.getAttribute(`data-${lang}`);
+            }
         });
-        // Llamamos a setLanguage con un flag o simplemente actualizamos el texto sin typeWriter
-        setLanguage(localStorage.getItem('preferredLang') || 'en', true); 
         revealContent();
     } else {
         setLanguage(localStorage.getItem('preferredLang') || 'en', true);
