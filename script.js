@@ -126,13 +126,11 @@ async function startBulletsAnimation() {
             const text = container.getAttribute(`data-${currentLang}`);
 
             bullet.style.opacity = "1";
-            container.classList.add('cursor-active');
 
             // --- BUCLE LETRA POR LETRA ---
             for (let i = 0; i < text.length; i++) {
                 // VERIFICACIÓN CRÍTICA: ¿Cambiaron el idioma mientras escribía esta letra?
                 if (currentLang !== localStorage.getItem('preferredLang')) {
-                    container.classList.remove('cursor-active');
                     continue mainLoop; // SALTO INSTANTÁNEO AL INICIO
                 }
 
@@ -143,7 +141,6 @@ async function startBulletsAnimation() {
                 await new Promise(r => setTimeout(r, 35));
             }
 
-            container.classList.remove('cursor-active');
             await new Promise(r => setTimeout(r, 300));
         }
 
@@ -295,7 +292,6 @@ document.addEventListener('DOMContentLoaded', () => {
             li.style.opacity = "1";
             const container = li.querySelector('.typing-container');
             if (container) {
-                container.classList.remove('cursor-active'); // Quitamos el cursor de escritura
                 container.style.visibility = 'visible';
                 container.style.minHeight = "auto";
                 const lang = localStorage.getItem('preferredLang') || 'en';
