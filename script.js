@@ -141,7 +141,7 @@ async function startBulletsAnimation() {
                 await new Promise(r => setTimeout(r, 35));
             }
 
-            await new Promise(r => setTimeout(r, 300));
+            await new Promise(r => setTimeout(r, 800));
         }
 
         // Si terminó todos los bullets sin que el idioma cambiara, salimos del while
@@ -315,10 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', () => {
             // Si el usuario hace clic en Inicio, Games, Who we are o Contacto...
             // Apagamos la animación de los bullets.
-            if (isAnimating) {
-                console.log("Navegación detectada: Apagando bullets");
-                isAnimating = false;
-            }
+            if (isAnimating) isAnimating = false;
         });
     });
 
