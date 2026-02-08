@@ -1,0 +1,408 @@
+/* --- CONFIGURACIÓN BASE --- */ 
+html {
+    /* Mantenemos smooth por defecto para Who We Are y clics internos */
+    scroll-behavior: smooth; 
+    /* Espacio arriba para que el menú no tape los títulos */
+    scroll-padding-top: 85px;
+    background-color: #111827; 
+}
+
+body { 
+    font-family: 'Inter', sans-serif; 
+    color: #e2e8f0; 
+    background-color: transparent; 
+    margin: 0; 
+    overflow-x: hidden; 
+    line-height: 1.6;
+}
+
+/* Solo usamos auto cuando el JS lo necesite (se aplicará vía JS o clase) */
+html.no-smooth {
+    scroll-behavior: auto !important;
+}
+
+section[id] {
+    scroll-margin-top: 85px; 
+}
+
+/* --- PANTALLA DE BIENVENIDA (INTRO) --- */
+/* Aseguramos que el contenedor padre no oculte el movimiento antes de tiempo */
+#intro-screen {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+    background: #111827; /* Mismo color de fondo */
+    z-index: 9999;
+    transition: opacity 0.8s ease-in-out;
+}
+
+.shimmer-wrapper { 
+    position: relative; 
+    display: flex; 
+    align-items: center; 
+    gap: 2rem; 
+    padding: 1rem 2rem; 
+    transition: opacity 1s ease-in-out; 
+    overflow: hidden; 
+    border-radius: 8px;
+}
+
+/* Estado cuando salen de la pantalla */
+.exit-left {
+    transform: translateX(-150vw);
+    opacity: 0;
+    transition: all 2.0s ease-in-out !important;
+}
+
+.exit-right {
+    transform: translateX(150vw);
+    opacity: 0;
+    transition: all 2.0s ease-in-out !important;
+}
+
+/* El efecto de rayo de luz (shimmer) */
+.shimmer-wrapper::after { 
+    content: ''; 
+    position: absolute; 
+    top: 0; 
+    left: -100%; 
+    width: 50%; 
+    height: 100%; 
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1) 50%, transparent); 
+    transform: skewX(-25deg); 
+}
+
+.shimmer-active.shimmer-wrapper::after { 
+    left: 150%; 
+    transition: left 1.8s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+
+.glow-logo { 
+    filter: drop-shadow(0 0 15px rgba(95, 106, 196, 0.4)); 
+}
+
+/*Animamos los bullets */
+/* Estilo para el contenedor del texto */
+.typing-container {
+    display: inline-block; /* Para que fluya con el texto */
+    word-wrap: break-word;
+    min-height: 1.6em; /* Mantiene la altura de una línea aunque esté vacío */
+    vertical-align: top;
+    visibility: hidden;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* El bullet-item se queda como lo tenías, con el ::before */
+.bullet-item {
+    display: block;
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: left;
+    opacity: 0; /* Estado inicial */
+    transition: opacity 0.8s ease;
+    list-style: none;
+}
+/* Cuando el JS quita opacity-0, esta clase (o la falta de ella) activa el reveal */
+.bullet-item:not(.opacity-0) {
+    opacity: 1;
+    transform: translateY(0);
+}
+.bullet-item::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #818cf8;
+    font-size: 1.5em;
+    line-height: 1;
+    top: 0.1em;
+}
+
+/* --- ELEMENTOS VISUALES COMPARTIDOS --- */
+.parallax-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.2)), url('photo.jpg');
+    background-size: cover;
+    z-index: -1;
+    /* Aplicamos la escala base aquí también */
+    transform: scale(1.1);
+}
+
+.container { 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 1.5rem; 
+}
+
+.card { 
+    background-color: rgba(30, 41, 59, 0.8); 
+    backdrop-filter: blur(8px); 
+    border-radius: 0.75rem; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); 
+    padding: 2rem; 
+    margin-bottom: 1.5rem; 
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+}
+
+.card ul li::marker {
+    color: #c7d2fe;
+}
+
+.section-title { 
+    font-size: 2.25rem; 
+    font-weight: 700; 
+    color: #f8fafc; 
+    margin-bottom: 2rem; 
+    text-align: center; 
+}
+
+/* --- NAVEGACIÓN Y BOTONES --- */
+.language-switcher button { 
+    background-color: #475569; 
+    color: #e2e8f0; 
+    padding: 0.25rem 0.75rem; 
+    border-radius: 0.5rem; 
+    font-weight: 600; 
+    transition: background-color 0.3s ease; 
+    font-size: 0.75rem; 
+    text-transform: uppercase; 
+}
+
+.language-switcher button.active { 
+    background-color: #5f6ac4; 
+    color: #ffffff; 
+}
+
+.nav-link.active { 
+    font-weight: 700; 
+    border-bottom: 2px solid #5f6ac4; 
+}
+
+/* Logo en el menú que aparece al bajar */
+#nav-logo { 
+    opacity: 0; 
+    transform: translateY(-20px); 
+    transition: all 0.5s ease-in-out; 
+}
+
+#nav-logo.visible { 
+    opacity: 1; 
+    transform: translateY(0); 
+}
+
+/* --- ANIMACIONES DE APARICIÓN (REVEAL) --- */
+.reveal { 
+    opacity: 0; 
+    transform: translateY(40px); 
+    transition: all 0.8s ease-out; 
+}
+
+.reveal.active { 
+    opacity: 1; 
+    transform: translateY(0); 
+}
+
+/* Tooltip de "Copiado" */
+@keyframes fadeUp {
+    0% { opacity: 0; transform: translate(-50%, 0); }
+    20% { opacity: 1; transform: translate(-50%, -10px); }
+    80% { opacity: 1; transform: translate(-50%, -10px); }
+    100% { opacity: 0; transform: translate(-50%, -20px); }
+}
+
+.copy-tooltip {
+    position: absolute; 
+    left: 50%; 
+    bottom: 100%; 
+    background: #5f6ac4; 
+    color: white;
+    padding: 4px 10px; 
+    border-radius: 6px; 
+    font-size: 12px; 
+    font-weight: 600;
+    pointer-events: none; 
+    animation: fadeUp 1.5s forwards; 
+    white-space: nowrap;
+    z-index: 50; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+/* --- Contenedores de Juegos y Herramientas --- */
+
+.iframe-container {
+    width: 100%;
+    position: relative;
+    background-color: #1a1a1a; /* Fondo oscuro mientras carga */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1rem;
+}
+
+/* Forzamos que el iframe ocupe todo el contenedor */
+.iframe-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* --- MEJORAS PARA EL SUBMENÚ Y SCROLL --- */
+
+section[id] {
+    /* Valor ajustado a la altura de la barra simple */
+    scroll-margin-top: 85px; 
+}
+
+/* Evita que el submenú se corte si el contenedor tiene restricciones */
+#main-nav, 
+#main-nav .container {
+    overflow: visible !important;
+}
+
+/* --- MEGA MENÚ (ESCRITORIO) --- */
+@media (min-width: 769px) {
+    #main-nav .container { position: static !important; }
+    
+    .group { 
+        position: static !important; 
+        display: inline-flex; /* Alineación perfecta con el resto de links */
+        align-items: center;
+        height: 100%; /* Asegura que ocupe la misma altura que el nav */
+    }
+
+    /* Puente invisible para que el menú no se cierre al bajar el mouse */
+    .group::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100px; /* Cubre desde el link hasta el fondo del submenú */
+        z-index: -1;
+        pointer-events: none;
+    }
+    
+    .group:hover::after {
+        pointer-events: auto;
+    }
+
+    .submenu-container {
+        position: absolute !important;
+        left: 0 !important;
+        width: 100% !important; 
+        top: 100% !important;
+        background-color: #111827 !important;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        visibility: hidden;
+        opacity: 0;
+        transition: all 0.3s ease-in-out;
+        z-index: 40;
+        border: none !important;
+    }
+
+    .submenu-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+        padding: 1.5rem 0;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+    }
+
+    .group:hover .submenu-container {
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+}
+/* --- MENÚ MÓVIL (VISIBLE SIEMPRE) --- */
+@media (max-width: 768px) {
+    /* Ocultamos el logo pequeño en móvil para ganar espacio */
+    #nav-logo, #mobile-menu-btn { 
+        display: none !important; 
+    }
+
+    /* centramos la imagen de fondo */
+    .parallax-bg {
+        background-position: center center;
+    }
+
+    #nav-menu {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important; 
+        align-items: center !important;
+        width: 100% !important;
+        gap: 15px !important; 
+    }
+    
+    #nav-menu .nav-link,
+    #nav-menu .group {
+        display: inline-block !important;
+        flex: none !important;
+        width: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        /* Propiedades de texto unificadas aquí mismo */
+        font-size: 11px !important;
+        text-transform: uppercase !important;
+        white-space: nowrap !important;
+        vertical-align: middle !important;
+    }
+
+    /* Ajuste para que la barra violeta de 'active' no sea demasiado gruesa */
+    .nav-link.active {
+        border-bottom-width: 2px;
+    } 
+    /* Ocultamos el submenú de Games en móvil para evitar caos visual */
+    .submenu-container {
+        display: none !important;
+    }
+}
+    /* Ajuste fino para navegación en móviles muy pequeños */
+@media (max-width: 380px) {
+    #nav-menu {
+        gap: 0.5rem; /* Reduce el espacio entre links */
+    }
+    .nav-link {
+        font-size: 9px; /* Achica un poco la letra */
+    }
+}
+
+/* Para que el logo no "parpadee" al cargar */
+#nav-logo {
+    will-change: opacity, transform;
+}
+
+/* Animación para que el logo del menú aparezca suavemente */
+#nav-logo {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+   /* Para pantallas táctiles */
+@media (pointer: coarse) {
+    /* Si el usuario usa el dedo, el 'hover' no existe realmente. 
+       Es mejor ocultar el submenú que depende del mouse. */
+    .submenu-container {
+        display: none !important;
+    }
+    
+    /* Evitamos que el contenedor 'group' intente hacer espacio para un submenú que no verá */
+    .group:hover .submenu-container {
+        display: none !important;
+    }
+}

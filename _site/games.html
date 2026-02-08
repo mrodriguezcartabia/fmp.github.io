@@ -1,9 +1,69 @@
----
-layout: default
-title: Gamma Solutions - Games
----
+<!DOCTYPE html>
+<html lang="en" style="background-color: #0f172a;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamma Solutions - Games</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="leading-relaxed">
+    <div class="parallax-bg" id="parallax"></div>
 
-<main class="py-24 relative z-10 container mx-auto px-6 space-y-12">
+    <header class="bg-gradient-to-r from-[#1f2937] to-[#374151] text-white py-8 shadow-md relative z-10">
+    <div class="container flex justify-between items-center px-6">
+        <div class="flex items-center gap-6">
+            <a href="index.html" class="flex items-center gap-6 hover:opacity-90 transition-opacity">
+                <img src="logo_bordeblanco.png" alt="Logo Gamma" class="h-12 md:h-16 w-auto">
+                <div class="text-left"> 
+                    <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Gamma</h1>
+                    <p class="text-lg md:text-2xl font-light" data-en="Solutions" data-es="Soluciones" data-pt="Soluções">Solutions</p>
+                </div>
+            </a>
+        </div>
+        <div class="language-switcher flex space-x-2">
+            <button id="lang-en" onclick="setLanguage('en')">EN</button>
+            <button id="lang-es" onclick="setLanguage('es')">ES</button>
+            <button id="lang-pt" onclick="setLanguage('pt')">PT</button>
+        </div>
+    </div>
+</header>
+
+<nav id="main-nav" class="bg-[#111827] text-white py-4 shadow-md sticky top-0 z-50">
+    <div class="container relative flex flex-col items-center justify-center mx-auto px-6">
+        
+        <div class="flex items-center md:justify-center w-full">
+            <div id="nav-logo" class="md:absolute md:left-6 opacity-0 transition-all duration-500">
+                <a href="index.html"><img src="logo_bordeblanco.png" class="h-8 w-auto" alt="Logo"></a>
+            </div>
+
+            <div id="nav-menu" class="flex flex-row md:relative md:space-x-8 text-sm md:text-base items-center md:border-none">
+                
+                <a href="index.html" class="nav-link" data-en="Home" data-es="Inicio" data-pt="Início">Home</a>
+                
+                <a href="who-we-are.html" class="nav-link" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Who we are</a>
+                
+                <div class="group w-full md:w-auto text-center">
+                    <a href="games.html" class="nav-link" data-en="Games and simulations" data-es="Juegos y simulaciones" data-pt="Jogos e simulações">Games and simulations</a>
+                
+                    <div class="submenu-container">
+                        <div class="submenu-content">
+                            <a href="games.html#valuator" class="hover:text-[#5f6ac4] transition-colors" data-en="Option Valuator" data-es="Valuador de Opciones" data-pt="Valiador de Opções">Option Valuator</a>
+                            <span class="hidden md:inline text-gray-700">|</span>
+                            <a href="games.html#tug-of-war" class="hover:text-[#5f6ac4] transition-colors" data-en="Tug of War" data-es="Juego de la Soga" data-pt="Jogo da Corda">Tug of War</a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="index.html#contact-section" id="contact-link" class="nav-link" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
+            </div>
+        </div>
+    </div>
+</nav> <main class="py-24 relative z-10 container mx-auto px-6 space-y-12">
 
     <section class="reveal">
         <div class="card text-left mb-12">
@@ -278,3 +338,13 @@ title: Gamma Solutions - Games
     </section>
 
 </main>
+             <footer class="bg-gray-900 text-white py-12 relative z-10">
+    <div class="container text-center">
+        <span class="text-gray-200 text-sm" data-en="&copy; 2026 Gamma Solutions. All rights reserved." data-es="&copy; 2026 Gamma Soluciones. Todos los derechos reservados." data-pt="&copy; 2026 Gamma Soluções. Todos os direitos reservados.">
+            &copy; 2026 Gamma Solutions. All rights reserved.                
+        </span>
+        <!-- ><a href="https://www.linkedin.com/in/" target="_blank" class="text-indigo-400 hover:text-white">LinkedIn</a> -->
+    </div>
+</footer> <script src="script.js"></script>
+</body>
+</html>
