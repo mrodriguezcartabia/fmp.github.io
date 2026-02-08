@@ -9,7 +9,19 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
+    <script>
+        window.MathJax = {
+            tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+            fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body class="leading-relaxed">
     <div class="parallax-bg" id="parallax"></div>
@@ -345,6 +357,6 @@
         </span>
         <!-- ><a href="https://www.linkedin.com/in/" target="_blank" class="text-indigo-400 hover:text-white">LinkedIn</a> -->
     </div>
-</footer> <script src="script.js"></script>
+</footer> <script src="/script.js"></script>
 </body>
 </html>

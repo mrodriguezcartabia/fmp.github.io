@@ -158,24 +158,12 @@ async function startBulletsAnimation() {
 function setLanguage(lang) {
     localStorage.setItem('preferredLang', lang);
     // Guardamos el momento exacto del clic para avisarle a la animación de bucle
-    localStorage.setItem('langUpdateTick', Date.now());
+    localStorage.setItem('langUpdateTick', Date.now().toString());
     document.querySelectorAll('[data-en]').forEach(el => { 
         const text = el.dataset[lang];
         if(text) el.innerHTML = text; // IMPORTANTE: Usar innerHTML
     });
 
-    // Esto "limpia" los $ y dibuja las fórmulas de nuevo
-    if (window.renderMathInElement) {
-        renderMathInElement(document.body, {
-            delimiters: [
-                {left: '$$', right: '$$', display: true},
-                {left: '$', right: '$', display: false},
-                {left: '\\(', right: '\\)', display: false},
-                {left: '\\[', right: '\\]', display: true}
-            ],
-            throwOnError: false
-        });
-    }
     const iframe = document.getElementById('streamlit-app');
     if (iframe) {
         // Obtenemos la URL base (sin el parámetro lang anterior si existiera)
@@ -186,6 +174,10 @@ function setLanguage(lang) {
     document.querySelectorAll('.language-switcher button').forEach(btn => 
         btn.classList.toggle('active', btn.id === `lang-${lang}`)
     );
+    // Avisamos a MathJax que procese los nuevos .innerHTML
+    if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise();
+    }
 } 
 
 /* --- 6. OBSERVADOR DE NAVEGACIÓN --- */
