@@ -140,7 +140,7 @@ async function startBulletsAnimation() {
                 if (!isAnimating) return; 
 
                 container.innerHTML += text.charAt(i);
-                await new Promise(r => setTimeout(r, 35));
+                await new Promise(r => setTimeout(r, 30));
             }
 
             await new Promise(r => setTimeout(r, 800));
