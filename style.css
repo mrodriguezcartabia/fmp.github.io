@@ -50,19 +50,6 @@ section[id] {
     border-radius: 8px;
 }
 
-/* Estado cuando salen de la pantalla */
-.exit-left {
-    transform: translateX(-150vw);
-    opacity: 0;
-    transition: all 2.0s ease-in-out !important;
-}
-
-.exit-right {
-    transform: translateX(150vw);
-    opacity: 0;
-    transition: all 2.0s ease-in-out !important;
-}
-
 /* El efecto de rayo de luz (shimmer) */
 .shimmer-wrapper::after { 
     content: ''; 
@@ -80,8 +67,51 @@ section[id] {
     transition: left 1.8s cubic-bezier(0.4, 0, 0.2, 1); 
 }
 
+/* Clase para apagar el rayo sin que regrese a la izquierda */
+.shimmer-finished::after {
+    display: none !important;
+}
+
+/* Estado cuando salen de la pantalla */
+.exit-left {
+    transform: translateX(-150vw);
+    opacity: 0;
+    transition: all 2.0s ease-in-out !important;
+}
+
+.exit-right {
+    transform: translateX(150vw);
+    opacity: 0;
+    transition: all 2.0s ease-in-out !important;
+}
+/* Nuevo efecto para el logo */
 .glow-logo { 
-    filter: drop-shadow(0 0 15px rgba(95, 106, 196, 0.4)); 
+    filter: drop-shadow(0 0 15px rgba(95, 106, 196, 0.4));
+    position: relative; /* Asegura que respete el z-index */
+    z-index: 10;
+}
+
+/* 3. Animación fluida sin saltos de posición */
+.logo-zoom-out {
+    /* Eliminamos top/left/absolute para que no salte */
+    animation: logoZoomFade 1.8s forwards cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none; /* Evita clics accidentales durante la explosión */
+}
+
+@keyframes logoZoomFade {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    40% {
+        /* El logo desaparece rápido, pero sigue creciendo por detrás */
+        opacity: 0; 
+    }
+    100% {
+        transform: scale(30); /* Un valor alto para asegurar cobertura total */
+        opacity: 0;
+        filter: blur(20px);
+    }
 }
 
 /*Animamos los bullets */
@@ -104,7 +134,7 @@ section[id] {
     display: block;
     position: relative;
     padding-left: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0; /* 1.5rem; probamos el cambio*/
     text-align: left;
     opacity: 0; /* Estado inicial */
     transition: opacity 0.8s ease;

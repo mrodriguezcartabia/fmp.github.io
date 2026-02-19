@@ -69,17 +69,56 @@ async function startIntro() {
         return; 
     }
 
+    // Preparamos la eliminación de la función skipIntro
+    const cleanupIntroEvents = () => {
+        document.removeEventListener('click', skipIntro);
+        document.removeEventListener('keydown', checkEsc);
+    };
+
+    // Lógica para saltar intro ---
+    const skipIntro = () => {
+        // 1. Limpiamos los eventos para que no se activen dos veces
+        cleanupIntroEvents();
+        
+        // 2. Forzamos el estado final visual
+        document.body.classList.remove('intro-active');
+        if (introScreen) introScreen.remove();
+        
+        // 3. Marcamos como visto y arrancamos lo siguiente inmediatamente
+        sessionStorage.setItem('introShown', 'true');
+        revealContent();
+        startBulletsAnimation();
+    };
+
+    const checkEsc = (e) => { if (e.key === 'Escape') skipIntro(); };
+
+    // Activamos la escucha de eventos
+    document.addEventListener('click', skipIntro);
+    document.addEventListener('keydown', checkEsc); 
+
+    // Ahora activamos la intro:
     document.body.classList.add('intro-active');
     setTimeout(() => {
         if (introContent) introContent.classList.remove('opacity-0');
         setTimeout(() => introContent && introContent.classList.add('shimmer-active'), 500);
 
         setTimeout(() => {
-            if (introLogo) introLogo.classList.add('exit-left');
-            if (introText) introText.classList.add('exit-right');
-            setTimeout(() => { if (introScreen) introScreen.style.opacity = '0'; }, 400);
+            // Debemos cambiar el css para permitir que el logo crezca más allá del rectángulo
+            if (introContent) {
+                    introContent.classList.add('shimmer-finished');
+                    introContent.classList.remove('shimmer-active');
+                    introContent.style.overflow = 'visible';
+                }
+            if (introLogo) introLogo.classList.add('logo-zoom-out');
+            if (introText) introText.style.transition = 'opacity 0.5s ease';
+            if (introText) introText.style.opacity = '0';
+            // Los elementos empiezan a irse, inhabilitamos el skip.
+            cleanupIntroEvents();
+            setTimeout(() => { if (introScreen) introScreen.style.opacity = '0'; }, 800);
 
             setTimeout(async () => { 
+                // Si la intro ya fue eliminada, detenemos este timer.
+                if (!document.getElementById('intro-screen')) return;
                 document.body.classList.remove('intro-active'); 
                 if (introScreen) introScreen.remove(); 
                 revealContent();
@@ -140,10 +179,10 @@ async function startBulletsAnimation() {
                 if (!isAnimating) return; 
 
                 container.innerHTML += text.charAt(i);
-                await new Promise(r => setTimeout(r, 30));
+                await new Promise(r => setTimeout(r, 25));
             }
 
-            await new Promise(r => setTimeout(r, 800));
+            await new Promise(r => setTimeout(r, 500));
         }
 
         // Si terminó todos los bullets sin que el idioma cambiara, salimos del while
