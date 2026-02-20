@@ -100,7 +100,8 @@ section[id] {
 
 @keyframes logoZoomFade {
     0% {
-        transform: scale(1);
+        /* Estado inicial sin movimiento */
+        transform: translate(0px, 0px) scale(1);
         opacity: 1;
     }
     40% {
@@ -108,7 +109,7 @@ section[id] {
         opacity: 0; 
     }
     100% {
-        transform: scale(30); /* Un valor alto para asegurar cobertura total */
+        transform: translate(var(--move-x, 0px), var(--move-y, 0px)) scale(30); /* Un valor alto para asegurar cobertura total */
         opacity: 0;
         filter: blur(20px);
     }

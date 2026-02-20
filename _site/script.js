@@ -109,8 +109,28 @@ async function startIntro() {
                     introContent.classList.remove('shimmer-active');
                     introContent.style.overflow = 'visible';
                 }
-            if (introLogo) introLogo.classList.add('logo-zoom-out');
-            if (introText) introText.style.transition = 'opacity 0.5s ease';
+            if (introLogo) {
+                // Calculamos la distancia al centro exacto de la pantalla
+                const rect = introLogo.getBoundingClientRect();
+                const moveX = (window.innerWidth / 2) - (rect.left + rect.width / 2);
+                const moveY = (window.innerHeight / 2) - (rect.top + rect.height / 2);
+                
+                // Le pasamos las coordenadas calculadas al CSS
+                introLogo.style.setProperty('--move-x', `${moveX}px`);
+                introLogo.style.setProperty('--move-y', `${moveY}px`);
+                
+                // Disparamos la animación
+                introLogo.classList.add('logo-zoom-out');
+            }
+            if (introText) {
+                // Sincronizamos la curva de animación con la del logo (cubic-bezier)
+                // y le damos un poco más de tiempo (0.8s) para que acompañe el movimiento.
+                introText.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+                introText.style.opacity = '0';
+                
+                // Lo empujamos levemente y lo achicamos para dar sensación de profundidad
+                introText.style.transform = 'translateX(30px) scale(0.95)';
+            }
             if (introText) introText.style.opacity = '0';
             // Los elementos empiezan a irse, inhabilitamos el skip.
             cleanupIntroEvents();
