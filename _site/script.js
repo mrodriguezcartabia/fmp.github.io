@@ -355,14 +355,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         revealContent();
     } 
-    setLanguage(localStorage.getItem('preferredLang') || 'en', true);
+    //Ahora definimos el idioma: primero vemos si está guardado, luego por el navegador y, última opción, inglés
+    let browserLang = (navigator.language || navigator.userLanguage).split('-')[0].toLowerCase(); // Extrae solo las primeras dos letras
+    const supportedLangs = ['en', 'es', 'pt'];
+    browserLang = supportedLangs.includes(browserLang) ? browserLang : null;
+    setLanguage(localStorage.getItem('preferredLang') || browserLang || 'en');
         
     // Si no hubo salto especial ni hash, revelamos contenido tras la intro
     if (scrollAction || currentHash) {
         revealContent();
     }
 
-    /// CAPTURA DE CLICS EN NAVEGACIÓN
+    // CAPTURA DE CLICS EN NAVEGACIÓN
     // Buscamos todos los enlaces que NO sean de idioma
     const menuLinks = document.querySelectorAll('.nav-link, #nav-logo a');
 
