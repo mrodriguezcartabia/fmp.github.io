@@ -125,11 +125,11 @@ async function startIntro() {
             if (introText) {
                 // Sincronizamos la curva de animación con la del logo (cubic-bezier)
                 // y le damos un poco más de tiempo (0.8s) para que acompañe el movimiento.
-                introText.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+                introText.style.transition = 'all 1s cubic-bezier(0.4, 0, 0.2, 1)';
                 introText.style.opacity = '0';
                 
                 // Lo empujamos levemente y lo achicamos para dar sensación de profundidad
-                introText.style.transform = 'translateX(30px) scale(0.95)';
+                introText.style.transform = 'translateX(180px) scale(0.95)';
             }
             if (introText) introText.style.opacity = '0';
             // Los elementos empiezan a irse, inhabilitamos el skip.
