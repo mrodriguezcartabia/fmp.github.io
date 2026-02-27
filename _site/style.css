@@ -198,6 +198,17 @@ section[id] {
     text-align: center; 
 }
 
+/* Estilo para co-fundador */
+.badge-founder {
+    display: inline-block;
+    font-size: 0.85em;      /* Más chico que el párrafo */
+    font-weight: 700;       /* Destacado en negrita */
+    color: #818cf8;         /* El violeta de tus bullets para que resalte */
+    margin-right: 4px;      /* Espacio con el texto que sigue */
+    text-transform: uppercase; /* Opcional: le da un toque profesional */
+    letter-spacing: 0.05em;
+}
+
 /* --- NAVEGACIÓN Y BOTONES --- */
 .language-switcher button { 
     background-color: #475569; 
