@@ -255,6 +255,12 @@ section[id] {
     transform: translateY(0); 
 }
 
+.reveal.locked {
+    opacity: 0 !important;
+    transform: translateY(40px) !important;
+    transition: none !important;
+}
+
 /* Tooltip de "Copiado" */
 @keyframes fadeUp {
     0% { opacity: 0; transform: translate(-50%, 0); }
@@ -403,8 +409,10 @@ section[id] {
         /* Propiedades de texto unificadas aquí mismo */
         font-size: 11px !important;
         text-transform: uppercase !important;
-        white-space: nowrap !important;
+        white-space: normal !important;
+        max-width: 80px;
         vertical-align: middle !important;
+        text-align: center !important;
     }
 
     /* Ajuste para que la barra violeta de 'active' no sea demasiado gruesa */

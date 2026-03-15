@@ -208,6 +208,13 @@ async function startBulletsAnimation() {
         // Si terminó todos los bullets sin que el idioma cambiara, salimos del while
         if (currentLang === localStorage.getItem('preferredLang')) {
             isAnimating = false;
+            // Quitamos el candado de la sección
+            const secondSection = document.getElementById('second-section');
+            if (secondSection) {
+                secondSection.classList.remove('locked');
+                // Si el usuario ya estaba scrolleado hacia abajo, esto la mostrará al instante
+                revealContent(); 
+            }
             break; // Rompe el 'while(true)' porque ya terminó la tarea
         }
     }
@@ -406,7 +413,13 @@ window.addEventListener("scroll", () => {
                 navLogo.style.pointerEvents = "none"; // Evita clics accidentales mientras es invisible
                 navLogo.style.transform = "translateY(-10px)";
             }
-        }
+    }
+    const secondSection = document.getElementById('second-section');
+    if (secondSection && window.scrollY > 20) {
+        secondSection.classList.remove('locked');
+    }
+    
+    revealContent();    
 });
 
 /* --- 9. MENÚ DESPLEGABLE --- */
