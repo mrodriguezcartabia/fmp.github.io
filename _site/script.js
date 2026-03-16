@@ -274,6 +274,7 @@ function setupNavigationObserver() {
 
 /* --- 7. INICIALIZACIÓN Y LÓGICA DE SCROLL --- */
 document.addEventListener('DOMContentLoaded', () => {
+    const secondSection = document.getElementById('second-section');
     // 1. CAPTURAMOS LOS DATOS DE LA URL
     const urlParams = new URLSearchParams(window.location.search);
     const scrollAction = urlParams.get('scroll'); 
@@ -361,6 +362,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         revealContent();
+        // También forzamos el segundo título
+        secondSection && secondSection.classList.remove('locked');
     } 
     //Ahora definimos el idioma: primero vemos si está guardado, luego por el navegador y, última opción, inglés
     let browserLang = (navigator.language || navigator.userLanguage).split('-')[0].toLowerCase(); // Extrae solo las primeras dos letras
