@@ -1,4 +1,5 @@
 /* --- CONFIGURACIÓN BASE --- */ 
+/* Colores #1162a2 (oscuro) #177fce (claro). */
 html {
     /* Mantenemos smooth por defecto para Who We Are y clics internos */
     scroll-behavior: smooth; 
@@ -150,7 +151,7 @@ section[id] {
     content: "•";
     position: absolute;
     left: 0;
-    color: #818cf8;
+    color: #177fce;
     font-size: 1.5em;
     line-height: 1;
     top: 0.1em;
@@ -203,7 +204,7 @@ section[id] {
     display: inline-block;
     font-size: 0.85em;      /* Más chico que el párrafo */
     font-weight: 700;       /* Destacado en negrita */
-    color: #818cf8;         /* El violeta de tus bullets para que resalte */
+    color: #177fce;         
     margin-right: 4px;      /* Espacio con el texto que sigue */
     text-transform: uppercase; /* Opcional: le da un toque profesional */
     letter-spacing: 0.05em;
@@ -222,23 +223,48 @@ section[id] {
 }
 
 .language-switcher button.active { 
-    background-color: #5f6ac4; 
+    background-color: #1162a2; 
     color: #ffffff; 
 }
-
-.nav-link.active { 
-    font-weight: 700; 
-    border-bottom: 2px solid #5f6ac4; 
+.lang-btn, 
+.language-selector,
+[onclick*="Lang"], 
+[onclick*="lang"] {
+    cursor: pointer;
+    transition: color 0.2s ease-in-out, transform 0.2s ease;
+}
+.lang-btn:hover, 
+.language-selector:hover,
+[onclick*="Lang"]:hover, 
+[onclick*="lang"]:hover {
+    color: #177fce !important; /* Cambian al color de acento */
+    /* transform: scale(1.05); Crecen un poquito al pasar el mouse */
 }
 
-/* Logo en el menú que aparece al bajar */
+/* Enlaces del Menú de Navegación */
+.nav-link {
+    color: #ffffff;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+}
+.nav-link:hover {
+    color: #177fce !important;
+    /* transform: scale(1.05)
+    font-weight: 700;
+    filter: brightness(1.10); */
+}
+.nav-link.active { 
+    font-weight: 700; 
+    /* border-bottom: 2px solid #177fce; */
+}
+
+/* Logos en el menú que aparece al bajar */
 #nav-logo { 
     opacity: 0; 
     transform: translateY(-20px); 
-    transition: all 0.5s ease-in-out; 
+    transition: all 1s ease-in-out; 
 }
-
-#nav-logo.visible { 
+#nav-logo.visible {
     opacity: 1; 
     transform: translateY(0); 
 }
@@ -273,7 +299,7 @@ section[id] {
     position: absolute; 
     left: 50%; 
     bottom: 100%; 
-    background: #5f6ac4; 
+    background: #1162a2; 
     color: white;
     padding: 4px 10px; 
     border-radius: 6px; 
@@ -443,7 +469,7 @@ section[id] {
 #nav-logo {
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
-   /* Para pantallas táctiles */
+/* Para pantallas táctiles */
 @media (pointer: coarse) {
     /* Si el usuario usa el dedo, el 'hover' no existe realmente. 
        Es mejor ocultar el submenú que depende del mouse. */
@@ -455,4 +481,24 @@ section[id] {
     .group:hover .submenu-container {
         display: none !important;
     }
+}
+/* Colores de las keywords */
+/* Estado normal */
+.keyword-btn {
+    border: 1px solid #177fce !important;
+    color: #e5e7eb !important;
+}
+
+/* Efecto al pasar el mouse */
+.keyword-btn:hover {
+    background-color: rgba(17, 98, 162, 0.6) !important; /* Es el equivalente a #1162a2/60 */
+    color: white !important;
+    /* transform: scale(1.05);*/
+}
+
+/* Estado Activo (Cuando haces clic) */
+.keyword-btn.active-filter {
+    background-color: #177fce !important;
+    color: white !important;
+    border-color: transparent !important;
 }

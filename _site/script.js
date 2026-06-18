@@ -389,6 +389,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     setupNavigationObserver();
+
+    setupKeywordFilters();
 });
 
 /* --- 8. EFECTOS DE SCROLL (PARALLAX Y LOGO) --- */
@@ -431,4 +433,58 @@ function toggleCalculations(elementId) {
     if (content) {
         content.classList.toggle('hidden')
     }
+}
+
+/* --- 10. QUÉ OFRECEMOS - FILTRO DE KEYWORDS --- */
+function setupKeywordFilters() {
+    const toggleBtn = document.getElementById('toggle-keywords-btn');
+    const keywordsContainer = document.getElementById('keywords-container');
+    const keywordBtns = document.querySelectorAll('.keyword-btn');
+    const cards = document.querySelectorAll('#offer-cards .card');
+    
+    // Si no hay botones de keywords en la página actual, salimos de la función
+    if (keywordBtns.length === 0) return; 
+
+    let selectedKeywords = new Set();
+
+    // Mostrar/Ocultar keywords en pantallas pequeñas
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+            keywordsContainer.classList.toggle('hidden');
+            keywordsContainer.classList.toggle('flex');
+        });
+    }
+
+    // Lógica para filtrar al hacer click en las keywords
+    keywordBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const keyword = btn.getAttribute('data-keyword');
+            
+            // Alternar estado de la keyword seleccionada
+            if (selectedKeywords.has(keyword)) {
+                selectedKeywords.delete(keyword);
+                btn.classList.remove('active-filter');
+            } else {
+                selectedKeywords.add(keyword);
+                btn.classList.add('active-filter');
+            }
+
+            // Filtrar las tarjetas
+            cards.forEach(card => {
+                const cardKeywords = card.getAttribute('data-keywords').split(',');
+                
+                // Si no hay ninguna keyword seleccionada, se muestran todas por default
+                if (selectedKeywords.size === 0) {
+                    card.style.display = 'flex';
+                } else {
+                    // Muestra la tarjeta si comparte AL MENOS UNA keyword con las seleccionadas
+                    const hasKeyword = cardKeywords.some(kw => selectedKeywords.has(kw));
+                    card.style.display = hasKeyword ? 'flex' : 'none';
+                }
+            });
+            
+            // Disparamos revealContent() para que si una tarjeta reaparece, recupere sus estilos
+            revealContent();
+        });
+    });
 }

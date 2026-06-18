@@ -1,0 +1,287 @@
+---
+layout: default
+title: Gamma Solutions - What we offer
+---
+
+<main class="py-24 relative z-10 container mx-auto px-6 space-y-12">
+    <section class="reveal">
+        
+        <div class="mx-auto mb-10">
+            <div class="md:hidden flex justify-center mb-4">
+                <button id="toggle-keywords-btn" class="bg-[#1162a2] hover:bg-[#177fce] hover:scale-105 px-5 py-2 rounded-lg font-semibold transition-colors shadow-lg"
+                    data-en="Filter" data-es="Filtrar" data-pt="Filtrar">
+                    Filtrar
+                </button>
+            </div>
+            
+            <div id="keywords-container" class="hidden md:flex flex-wrap justify-center gap-3">
+                <span class="hidden md:flex items-center text-[#177fce]/90 font-semibold text-xs uppercase tracking-widest mr-2 gap-1.5">
+                    <span data-en="Filter:" data-es="Filtrar:" data-pt="Filtrar:">Filtrar:</span>
+                </span>
+                <button class="bg-gray-800 keyword-btn px-4 py-1.5 rounded-full transition-colors text-sm font-medium cursor-pointer" 
+                    data-keyword="datos" data-en="Data" data-es="Datos" data-pt="Dados">Datos
+                </button>
+                <button class="bg-gray-800 keyword-btn px-4 py-1.5 rounded-full transition-colors text-sm font-medium cursor-pointer" 
+                    data-keyword="logistica" data-en="Logistics" data-es="Logística" data-pt="Logística">Logística
+                </button>
+                <button class="bg-gray-800 keyword-btn px-4 py-1.5 rounded-full transition-colors text-sm font-medium cursor-pointer" 
+                    data-keyword="modelado" data-en="Modeling" data-es="Modelado" data-pt="Modelagem">Modelado
+                </button>               
+                <button class="bg-gray-800 keyword-btn px-4 py-1.5 rounded-full transition-colors text-sm font-medium cursor-pointer" 
+                    data-keyword="optimizacion" data-en="Optimization" data-es="Optimización" data-pt="Otimização">Optimización
+                </button>
+                <button class="bg-gray-800 keyword-btn px-4 py-1.5 rounded-full transition-colors text-sm font-medium cursor-pointer" 
+                    data-keyword="produccion" data-en="Production" data-es="Producción" data-pt="Produção">Producción
+                </button>                
+                <button class="bg-gray-800 keyword-btn px-4 py-1.5 rounded-full transition-colors text-sm font-medium cursor-pointer" 
+                    data-keyword="toma de decisiones" data-en="Decision making" data-es="Toma de decisiones" data-pt="Tomada de decisão">Toma de decisiones
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mx-auto" id="offer-cards">
+            
+            <div class="card flex flex-col justify-between" data-keywords="modelado,produccion">
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-100" 
+                        data-en="Modeling and Numerical Simulation" data-es="Modelado y simulación numérica" 
+                        data-pt="Modelagem e simulação numérica">Modelado y simulación numérica
+                    </h3>
+                    <p class="text-gray-200 text-base leading-relaxed"
+                        data-en="We use partial differential equations and computational fluid dynamics to create exact virtual representations of your physical systems. 
+                        It is ideal for solving complex engineering problems where empirical testing is costly or dangerous."
+                        data-es="Utilizamos ecuaciones en derivadas parciales y dinámica de fluidos computacional para crear representaciones virtuales exactas de tus 
+                        sistemas físicos. Es ideal para resolver problemas complejos de ingeniería donde las pruebas empíricas son costosas o peligrosas."
+                        data-pt="Utilizamos equações diferenciais parciais e dinâmica de fluidos computacional para criar representações virtuais exatas de seus sistemas 
+                        físicos. É ideal para resolver problemas complexos de engenharia onde os testes empíricos são caros ou perigosos.">
+                        Utilizamos ecuaciones en derivadas parciales y dinámica de fluidos computacional para crear representaciones virtuales exactas de tus 
+                        sistemas físicos. Es ideal para resolver problemas complejos de ingeniería donde las pruebas empíricas son costosas o peligrosas.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card flex flex-col justify-between" data-keywords="optimizacion,logistica,produccion">
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-100" 
+                        data-en="Industrial Optimization" data-es="Optimización industrial" data-pt="Otimização industrial">Optimización Industrial
+                    </h3>
+                    <p class="text-gray-200 text-base leading-relaxed"
+                        data-en="Designed for companies with highly complex operational flows that standard commercial software fails to solve efficiently. We analyze 
+                        production and logistics bottlenecks to optimize manufacturing planning, minimize machinery downtime, and intelligently manage inventory, ensuring 
+                        that each physical and human resource works at its maximum capacity with the lowest possible cost."
+                        data-es="Diseñado para empresas con flujos operativos altamente complejos que el software comercial estándar no logra resolver de manera eficiente. 
+                        Analizamos los cuellos de botella en producción y logística para optimizar la planificación de la fabricación, minimizar los tiempos de inactividad de
+                        la maquinaria y gestionar de forma inteligente el inventario, garantizando que cada recurso físico y humano trabaje a su máxima capacidad con el menor 
+                        coste posible."
+                        data-pt="Projetado para empresas com fluxo operacionais altamente complexos que o software comercial padrão não consegue resolver de forma eficiente.
+                        Analisamos os gargalos de produção e logística para otimizar o planejamento da fabricação, minimizar o tempo de inatividade das máquinas e gerenciar 
+                        de forma inteligente o inventário, garantindo que cada recurso físico e humano trabalhe em sua capacidade máxima com o menor custo possível.">
+                        Diseñado para empresas con flujos operativos altamente complejos que el software comercial estándar no logra resolver de manera eficiente. 
+                        Analizamos los cuellos de botella en producción y logística para optimizar la planificación de la fabricación, minimizar los tiempos de inactividad de
+                        la maquinaria y gestionar de forma inteligente el inventario, garantizando que cada recurso físico y humano trabaje a su máxima capacidad con el menor 
+                        coste posible.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card flex flex-col justify-between" data-keywords="modelado,toma de decisiones">
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-100" 
+                        data-en="Mathematical Audit and Validation" data-es="Auditoría matemática y validación" 
+                        data-pt="Auditoria matemática e validação">Auditoría matemática y validación
+                    </h3>
+                    <p class="text-gray-200 text-base leading-relaxed"
+                        data-en="Aimed at verifying the reliability of the analytical models or algorithms that your company already uses in its daily operations. We 
+                        examine the code, physical hypotheses, and statistical bases to detect biases, latent calculation errors, or areas for improvement. We develop 
+                        an independent technical report that certifies the precision of your predictive systems, ensuring that your critical decisions on infrastructure, 
+                        safety, or finance are based on mathematically sound data."
+                        data-es="Destinado a verificar la fiabilidad de los modelos analíticos o algoritmos que tu empresa ya utiliza en sus operaciones diarias. 
+                        Examinamos el código, las hipótesis físicas y las bases estadísticas para detectar sesgos, errores de cálculo 
+                        latentes o márgenes de mejora. Desarrollamos un informe técnico independiente que certifica la precisión de tus sistemas 
+                        predictivos, asegurando que tus decisiones críticas sobre infraestructura, seguridad o finanzas se basen en datos matemáticamente sólidos."
+                        data-pt="Destinado a verificar a confiabilidade dos modelos analíticos ou algoritmos que sua empresa já utiliza em suas operações diárias. 
+                        Examinamos o código, as hipóteses físicas e as bases estatísticas para detectar vieses, erros de cálculo latentes ou margens de melhoria. 
+                        Desenvolvemos um relatório técnico independente que certifica a precisão de seus sistemas preditivos, garantindo que suas decisões críticas sobre 
+                        infraestrutura, segurança ou finanças sejam baseadas em dados matematicamente sólidos.">
+                        Destinado a verificar la fiabilidad de los modelos analíticos o algoritmos que tu empresa ya utiliza en sus operaciones diarias. 
+                        Examinamos el código, las hipótesis físicas y las bases estadísticas para detectar sesgos, errores de cálculo 
+                        latentes o márgenes de mejora. Desarrollamos un informe técnico independiente que certifica la precisión de tus sistemas 
+                        predictivos, asegurando que tus decisiones críticas sobre infraestructura, seguridad o finanzas se basen en datos matemáticamente sólidos.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card flex flex-col justify-between" data-keywords="modelado,produccion">
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-100" 
+                        data-en="Virtual Engineering and Digital Prototyping" data-es="Ingeniería virtual y prototipado digital" 
+                        data-pt="Engenharia virtual e prototipagem digital">Ingeniería virtual y prototipado digital
+                    </h3>
+                    <p class="text-gray-200 text-base leading-relaxed"
+                        data-en="It allows you to design, test, and refine industrial components in a high-fidelity digital environment before manufacturing a single 
+                        physical prototype. We use advanced dynamic models to predict wear, material fatigue, and structural behavior under extreme conditions. It reduces 
+                        development costs, accelerates time-to-market, and guarantees maximum structural safety."
+                        data-es="Te permite diseñar, probar y perfeccionar componentes industriales en un entorno digital de alta fidelidad antes de fabricar un solo prototipo
+                        físico. Utilizamos modelos dinámicos avanzados para predecir el desgaste, la fatiga de materiales y el comportamiento estructural bajo condiciones extremas.
+                        Permite reducir costes de desarrollo, acelerar el tiempo de lanzamiento al mercado y garantizar la máxima seguridad estructural."
+                        data-pt="Permite projetar, testar e aperfeiçoar componentes industriais em um ambiente digital de alta informação antes de fabricar um único 
+                        protótipo físico. Utilizamos modelos dinâmicos avançados para prever o desgaste, a fadiga dos materiais e o comportamento estrutural sob condições 
+                        extremas. Permite reduzir custos de desenvolvimento, acelerar o tempo de lançamento no mercado e garantir a máxima segurança estrutural.">
+                        Te permite diseñar, probar y perfeccionar componentes industriales en un entorno digital de alta fidelidad antes de fabricar un solo prototipo físico. 
+                        Utilizan modelos dinámicos avanzados para predecir el desgaste, la fatiga de materiales y el comportamiento estructural bajo condiciones extremas. 
+                        Permite reducir costes de desarrollo, acelerar el tiempo de lanzamiento al mercado y garantizar la máxima seguridad estructural.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card flex flex-col justify-between" data-keywords="optimizacion,logistica">
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-100" 
+                        data-en="Optimization of Transport Processes" data-es="Optimización de procesos de transporte" 
+                        data-pt="Otimização de processos de transporte">Optimización de procesos de transporte
+                    </h3>
+                    <p class="text-gray-200 text-base leading-relaxed"
+                        data-en="Focused on the mathematical reengineering of your workflows, we analyze your transport networks to eliminate inefficiencies and build a 
+                        software engine that solves massive combinatorial problems in minutes. It is the perfect solution for routing optimization in delivery companies, 
+                        where the algorithm calculates the exact sequence of stops and vehicle assignments to minimize kilometers, save fuel, and meet deliveries."
+                        data-es="Enfocado en la reingeniería matemática de tus flujos de trabajos, analizamos tus redes de transporte para eliminar ineficiencias y 
+                        construimos un motor informático que resuelva problemas combinatorios masivos en 
+                        minutos. Es la solución perfecta para la optimización de rutas de distribución en empresas de paquetería, donde el algoritmo calcula la secuencia 
+                        exacta de paradas y asignación de vehículos para minimizar kilómetros, ahorrar combustible y cumplir con las entregas."
+                        data-pt="Focado na reengenharia matemática dos seus fluxos de trabalho, analisamos suas redes de transporte para eliminar ineficiências e 
+                        construímos um motor de software que resolve problemas combinatórios massivos em minutos. É a solução perfeita para a otimização de rotas de 
+                        distribuição em empresas de entregas, onde o algoritmo calcula a sequência exata de paradas e a atribuição de veículos para minimizar quilômetros, 
+                        economizar combustível e cumprir as entregas.">
+                        Enfocado en la reingeniería matemática de tus flujos de trabajos, analizamos tus redes de transporte para eliminar ineficiencias y 
+                        construimos un motor informático que resuelva problemas combinatorios masivos en 
+                        minutos. Es la solución perfecta para la optimización de rutas de distribución en empresas de paquetería, donde el algoritmo calcula la secuencia 
+                        exacta de paradas y asignación de vehículos para minimizar kilómetros, ahorrar combustible y cumplir con las entregas.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card flex flex-col justify-between" data-keywords="optimizacion,toma de decisiones,modelado">
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-100"
+                         data-en="8. Supply Chain Strategic Consulting" data-es="Consultoría estratégica de <span class='italic'>Supply Chain</span>" 
+                         data-pt="Consultoria estratégica de <span class='italic'>Supply Chain</span>">Consultoría estratégica de <span class='italic'>Supply Chain</span>
+                    </h3>
+                    <p class="text-gray-200 text-base leading-relaxed"
+                        data-en="A macro analysis of your supply chain driven by predictive mathematical models and network optimization. We evaluate your historical 
+                        logistical flows to advise you on high economic impact decisions, such as the optimal location of new distribution centers, the ideal capacity of 
+                        your warehouses, and optimal safety stock levels. This service allows you to balance storage and transport costs with the customer service level, 
+                        shielding your supply chain against unforeseen events."
+                        data-es="Un análisis macro de tu cadena de suministro impulsado por modelos matemáticos predictivos y de optimización de redes. Evaluamos tus flujos 
+                        logísticos históricos para asesorarte en decisiones de alto impacto económico, tales como la ubicación óptima de nuevos centros de distribución, la 
+                        capacidad ideal de tus almacenes y los niveles óptimos de stock de seguridad. Este servicio te permite equilibrar los costes de almacenamiento y 
+                        transporte con el nivel de servicio al cliente, blindando tu cadena logística ante imprevistos."
+                        data-pt="Uma análise macro da sua cadeia de suprimentos impulsionada por modelos matemáticos preditivos e otimização de redes. Avaliamos seus fluxos 
+                        logísticos históricos para assessorá-lo em decisões de grande impacto econômico, tais como a localização ideal de novos centros de distribuição, a 
+                        capacidade ideal dos seus armazéns e os níveis ideais de estoque de segurança. Este serviço permite equilibrar os custos de armazenamento e 
+                        transporte com o nível de serviço ao cliente, protegendo sua cadeia logística contra imprevistos.">
+                        Un análisis macro de tu cadena de suministro impulsado por modelos matemáticos predictivos y de optimización de redes. Evaluamos tus flujos 
+                        logísticos históricos para asesorarte en decisiones de alto impacto económico, tales como la ubicación óptima de nuevos centros de distribución, la 
+                        capacidad ideal de tus almacenes y los niveles óptimos de stock de seguridad. Este servicio te permite equilibrar los costes de almacenamiento y 
+                        transporte con el nivel de servicio al cliente, blindando tu cadena logística ante imprevistos.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card flex flex-col justify-between" data-keywords="modelado,toma de decisiones">
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-100" 
+                        data-en="Predictive Modeling and Scenario Analysis (What-if)" data-es="Modelado predictivo y análisis de escenarios 
+                        (<span class='italic'>What-if</span>)" 
+                        data-pt="Modelagem preditiva e análise de cenários (<span class='italic'>What-if</span>)">Modelado predictivo y análisis de escenarios (<span class='italic'>What-if</span>)
+                    </h3>
+                    <p class="text-gray-200 text-base leading-relaxed"
+                        data-en="It provides you with analytical tools to simulate the impact of strategic decisions or unforeseen events before investing real capital. 
+                        Through the construction of digital twins of your business, you can change fictional variables and observe immediate consequences. It allows you 
+                        to lead your company proactively, minimizing risks."
+                        data-es="Te dota de herramientas analíticas para simular el impacto de decisiones estratégicas o imprevistos antes de invertir capital real.
+                        Mediante la construcción de gemelos digitales de tu negocio, podés cambiar variables ficticias y observar las consecuencias inmediatas. 
+                        Te permite liderar tu empresa con proactividad, minimizando riesgos."
+                        data-pt="Fornece ferramentas analíticas para simular o impacto de decisões estratégicas ou imprevistos antes de investir capital real. Através 
+                        da construção de gêmeos digitais do seu negócio, você pode alterar variáveis fictícias e observar as consequências imediatas. Permite liderar sua 
+                        empresa com proatividade, minimizando riscos.">
+                        Te dota de herramientas analíticas para simular el impacto de decisiones estratégicas o imprevistos antes de invertir capital real.
+                        Mediante la construcción de gemelos digitales de tu negocio, podés cambiar variables ficticias y observar las consecuencias inmediatas. 
+                        Te permite liderar tu empresa con proactividad, minimizando riesgos.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card flex flex-col justify-between" data-keywords="toma de decisiones,datos,optimizacion">
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-100" 
+                        data-en="Development of Decision Support Systems (DSS)" data-es="Desarrollo de sistemas de soporte a la decisión (DSS)" 
+                        data-pt="Desenvolvimento de sistemas de apoio à decisão (DSS)">Desarrollo de sistemas de soporte a la decisión (DSS)
+                    </h3>
+                    <p class="text-gray-200 text-base leading-relaxed"
+                        data-en="We create custom software applications that transform complex data into clear and visual action recommendations for your executives 
+                        and operators. The system processes thousands of variables in real time and presents the best numerically optimized options. It is the definitive 
+                        bridge between advanced data science and agile, secure decision-making."
+                        data-es="Creamos aplicaciones de software personalizadas que transforman datos complejos en recomendaciones de acción claras y visuales para 
+                        tus directivos y operarios. El sistema procesa miles de variables en tiempo real y presenta las mejores opciones optimizadas numéricamente. 
+                        Es el puente definitivo entre la ciencia de datos avanzada y la toma de decisiones ágil y segura."
+                        data-pt="Criamos aplicativos de software personalizados que transformam dados complexos em recomendações de ação claras e visuais para seus 
+                        diretores e operadores. O sistema processa milhares de variáveis em tempo real e apresenta as melhores opções otimizadas numericamente. É a ponte 
+                        definitiva entre a ciência de dados avançada e a tomada de decisões ágil e segura.">
+                        Creamos aplicaciones de software personalizadas que transforman datos complejos en recomendaciones de acción claras y visuales para 
+                        tus directivos y operarios. El sistema procesa miles de variables en tiempo real y presenta las mejores opciones optimizadas numéricamente. 
+                        Es el puente definitivo entre la ciencia de datos avanzada y la toma de decisiones ágil y segura.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card flex flex-col justify-between" data-keywords="datos,logistica,modelado">
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-100" 
+                        data-en="Demand Forecasting" data-es="Previsión de la demanda (<span class='italic'>Forecasting</span>)" 
+                        data-pt="Previsão de demanda (<span class='italic'>Forecasting</span>)">Previsión de la demanda (<span class='italic'>Forecasting</span>)
+                    </h3>
+                    <p class="text-gray-200 text-base leading-relaxed"
+                        data-en="Uses Machine Learning algorithms and advanced statistical models to accurately anticipate the future behavior of your market. This service 
+                        is essential for planning raw material purchases, correctly sizing the delivery fleet, and adjusting staff shifts days in advance, drastically 
+                        reducing operational costs."
+                        data-es="Utiliza algoritmos de <span class='italic'>Machine Learning</span> y modelos estadísticos avanzados para anticipar con precisión el comportamiento futuro de tu mercado.
+                        Este servicio es fundamental para planificar la compra de materias primas, dimensionar correctamente la flota de reparto y ajustar los 
+                        turnos de personal con días de antelación, reduciendo drásticamente costes operativos."
+                        data-pt="Utiliza algoritmos de <span class='italic'>Machine Learning</span> e modelos estatísticos avançados para antecipar com precisão o 
+                        comportamento futuro do seu mercado. Este serviço é fundamental para planejar a compra de matérias-primas, dimensionar corretamente a frota de 
+                        entrega e ajustar os turnos de pessoal com dias de antecedência, reduzindo drasticamente os custos operacionais.">
+                        Utiliza algoritmos de <span class='italic'>Machine Learning</span> y modelos estadísticos avanzados para anticipar con precisión el comportamiento futuro de tu mercado.
+                        Este servicio es fundamental para planificar la compra de materias primas, dimensionar correctamente la flota de reparto y ajustar los 
+                        turnos de personal con días de antelación, reduciendo drásticamente costes operativos.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card flex flex-col justify-between" data-keywords="datos,toma de decisiones">
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-100" 
+                        data-en="Claim Forecasting and Non-Traditional Pricing (Insurtech)" data-es="Predicción de siniestralidad y tarificación no tradicional 
+                        (<span class='italic'>Insurtech</span>)"
+                        data-pt="Predição de sinistralidade e precificação não tradicional (<span class='italic'>Insurtech</span>)">
+                        Predicción de siniestralidad y tarificación no tradicional (<span class='italic'>Insurtech</span>)
+                    </h3>
+                    <p class="text-gray-200 text-base leading-relaxed"
+                        data-en="We develop algorithms to analyze the large volumes of data your company already has. It is applied to model catastrophic risks or long-tail 
+                        events. Also for dynamic pricing using statistical Machine Learning and game theory 
+                        (such as Pay-How-You-Drive in car insurance)."
+                        data-es="Desarrollamos algoritmos para el análisis de los grandes volúmenes de datos que tu empresa ya tiene. Se aplica para modelar 
+                        riesgos catastróficos o eventos de cola larga. También para <span class='italic'>pricing</span> dinámico utilizando  
+                        <span class='italic'>Machine Learning</span> estadístico y teoría de juegos (como <span class='italic'>Pay-How-You-Drive</span> en seguros de autos)."
+                        data-pt="Desenvolvemos algoritmos para a análise dos grandes volumes de dados que sua empresa já possui. Aplica-se para modelar riscos catastróficos 
+                        ou eventos de cauda longa. Também para <span class='italic'>pricing</span> dinâmico utilizando <span class='italic'>Machine Learning</span> 
+                        estatístico e teoria dos jogos (como <span class='italic'>Pay-How-You-Drive</span> em seguros de automóveis).">
+                        Desarrollamos algoritmos para el análisis de los grandes volúmenes de datos que tu empresa ya tiene. Se aplica para modelar 
+                        riesgos catastróficos o eventos de cola larga. También para <span class='italic'>pricing</span> dinámico utilizando  
+                        <span class='italic'>Machine Learning</span> estadístico y teoría de juegos (como <span class='italic'>Pay-How-You-Drive</span> en seguros de autos).
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>
