@@ -116,8 +116,28 @@ section[id] {
     }
 }
 
-/*Animamos los bullets */
-/* Estilo para el contenedor del texto */
+/* Cartel para saltar la intro */
+.skip-intro-hint {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.05em;
+    pointer-events: none; /* Evita que interfiera con los clics en la pantalla */
+    user-select: none;
+    z-index: 10000;
+}
+
+.skip-intro-hint kbd {
+    padding: 0.125rem 0.25rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-family: monospace;
+}
+
+/*Animamos los bullets: estilo para el contenedor del texto */
 .typing-container {
     display: inline-block; /* Para que fluya con el texto */
     word-wrap: break-word;
