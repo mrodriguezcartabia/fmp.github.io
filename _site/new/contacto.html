@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gamma — Contacto</title>
+	<meta name="description" content="Escribinos y te contestamos nosotros.">
+	<meta name="robots" content="noindex, nofollow">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+</head>
+<body data-agente="1">
+	<a class="saltar" href="#contenido" data-es="Saltar al contenido" data-en="Skip to content">Saltar al contenido</a>
+
+	<header class="cabecera">
+		<a class="marca" href="index.html">
+			<img src="../logo_nuevo.png" alt="" width="34" height="48">
+			<strong class="marca-texto">Gamma</strong>
+		</a>
+
+		<nav class="menu" aria-label="Principal">
+			<a href="index.html" data-es="Inicio" data-en="Home">Inicio</a>
+			<a href="what-we-offer.html" data-es="Qué ofrecemos" data-en="What we offer">Qué ofrecemos</a>
+			<a href="who-we-are.html" data-es="Quiénes somos" data-en="Who we are">Quiénes somos</a>
+			<a href="contacto.html" data-es="Contacto" data-en="Contact">Contacto</a>
+		</nav>
+
+		<div class="idiomas" role="group" aria-label="Idioma">
+			<button type="button" data-idioma="es">ES</button>
+			<button type="button" data-idioma="en">EN</button>
+		</div>
+	</header>
+
+	<main id="contenido">
+		<div class="contacto-doble">
+	<section class="encabezado">
+		<h1 data-es="¿Querés saber qué decisión conviene automatizar primero?"
+			data-en="Want to know which decision to automate first?">¿Querés saber qué decisión conviene automatizar primero?</h1>
+		<p class="entrada" data-html
+		data-es="Escribinos y te contestamos nosotros. Completá el formulario o mandanos un mail a <a href='mailto:info@gamma.ar'>info@gamma.ar</a>."
+		data-en="Write to us and we'll reply ourselves. Fill in the form or send an email to <a href='mailto:info@gamma.ar'>info@gamma.ar</a>.">
+			Escribinos y te contestamos nosotros. Completá el formulario o mandanos un mail a <a href="mailto:info@gamma.ar">info@gamma.ar</a>.
+		</p>
+	</section>
+
+	<section class="bloque-form">
+		<p class="nota-form" data-es="Los campos con * son obligatorios." data-en="Fields marked * are required.">Los campos con * son obligatorios.</p>
+		<form id="form-contacto" novalidate>
+			<label for="c-nombre" data-req data-es="Nombre" data-en="Name">Nombre</label>
+			<input id="c-nombre" name="nombre" type="text" required maxlength="120" autocomplete="name">
+
+			<label for="c-empresa" data-es="Empresa" data-en="Company">Empresa</label>
+			<input id="c-empresa" name="empresa" type="text" maxlength="120" autocomplete="organization">
+
+			<label for="c-correo" data-req data-es="Correo electrónico" data-en="Email">Correo electrónico</label>
+			<input id="c-correo" name="correo" type="email" required maxlength="200" autocomplete="email">
+
+			<label for="c-mensaje" data-req data-es="Mensaje" data-en="Message">Mensaje</label>
+			<textarea id="c-mensaje" name="mensaje" rows="7" required maxlength="2000"></textarea>
+
+			<div id="turnstile-form"></div>
+
+			<button class="boton" type="submit" data-es="Enviar" data-en="Send">Enviar</button>
+			<p class="aviso-form" id="aviso-form" role="status" aria-live="polite"></p>
+		</form>
+	</section>
+</div>
+	</main>
+
+	<footer class="pie">
+		<span data-es="© 2026 Gamma. Todos los derechos reservados." data-en="© 2026 Gamma. All rights reserved.">© 2026 Gamma. Todos los derechos reservados.</span>
+		<a href="https://www.linkedin.com/company/gammasolution/" target="_blank" rel="noopener">LinkedIn</a>
+	</footer>
+
+	<script src="script.js"></script>
+</body>
+</html>
