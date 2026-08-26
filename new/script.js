@@ -19,6 +19,7 @@ const TEXTOS = {
 		enviado: 'Listo, recibimos tu mensaje. Te mandamos una copia a tu correo; si no llega en unos minutos, revisá spam o escribinos directo a info@gamma.ar.',
 		errorForm: 'No pudimos enviar el mensaje. Probá de nuevo o escribinos a info@gamma.ar.',
 		camposForm: 'Completá el nombre, un correo válido y el mensaje.',
+		copiado: 'Copiado',
 	},
 	en: {
 		titulo: 'Assistant',
@@ -35,6 +36,7 @@ const TEXTOS = {
 		enviado: "Thanks, we've got your message. A copy is on its way to your inbox; if it doesn't arrive in a few minutes, check spam or write directly to info@gamma.ar.",
 		errorForm: "We couldn't send the message. Try again or write to info@gamma.ar.",
 		camposForm: 'Please fill in your name, a valid email and the message.',
+		copiado: 'Copied',
 	},
 };
 
@@ -397,6 +399,20 @@ function nuevaSesion() {
 	return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
 }
 
+function activarCopiaCorreo() {
+	document.addEventListener('click', (ev) => {
+		const enlace = ev.target.closest('a[href^="mailto:"]');
+		if (!enlace || !navigator.clipboard || !matchMedia('(pointer: fine)').matches) return;
+		ev.preventDefault();
+		const correo = enlace.getAttribute('href').replace(/^mailto:/, '').split('?')[0];
+		navigator.clipboard.writeText(correo).then(() => {
+			const original = enlace.textContent;
+			enlace.textContent = t().copiado;
+			setTimeout(() => { enlace.textContent = original; }, 1500);
+		}).catch(() => { location.href = enlace.href; });
+	});
+}
+
 function esperarTurnstile(fn, intentos = 40) {
 	if (window.turnstile && turnstile.render) return fn();
 	if (intentos <= 0) return;
@@ -414,6 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	marcarMenu();
 	activarReveal();
 	activarFormulario();
+	activarCopiaCorreo();
 
 	document.querySelectorAll('.idiomas button').forEach((b) => {
 		b.addEventListener('click', () => aplicarIdioma(b.dataset.idioma));
