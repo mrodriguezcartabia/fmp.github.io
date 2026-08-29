@@ -9,6 +9,7 @@ const TEXTOS = {
 		aviso: 'Las respuestas son generadas automáticamente por un modelo de IA de terceros (Google Gemini), pueden contener errores y se registran de forma anónima para mejorar el servicio. No ingreses datos personales.',
 		saludo: 'Puedo responder sobre lo que hace Gamma y sobre las tres formas de trabajar juntos. ¿Qué querés saber?',
 		abrir: 'Preguntale al asistente',
+		abrirCorto: 'Asistente',
 		enviar: 'Enviar',
 		escribi: 'Escribí tu consulta',
 		pensando: 'Pensando',
@@ -26,6 +27,7 @@ const TEXTOS = {
 		aviso: 'Answers are generated automatically by a third-party AI model (Google Gemini), may contain errors and are logged anonymously to improve the service. Do not enter personal data.',
 		saludo: "I can answer questions about what Gamma does and about the three ways of working together. What would you like to know?",
 		abrir: 'Ask the assistant',
+		abrirCorto: 'Assistant',
 		enviar: 'Send',
 		escribi: 'Type your question',
 		pensando: 'Thinking',
@@ -204,6 +206,10 @@ function construirAgente() {
 	const boton = document.createElement('button');
 	boton.id = 'gw-boton';
 	boton.type = 'button';
+	boton.append(
+		Object.assign(document.createElement('span'), { className: 'gw-largo' }),
+		Object.assign(document.createElement('span'), { className: 'gw-corto' })
+	);
 
 	const panel = document.createElement('div');
 	panel.id = 'gw-panel';
@@ -254,6 +260,9 @@ function construirAgente() {
 	try {
 		if (localStorage.getItem('gamma-agente-grande') === '1') panel.classList.add('grande');
 	} catch (e) {}
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape' && agente.abierto) cerrarAgente();
+	});
 	agente.enviar.addEventListener('click', enviarConsulta);
 	agente.redactar.addEventListener('click', pedirRedaccion);
 	agente.texto.addEventListener('keydown', (e) => {
@@ -270,7 +279,7 @@ function restaurarConversacion(previo) {
 	const saludo = burbuja('agente', t().saludo);
 	saludo.dataset.saludo = '1';
 	agente.historial.forEach((m) => burbuja(m.rol === 'agente' ? 'agente' : 'visitante', m.texto));
-	if (agente.historial.length >= 4) agente.redactar.hidden = false;
+	if (agente.historial.length >= 2) agente.redactar.hidden = false;
 	if (agente.terminado) agente.enviar.disabled = true;
 	if (previo?.abierto) abrirAgente();
 }
@@ -298,7 +307,9 @@ function guardarEstado() {
 
 function actualizarTextosAgente() {
 	if (!agente) return;
-	agente.boton.textContent = t().abrir;
+	agente.boton.querySelector('.gw-largo').textContent = t().abrir;
+	agente.boton.querySelector('.gw-corto').textContent = t().abrirCorto;
+	agente.boton.setAttribute('aria-label', t().abrir);
 	agente.panel.querySelector('#gw-titulo').innerHTML =
 		t().titulo.replace('{marca}', '<span class="gw-marca">Gamma</span>');
 	agente.panel.querySelector('#gw-aviso').textContent = t().aviso;
@@ -312,6 +323,7 @@ function actualizarTextosAgente() {
 function abrirAgente() {
 	agente.abierto = true;
 	agente.panel.classList.add('abierto');
+	document.body.classList.add('gw-abierto');
 	agente.boton.style.display = 'none';
 
 	if (!agente.mensajes.children.length) {
@@ -335,6 +347,7 @@ function abrirAgente() {
 function cerrarAgente() {
 	agente.abierto = false;
 	agente.panel.classList.remove('abierto');
+	document.body.classList.remove('gw-abierto');
 	agente.boton.style.display = '';
 	guardarEstado();
 }
@@ -384,7 +397,7 @@ async function enviarConsulta() {
 			agente.historial.push({ rol: 'agente', texto: data.respuesta });
 			agente.verificado = true;
 			if (data.fin) agente.terminado = true;
-			if (agente.historial.length >= 4) agente.redactar.hidden = false;
+			if (agente.historial.length >= 2) agente.redactar.hidden = false;
 		} else {
 			agente.historial.pop();
 			burbuja('agente', t().falla);
