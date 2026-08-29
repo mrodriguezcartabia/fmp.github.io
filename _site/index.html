@@ -1,205 +1,100 @@
 <!DOCTYPE html>
-<html lang="en" style="background-color: #0f172a;">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gamma Solutions - Home</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="/style.css">
-    <script>
-        window.MathJax = {
-            tex: {
-            inlineMath: [['$', '$'], ['\\(', '\\)']],
-            displayMath: [['$$', '$$'], ['\\[', '\\]']]
-            },
-            svg: {
-            fontCache: 'global'
-            }
-        };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gamma — Automatizamos decisiones</title>
+	<meta name="description" content="Construimos los modelos matemáticos detrás de las decisiones que una empresa repite todas las semanas.">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/style.css">
+	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 </head>
-<body class="leading-relaxed">
-    <div class="parallax-bg" id="parallax"></div>
+<body data-agente="1">
+	<a class="saltar" href="#contenido" data-es="Saltar al contenido" data-en="Skip to content">Saltar al contenido</a>
 
-    <header class="bg-gradient-to-r from-[#1f2937] to-[#374151] text-white py-2 shadow-md relative z-10">
-    <div class="container flex justify-between items-center px-6">
-        <div class="flex items-center gap-6">
-            <a href="index.html" class="flex items-center gap-6 transition-all hover:scale-[1.02] hover:brightness-110">
-                <img src="logo_bordeblanco.png" alt="Logo Gamma" class="h-12 md:h-16 w-auto">
-                <div class="text-left"> 
-                    <h1 class="text-2xl md:text-4xl font-extrabold tracking-tight">Gamma</h1>
-                    <p class="text-base md:text-xl font-light" data-en="We create solutions" data-es="Creamos soluciones" data-pt="Criamos soluções">Creamos soluciones</p>
-                </div>
-            </a>
-        </div>
-        <div class="language-switcher flex space-x-2">
-            <button id="lang-en" onclick="setLanguage('en')">EN</button>
-            <button id="lang-es" onclick="setLanguage('es')">ES</button>
-            <button id="lang-pt" onclick="setLanguage('pt')">PT</button>
-        </div>
-    </div>
-</header>
+	<header class="cabecera">
+		<a class="marca" href="index.html">
+			<img src="/Im%C3%A1genes/logo_nuevo.png" alt="" width="34" height="48">
+			<strong class="marca-texto">Gamma</strong>
+		</a>
 
-<nav id="main-nav" class="bg-[#111827] text-white py-2 shadow-md sticky top-0 z-50">
-    <div class="container relative flex flex-col items-center justify-center mx-auto px-6">
-        
-        <div class="flex items-center md:justify-center w-full">
-            <div id="nav-logo" class="md:absolute md:left-6 opacity-0 transition-all duration-500 z-50">
-                <a href="index.html" class="inline-block transition-all duration-200 hover:scale-110 hover:brightness-110">
-                    <img src="logo_bordeblanco.png" class="h-8 w-auto" alt="Logo">
-                </a>
-            </div>
+		<nav class="menu" aria-label="Principal">
+			<a href="index.html" data-es="Inicio" data-en="Home">Inicio</a>
+			<a href="what-we-offer.html" data-es="Qué ofrecemos" data-en="What we offer">Qué ofrecemos</a>
+			<a href="who-we-are.html" data-es="Quiénes somos" data-en="Who we are">Quiénes somos</a>
+			<a href="contacto.html" data-es="Contacto" data-en="Contact">Contacto</a>
+		</nav>
 
-            <div id="nav-menu" class="flex flex-row md:relative md:space-x-8 text-sm md:text-base items-center md:border-none">
-                
-                <a href="index.html" class="nav-link" data-en="Home" data-es="Inicio" data-pt="Início">Inicio</a>
-                
-                <a href="what-we-offer.html" class="nav-link" data-en="What we offer" data-es="Qué ofrecemos" data-pt="O que oferecemos">Qué ofrecemos</a>
+		<div class="idiomas" role="group" aria-label="Idioma">
+			<button type="button" data-idioma="es">ES</button>
+			<button type="button" data-idioma="en">EN</button>
+		</div>
+	</header>
 
-                <a href="who-we-are.html" class="nav-link" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Quiénes somos</a>
-                
-                <!-- <div class="group w-full md:w-auto text-center">
-                    <a href="games.html" class="nav-link" data-en="Games and simulations" data-es="Juegos y simulaciones" data-pt="Jogos e simulações">Games and simulations</a>
-                
-                    <div class="submenu-container">
-                        <div class="submenu-content">
-                            <a href="games.html#valuator" class="hover:text-[#5f6ac4] transition-colors" data-en="Option Valuator" data-es="Valuador de Opciones" data-pt="Valiador de Opções">Option Valuator</a>
-                            <span class="hidden md:inline text-gray-700">|</span>
-                            <a href="games.html#tug-of-war" class="hover:text-[#5f6ac4] transition-colors" data-en="Tug of War" data-es="Juego de la cuerda" data-pt="Jogo da Corda">Tug of War</a>
-                        </div>
-                    </div>
-                </div>-->
+	<main id="contenido">
+		<section class="portada">
+	<h1 data-es="Automatizamos decisiones" data-en="We automate decisions">Automatizamos decisiones</h1>
+</section>
 
-                <a href="index.html#contact-section" id="contact-link" class="nav-link" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
-            </div>
-        </div>
-    </div>
-</nav> <div id="intro-screen">
-    <div class="shimmer-wrapper opacity-0" id="intro-content">
-        <img src="logo_bordeblanco.png" id="intro-logo" alt="Logo" class="h-16 md:h-20 w-auto glow-logo transition-all duration-1000">
-        <div class="text-left transition-all duration-1000" id="intro-text">
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white">Gamma</h1>
-            <p class="text-xl md:text-2xl mt-1 font-light text-white" data-en="We create solutions" data-es="Creamos soluciones" data-pt="Criamos soluções">Creamos soluciones</p>
-        </div>
-    </div>
-    <span class="skip-intro-hint"
-          data-en="Click or <kbd>Esc</kbd> to skip"
-          data-es="Clic o <kbd>Esc</kbd> para saltar"
-          data-pt="Clique ou <kbd>Esc</kbd> para pular">
-        Clic o <kbd>Esc</kbd> para saltar
-    </span>
-</div>
+<section class="declaraciones">
+	<article class="declaracion reveal">
+		<span class="etiqueta" data-es="Diagnóstico" data-en="Diagnosis">Diagnóstico</span>
+		<p data-es="¿No sabés por dónde empezar? Miramos una decisión que repetís todas las semanas, te decimos cuánto está costando y qué se puede automatizar."
+		   data-en="Not sure where to start? We take one decision you repeat every week, tell you how much it's costing and what can be automated.">
+			¿No sabés por dónde empezar? Miramos una decisión que repetís todas las semanas, te decimos cuánto está costando y qué se puede automatizar.
+		</p>
+	</article>
 
-<main class="py-24 relative z-10 container mx-auto px-6">
-    
-    <section id="first-section" class="reveal mb-10">
-        <h2 class="text-gray-200 section-title" 
-            data-en="We optimize your business with advanced mathematics" 
-            data-es="Optimizamos tu empresa con matemática avanzada" 
-            data-pt="Otimizamos a sua empresa com matemática avançada">
-            Optimizamos tu empresa con matemática avanzada
-        </h2>
-        <div class="card max-w-3xl mx-auto text-center space-y-4">
-            <!-- <p class="text-lg text-left"
-                data-en="How can we help each company?"
-                data-es="Generamos impacto a través de resultados numéricos"
-                data-pt="Como podemos ajudar cada empresa?">
-                ¿En qué podemos ayudar a cada empresa?
-            </p> -->
-            <ul class="text-lg list-disc ml-6 space-y-4"> 
-                <li class="bullet-item opacity-0">
-                    <span class="typing-container"
-                        data-en="We reduce time and costs by optimizing production and logistics processes."
-                        data-es="Reducimos tiempos y costos al optimizar procesos productivos y logísticos."
-                        data-pt="Reduzimos tempo e custos otimizando os processos de produção e logística.">
-                        Reducimos tiempos y costos al optimizar procesos productivos y logísticos. 
-                    </span>
-                </li>
-                <li class="bullet-item opacity-0">
-                    <span class="typing-container"
-                        data-en="We solve problems to develop new markets."
-                        data-es="Resolvemos problemas para desarrollar nuevos mercados."
-                        data-pt="Resolvemos problemas para desenvolver novos mercados.">
-                        Resolvemos problemas para desarrollar nuevos mercados.
-                    </span>
-                </li>
-                <li class="bullet-item opacity-0">
-                    <span class="typing-container"
-                        data-en="We transform the data you already have into decisions."
-                        data-es="Transformamos en decisiones los datos que ya tienen."
-                        data-pt="Transformamos os dados que você já tem em decisões.">
-                        Transformamos en decisiones los datos que ya tienen.
-                    </span>
-                </li>
-            </ul>
-        </div>
-    </section>
+	<article class="declaracion reveal">
+		<span class="etiqueta" data-es="Modelado" data-en="Modelling">Modelado</span>
+		<p data-es="El modelo correcto sale de conversar con quienes deciden, no de tus datos."
+		   data-en="The right model comes from talking to the people who decide, not from your data.">
+			El modelo correcto sale de conversar con quienes deciden, no de tus datos.
+		</p>
+	</article>
 
-    <section id="second-section" class="reveal locked">  
-        <div class="flex justify-center mb-16">
-            <a href="what-we-offer.html" class="bg-[#1162a2] hover:bg-[#177fce] text-white px-8 py-3 rounded-lg font-semibold transition-colors shadow-lg"
-               data-en="See what we offer"
-               data-es="Ver qué ofrecemos"
-               data-pt="Veja o que oferecemos">
-               Ver qué ofrecemos
-            </a>
-        </div>         
-        <h2 class="text-gray-200 text-2xl section-title" 
-                data-en="Mathematical models for complex problems" 
-                data-es="Modelos matemáticos para  problemas complejos" 
-                data-pt="Modelos matemáticos para problemas complexos">
-                Modelos matemáticos para  problemas complejos
-            </h2>
-        <div class="card max-w-3xl mx-auto text-left space-y-4">
-            <p class="text-lg"
-                data-en="In recent years, we have experienced profound technological transformations that allow us to face new challenges by leveraging computing power and 
-                the enormous amount of data generated by each company. 
-                At Gamma, we use these new tools to generate impact through numerical solutions for complex problems." 
-                data-es="En los últimos años, hemos experimentado profundas transformaciones tecnológicas que permiten abordar nuevos desafíos utilizando la 
-                capacidad de cómputo y los grandes volúmenes de datos que se generan en cada empresa. <br> 
-                En Gamma  utilizamos estas nuevas herramientas para generar impacto a través de soluciones numéricas para problemas complejos." 
-                data-pt="Nos últimos anos, vivenciamos profundas transformações tecnológicas que nos permitem enfrentar novos desafios, aproveitando o poder computacional 
-                e a enorme quantidade de dados gerados por cada empresa. 
-                Na Gamma, utilizamos essas novas ferramentas para gerar impacto através de soluções numéricas para problemas complexos.">
-                En los últimos años, hemos experimentado profundas transformaciones tecnológicas que permiten abordar nuevos desafíos utilizando la capacidad de cómputo 
-                y los grandes volúmenes de datos que se generan en cada empresa. 
-                En Gamma  utilizamos estas nuevas herramientas para generar impacto a través de soluciones numéricas para problemas complejos.
-            </p>
-        </div>
-    </section>
+	<article class="declaracion reveal">
+		<span class="etiqueta" data-es="Validación" data-en="Validation">Validación</span>
+		<p data-es="¿Sabés cuánta plata cuesta un error? Revisamos y validamos tu sistema; si nadie lo hizo hasta ahora, no lo sabés."
+		   data-en="Do you know what an error costs you? We review and validate your system; if nobody has done it yet, you don't know.">
+			¿Sabés cuánta plata cuesta un error? Revisamos y validamos tu sistema; si nadie lo hizo hasta ahora, no lo sabés.
+		</p>
+	</article>
+</section>
 
-    <section id="contact-section" class="py-24 reveal">
-        <h2 class="section-title text-gray-200" data-en="Contact us" data-es="Contacto" data-pt="Contato">Contact us</h2>
-        <div class="card max-w-md mx-auto text-center space-y-4">
-            <div class="flex items-center justify-center gap-2">
-                <p class="text-xl"><span>info@gamma.ar</span></p>
-                <button onclick="copyEmail('info@gamma.ar', this)" class="group relative p-2 text-[#177fce] hover:text-white hover:bg-slate-700/50 hover:scale-110
-                    rounded-md transition-all border border-transparent hover:border-white/10">
-                    <i data-lucide="copy" class="w-5 h-5"></i>
-                    <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-[#177fce] text-white text-xs rounded opacity-0 group-hover:opacity-100 
-                        transition-opacity pointer-events-none whitespace-nowrap" 
-                        data-en="Copy email" 
-                        data-es="Copiar email" 
-                        data-pt="Copiar e-mail">
-                        Copiar email
-                    </span>
-                </button>
-            </div>
-        </div>
-    </section>
-</main>
-             <footer class="bg-gray-900 text-white py-12 relative z-10">
-    <div class="container text-center">
-        <span class="text-gray-200 text-sm" data-en="&copy; 2025 Gamma. All rights reserved." data-es="&copy; 2025 Gamma. Todos los derechos reservados." data-pt="&copy; 2025 Gamma. Todos os direitos reservados.">
-            &copy; 2025 Gamma. All rights reserved.                
-        </span>
-        <a href="https://www.linkedin.com/company/gammasolution/" target="_blank" class="text-[#177fce] hover:text-white">LinkedIn</a>
-    </div>
-</footer> <script src="/script.js"></script>
+<!--<section class="clientes">
+	<div class="tira">
+		<div class="tira-pista">
+			<div class="tanda">
+				<a href="https://www.baldorshop.com.ar/" target="_blank" rel="noopener"><img src="/Im%C3%A1genes/baldor.svg" alt="Baldor"></a>
+			</div>
+		</div>
+	</div>
+</section>-->
+
+<section class="cierre">
+	<a class="boton" href="what-we-offer.html"
+	   data-es="Ver las soluciones que ofrecemos"
+	   data-en="See the solutions we offer">
+	   Ver las soluciones que ofrecemos
+	</a>
+</section>
+
+	</main>
+
+	<footer class="pie">
+		<span data-es="© 2026 Gamma. Todos los derechos reservados." data-en="© 2026 Gamma. All rights reserved.">© 2026 Gamma. Todos los derechos reservados.</span>
+		<a class="pie-linkedin" href="https://www.linkedin.com/company/gammasolution/" target="_blank" rel="noopener" aria-label="LinkedIn">
+			<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+				<path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/>
+			</svg>
+			<span>LinkedIn</span>
+		</a>
+	</footer>
+
+	<script src="/script.js"></script>
 </body>
 </html>

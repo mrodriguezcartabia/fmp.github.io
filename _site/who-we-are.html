@@ -1,167 +1,110 @@
 <!DOCTYPE html>
-<html lang="en" style="background-color: #0f172a;">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gamma Solutions - Who we are</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="/style.css">
-    <script>
-        window.MathJax = {
-            tex: {
-            inlineMath: [['$', '$'], ['\\(', '\\)']],
-            displayMath: [['$$', '$$'], ['\\[', '\\]']]
-            },
-            svg: {
-            fontCache: 'global'
-            }
-        };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gamma — Quiénes somos</title>
+	<meta name="description" content="Dos doctores en Ciencias Matemáticas (UBA), investigadores del Conicet.">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/style.css">
+	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 </head>
-<body class="leading-relaxed">
-    <div class="parallax-bg" id="parallax"></div>
+<body data-agente="1">
+	<a class="saltar" href="#contenido" data-es="Saltar al contenido" data-en="Skip to content">Saltar al contenido</a>
 
-    <header class="bg-gradient-to-r from-[#1f2937] to-[#374151] text-white py-2 shadow-md relative z-10">
-    <div class="container flex justify-between items-center px-6">
-        <div class="flex items-center gap-6">
-            <a href="index.html" class="flex items-center gap-6 transition-all hover:scale-[1.02] hover:brightness-110">
-                <img src="logo_bordeblanco.png" alt="Logo Gamma" class="h-12 md:h-16 w-auto">
-                <div class="text-left"> 
-                    <h1 class="text-2xl md:text-4xl font-extrabold tracking-tight">Gamma</h1>
-                    <p class="text-base md:text-xl font-light" data-en="We create solutions" data-es="Creamos soluciones" data-pt="Criamos soluções">Creamos soluciones</p>
-                </div>
-            </a>
-        </div>
-        <div class="language-switcher flex space-x-2">
-            <button id="lang-en" onclick="setLanguage('en')">EN</button>
-            <button id="lang-es" onclick="setLanguage('es')">ES</button>
-            <button id="lang-pt" onclick="setLanguage('pt')">PT</button>
-        </div>
-    </div>
-</header>
+	<header class="cabecera">
+		<a class="marca" href="index.html">
+			<img src="/Im%C3%A1genes/logo_nuevo.png" alt="" width="34" height="48">
+			<strong class="marca-texto">Gamma</strong>
+		</a>
 
-<nav id="main-nav" class="bg-[#111827] text-white py-2 shadow-md sticky top-0 z-50">
-    <div class="container relative flex flex-col items-center justify-center mx-auto px-6">
-        
-        <div class="flex items-center md:justify-center w-full">
-            <div id="nav-logo" class="md:absolute md:left-6 opacity-0 transition-all duration-500 z-50">
-                <a href="index.html" class="inline-block transition-all duration-200 hover:scale-110 hover:brightness-110">
-                    <img src="logo_bordeblanco.png" class="h-8 w-auto" alt="Logo">
-                </a>
-            </div>
+		<nav class="menu" aria-label="Principal">
+			<a href="index.html" data-es="Inicio" data-en="Home">Inicio</a>
+			<a href="what-we-offer.html" data-es="Qué ofrecemos" data-en="What we offer">Qué ofrecemos</a>
+			<a href="who-we-are.html" data-es="Quiénes somos" data-en="Who we are">Quiénes somos</a>
+			<a href="contacto.html" data-es="Contacto" data-en="Contact">Contacto</a>
+		</nav>
 
-            <div id="nav-menu" class="flex flex-row md:relative md:space-x-8 text-sm md:text-base items-center md:border-none">
-                
-                <a href="index.html" class="nav-link" data-en="Home" data-es="Inicio" data-pt="Início">Inicio</a>
-                
-                <a href="what-we-offer.html" class="nav-link" data-en="What we offer" data-es="Qué ofrecemos" data-pt="O que oferecemos">Qué ofrecemos</a>
+		<div class="idiomas" role="group" aria-label="Idioma">
+			<button type="button" data-idioma="es">ES</button>
+			<button type="button" data-idioma="en">EN</button>
+		</div>
+	</header>
 
-                <a href="who-we-are.html" class="nav-link" data-en="Who we are" data-es="Quiénes somos" data-pt="Quem somos">Quiénes somos</a>
-                
-                <!-- <div class="group w-full md:w-auto text-center">
-                    <a href="games.html" class="nav-link" data-en="Games and simulations" data-es="Juegos y simulaciones" data-pt="Jogos e simulações">Games and simulations</a>
-                
-                    <div class="submenu-container">
-                        <div class="submenu-content">
-                            <a href="games.html#valuator" class="hover:text-[#5f6ac4] transition-colors" data-en="Option Valuator" data-es="Valuador de Opciones" data-pt="Valiador de Opções">Option Valuator</a>
-                            <span class="hidden md:inline text-gray-700">|</span>
-                            <a href="games.html#tug-of-war" class="hover:text-[#5f6ac4] transition-colors" data-en="Tug of War" data-es="Juego de la cuerda" data-pt="Jogo da Corda">Tug of War</a>
-                        </div>
-                    </div>
-                </div>-->
+	<main id="contenido">
+		<section class="encabezado">
+	<h1 data-es="Quiénes somos" data-en="Who we are">Quiénes somos</h1>
+	<p class="entrada"
+		data-es="Somos un equipo de investigadores científicos y aplicamos nuestra experiencia a desafíos del mundo empresarial."
+		data-en="We are a team of scientific researchers and we apply our expertise to challenges in the business world.">
+		Somos un equipo de investigadores científicos y aplicamos nuestra experiencia a desafíos del mundo empresarial.
+	</p>
+</section>
 
-                <a href="index.html#contact-section" id="contact-link" class="nav-link" data-en="Contact" data-es="Contacto" data-pt="Contato">Contact</a>
-            </div>
-        </div>
-    </div>
-</nav> <main class="py-24 relative z-10 container mx-auto px-6">
-    <section class="reveal">
-        <div class="card max-w-5xl mx-auto text-left mb-12">
-            <p class="text-lg"
-                data-en="We are a team of scientific researchers and we apply our expertise to challenges in the business world." 
-                data-es="Somos un equipo de investigadores científicos y aplicamos nuestra experiencia a desafíos del mundo empresarial." 
-                data-pt="Somos uma equipe de pesquisadores científicos e aplicamos nossa experiência a desafios do mundo empresarial.">
-                Somos un equipo de investigadores científicos y aplicamos nuestra experiencia a desafíos del mundo empresarial.
-            </p>
-        </div>
-    </section>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-        <div class="card reveal flex flex-col">
-            <div class="flex flex-col md:flex-row items-center gap-8 mb-6 justify-center">
-                <img src="Francisco.png" alt="Francisco Bersetche" class="w-44 h-44 rounded-2xl object-cover border-2 border-gray-600 shadow-lg shrink-0">
-                <div class="flex flex-col items-center md:items-start text-center md:text-left">
-                    <h4 class="text-xl md:text-2xl font-semibold leading-tight">Francisco<br class="hidden md:block"> Bersetche</h4>
-                    <span class="badge-founder mt-3 w-fit" data-en="Co-founder" data-es="Co-fundador" data-pt="Cofundador">Co-fundador</span>
-                </div>
-            </div>
-            <p class="text-lg text-gray-200 mb-6" 
-                data-en="He holds a degree and a PhD in Mathematics (UBA). His research focuses on Machine Learning and Numerical Methods at the
-                Instituto de Investigaciones Matemáticas Luis A. Santaló (UBA-Conicet). He has experience in consulting,
-                more than a decade in teaching and currently serves as an Adjunct Professor at the Facultad de Ciencias Exactas y Naturales (UBA)." 
-                data-es="Es licenciado y doctor en matemática (UBA). Realiza su investigación sobre <span class='italic'>Machine Learning</span> 
+<section class="personas">
+	<article class="persona reveal">
+		<img src="/Im%C3%A1genes/Francisco.png" alt="Francisco Bersetche" width="160" height="160">
+		<div>
+			<h2>Francisco Bersetche</h2>
+			<span class="etiqueta" data-es="Co-fundador" data-en="Co-founder">Co-fundador</span>
+			<p data-html data-es="Es licenciado y doctor en matemática (UBA). Realiza su investigación sobre <em>Machine Learning</em> 
                 (aprendizaje automático) y Métodos numéricos en el Instituto de Investigaciones Matemáticas Luis A. Santaló (UBA-Conicet). 
                 Tiene experiencia en consultoría, más de una década en docencia y actualmente se desempeña como profesor adjunto en la Facultad de Ciencias Exactas y Naturales (UBA)."
-                data-pt="Possui graduação e doutorado em Matemática (UBA). Sua pesquisa foca em <span class='italic'>Machine Learning</span> 
-                (aprendizado automático) e Métodos numéricos no Instituto de Investigaciones Matemáticas Luis A. Santaló (UBA-Conicet). 
-                Possui experiência em consultoria, mais de uma década em ensino e atualmente é Professor Adjunto na Facultad de Ciencias Exactas y Naturales (UBA).">
-                Es licenciado y doctor en matemática (UBA). Realiza su investigación sobre <span class='italic'>Machine Learning</span> (aprendizaje automático) 
-                y Métodos numéricos en el  Instituto de Investigaciones Matemáticas Luis A. Santaló (UBA-Conicet).
+			   data-en="He holds a degree and a PhD in Mathematics (UBA). His research focuses on Machine Learning and Numerical Methods at the
+                Instituto de Investigaciones Matemáticas Luis A. Santaló (UBA-Conicet). He has experience in consulting,
+                more than a decade in teaching and currently serves as an Adjunct Professor at the Facultad de Ciencias Exactas y Naturales (UBA).">
+				Es licenciado y doctor en matemática (UBA). Realiza su investigación sobre <em>Machine Learning</em> 
+                (aprendizaje automático) y Métodos numéricos en el Instituto de Investigaciones Matemáticas Luis A. Santaló (UBA-Conicet). 
                 Tiene experiencia en consultoría, más de una década en docencia y actualmente se desempeña como profesor adjunto en la Facultad de Ciencias Exactas y Naturales (UBA).
-            </p>
-            <div class="flex justify-center space-x-4 border-t border-gray-600 pt-4 mt-auto">
-                <a href="https://www.linkedin.com/in/francisco-bersetche-1a6941326/" target="_blank" class="text-[#177fce] hover:text-white">LinkedIn</a>
-                <span class="text-gray-500">|</span>
-                <a href="https://fbersetche.github.io/" target="_blank" class="text-[#177fce] hover:text-white" data-en="Personal Page" data-es="Página Personal" data-pt="Página Pessoal">Personal Page</a>
-            </div>
-        </div>
-        
-        <div class="card reveal flex flex-col">
-            <div class="flex flex-col md:flex-row items-center gap-8 mb-6 justify-center">
-                <img src="Mauro.png" alt="Mauro Rodriguez Cartabia" class="w-44 h-44 rounded-2xl object-cover border-2 border-gray-600 shadow-lg shrink-0">
-                <div class="flex flex-col items-center md:items-start text-center md:text-left">
-                    <h4 class="text-xl md:text-2xl font-semibold leading-tight">Mauro<br class="hidden md:block"> Rodriguez<br class="hidden md:block"> Cartabia</h4>
-                    <span class="badge-founder mt-3 w-fit" data-en="Co-founder" data-es="Co-fundador" data-pt="Cofundador">Co-fundador</span>
-                </div>
-            </div>
-            <p class="text-lg text-gray-200 mb-6" 
-                data-en="He holds a degree and a PhD in Mathematics and Actuarial science (UBA). His research focuses on Differential Equations and Game Theory
-                at the Instituto de Investigaciones Matemáticas Luis A. Santaló (UBA-Conicet). 
-                He has over a decade of teaching experience, including positions as an Adjunct Professor at the Facultad de Ciencias Exactas y Naturales (UBA) and Guest Professor at the 
-                Department of Economics at Universidad de San Andrés." 
-                data-es="Es licenciado y doctor en matemática y actuario (UBA). Realiza su investigación sobre Ecuaciones diferenciales y Teoría de juegos en el 
+			</p>
+			<p class="enlaces">
+				<a href="https://www.linkedin.com/in/francisco-bersetche-1a6941326/" target="_blank" rel="noopener">LinkedIn</a>
+				<a href="https://fbersetche.github.io/" target="_blank" rel="noopener" data-es="Página personal" data-en="Personal page">Página personal</a>
+			</p>
+		</div>
+	</article>
+
+	<article class="persona reveal">
+		<img src="/Im%C3%A1genes/Mauro.png" alt="Mauro Rodriguez Cartabia" width="160" height="160">
+		<div>
+			<h2>Mauro Rodriguez Cartabia</h2>
+			<span class="etiqueta" data-es="Co-fundador" data-en="Co-founder">Co-fundador</span>
+			<p data-es="Es licenciado y doctor en matemática y actuario (UBA). Realiza su investigación sobre Ecuaciones diferenciales y Teoría de juegos en el 
                 Instituto de Investigaciones Matemáticas Luis A. Santaló (UBA-Conicet). 
                 Tiene más de una década de experiencia docente, incluyendo el cargo de profesor adjunto en la Facultad de Ciencias Exactas y Naturales (UBA) y el de profesor invitado en el 
                 Departamento de Economía de la Universidad de San Andrés."
-                data-pt="Possui graduação e doutorado em Matemática e Ciências Atuariais (UBA). Sua pesquisa foca em Equações Diferenciais e Teoria dos Jogos
-                no Instituto de Investigaciones Matemáticas Luis A. Santaló (UBA-Conicet). 
-                Possui mais de uma década de experiência docente, incluindo cargos de Professor Adjunto na Facultad de Ciencias Exactas y Naturales (UBA) e Professor Convidado no 
-                Departamento de Economia da Universidad de San Andrés.">
-                Es licenciado y doctor en matemática y actuario (UBA). Realiza su investigación sobre Ecuaciones diferenciales y Teoría de juegos
-                en el  Instituto de Investigaciones Matemáticas Luis A. Santaló (UBA-Conicet). 
+			   data-en="He holds a degree and a PhD in Mathematics and Actuarial science (UBA). His research focuses on Differential Equations and Game Theory
+                at the Instituto de Investigaciones Matemáticas Luis A. Santaló (UBA-Conicet). 
+                He has over a decade of teaching experience, including positions as an Adjunct Professor at the Facultad de Ciencias Exactas y Naturales (UBA) and Guest Professor at the 
+                Department of Economics at Universidad de San Andrés.">
+				Es licenciado y doctor en matemática y actuario (UBA). Realiza su investigación sobre Ecuaciones diferenciales y Teoría de juegos en el 
+                Instituto de Investigaciones Matemáticas Luis A. Santaló (UBA-Conicet). 
                 Tiene más de una década de experiencia docente, incluyendo el cargo de profesor adjunto en la Facultad de Ciencias Exactas y Naturales (UBA) y el de profesor invitado en el 
                 Departamento de Economía de la Universidad de San Andrés.
-            </p>
-            <div class="flex justify-center space-x-4 border-t border-gray-600 pt-4 mt-auto">
-                <a href="https://www.linkedin.com/in/mrodriguezcartabia/" target="_blank" class="text-[#177fce] hover:text-white">LinkedIn</a>
-                <span class="text-gray-500">|</span>
-                <a href="https://mrodriguezcartabia.github.io/" target="_blank" class="text-[#177fce] hover:text-white" data-en="Personal Page" data-es="Página Personal" data-pt="Página Pessoal">Personal Page</a>
-            </div>
-        </div>
-    </div>
-</main>
-             <footer class="bg-gray-900 text-white py-12 relative z-10">
-    <div class="container text-center">
-        <span class="text-gray-200 text-sm" data-en="&copy; 2025 Gamma. All rights reserved." data-es="&copy; 2025 Gamma. Todos los derechos reservados." data-pt="&copy; 2025 Gamma. Todos os direitos reservados.">
-            &copy; 2025 Gamma. All rights reserved.                
-        </span>
-        <a href="https://www.linkedin.com/company/gammasolution/" target="_blank" class="text-[#177fce] hover:text-white">LinkedIn</a>
-    </div>
-</footer> <script src="/script.js"></script>
+			</p>
+			<p class="enlaces">
+				<a href="https://www.linkedin.com/in/mrodriguezcartabia/" target="_blank" rel="noopener">LinkedIn</a>
+				<a href="https://mrodriguezcartabia.github.io/" target="_blank" rel="noopener" data-es="Página personal" data-en="Personal page">Página personal</a>
+			</p>
+		</div>
+	</article>
+</section>
+
+	</main>
+
+	<footer class="pie">
+		<span data-es="© 2026 Gamma. Todos los derechos reservados." data-en="© 2026 Gamma. All rights reserved.">© 2026 Gamma. Todos los derechos reservados.</span>
+		<a class="pie-linkedin" href="https://www.linkedin.com/company/gammasolution/" target="_blank" rel="noopener" aria-label="LinkedIn">
+			<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+				<path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/>
+			</svg>
+			<span>LinkedIn</span>
+		</a>
+	</footer>
+
+	<script src="/script.js"></script>
 </body>
 </html>

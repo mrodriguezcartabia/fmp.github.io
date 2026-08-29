@@ -1,0 +1,81 @@
+LOGOS DE CLIENTES — requisitos
+==============================
+
+Los logos de esta carpeta se muestran en la tira de la home. Se dibujan
+tal cual vienen: el CSS no los recolorea ni los corrige. Si un logo se
+ve mal, el problema está en el archivo, no en la hoja de estilos.
+
+
+QUÉ TIENE QUE CUMPLIR CADA ARCHIVO
+----------------------------------
+
+1. Formato SVG, vectorial de verdad.
+   Abrilo con un editor de texto: tiene que haber etiquetas <path>.
+   Si aparece la palabra "base64" o una etiqueta <image>, es un PNG
+   metido adentro de un SVG y no sirve — no escala mejor que el PNG.
+
+2. Todo en blanco.
+   Todos los fill en #fff (o white). El fondo del sitio es azul oscuro,
+   así que un logo negro o de color no se ve.
+
+3. Texto convertido a trazados.
+   No debe haber etiquetas <text>. Si el nombre está como texto con una
+   font-family, quien no tenga esa tipografía instalada lo ve con otra
+   letra. En Illustrator/Inkscape: seleccionar todo y "convertir a
+   contornos" / "convertir a trazado" antes de exportar.
+
+4. Con width y height, además del viewBox.
+   Ejemplo:
+   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 536 188"
+        width="536" height="188">
+   Sin dimensiones intrínsecas algunos navegadores calculan mal el
+   tamaño y el logo sale gigante o deformado.
+
+5. Sin trazos que se afinen hasta desaparecer.
+   Se muestra a 42px de alto. Cualquier detalle que a ese tamaño quede
+   por debajo de un píxel se ve entrecortado. Si el logo tiene líneas
+   muy finas, pedí una versión simplificada o usalo un poco más grande.
+
+
+CÓMO CONSEGUIRLO
+----------------
+
+- Pedírselo al cliente. Toda empresa tiene el logo en vectorial; suele
+  ser un mail de dos líneas. Aprovechá para avisarle que vas a poner su
+  marca en el sitio, que corresponde igual.
+- Mirar el código fuente de su web: muchos sitios ya sirven el logo
+  como SVG y se puede descargar directo.
+
+NO convertir un PNG a SVG con un autotrazador ni pedirle a una IA que
+"lo agrande": el resultado no es el logo del cliente, es un dibujo
+parecido. En una marca ajena eso se nota y queda mal.
+
+
+CÓMO AGREGARLO A LA PÁGINA
+--------------------------
+
+1. Guardar el archivo en esta carpeta.
+2. En index.html, dentro de <div class="tanda">, agregar:
+
+   <a href="https://SITIO-DEL-CLIENTE" target="_blank" rel="noopener">
+     <img src="{{ '/CARPETA/archivo.svg' | relative_url }}" alt="Nombre">
+   </a>
+
+3. El alt lleva el nombre real de la empresa: es lo que lee un lector
+   de pantalla y lo que se muestra si el archivo no carga.
+
+No hace falta tocar nada más. La tira se arma sola: el JS repite y
+clona las tandas según cuántos logos haya y ajusta la velocidad.
+
+
+DÓNDE SE AJUSTA LA TIRA
+-----------------------
+
+style.css
+  .tira-pista { gap }   separación entre repeticiones de la tanda
+  .tanda      { gap }   separación entre logos de una misma tanda
+  .tira-pista img       alto (42px) y ancho máximo de cada logo
+
+script.js, en duplicarTira()
+  el divisor de animationDuration son píxeles por segundo:
+  más chico = más lento
