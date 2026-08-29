@@ -319,6 +319,7 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 1.5rem; }
 }
 
 .gw-corto { display: none; }
+
 .gw-barra {
 	display: flex; align-items: center; justify-content: space-between;
 	padding: .9rem 1.1rem; border-bottom: 1px solid var(--borde);
@@ -427,7 +428,7 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 1.5rem; }
 	body.gw-abierto { overflow: hidden; }
 	#gw-tamano { display: none; }
 	#gw-cerrar { font-size: 1.9rem; padding: .2rem .7rem; }
-		body { padding-bottom: 4.5rem; }
+	body { padding-bottom: 4.5rem; }
 	#gw-boton { right: 1rem; bottom: 1rem; max-width: calc(100vw - 2rem); }
 	.gw-largo { display: none; }
 	.gw-corto { display: inline; }
