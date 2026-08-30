@@ -21,6 +21,7 @@ const TEXTOS = {
 		errorForm: 'No pudimos enviar el mensaje. Probá de nuevo o escribinos a info@gamma.ar.',
 		camposForm: 'Completá el nombre, un correo válido y el mensaje.',
 		copiado: 'Copiado',
+		demanda: 'El asistente está con mucha demanda. Reintento en {s} s.',
 	},
 	en: {
 		titulo: 'Assistant {marca}',
@@ -39,6 +40,7 @@ const TEXTOS = {
 		errorForm: "We couldn't send the message. Try again or write to info@gamma.ar.",
 		camposForm: 'Please fill in your name, a valid email and the message.',
 		copiado: 'Copied',
+		demanda: 'The assistant is under heavy load. Retrying in {s}s.',
 	},
 };
 
@@ -361,23 +363,32 @@ function burbuja(quien, texto) {
 	return div;
 }
 
-async function enviarConsulta() {
+async function enviarConsulta(preguntaPrevia) {
 	if (agente.terminado) return;
-	const pregunta = agente.texto.value.trim();
+	// Cuando la llama el listener del botón, el primer argumento es el evento:
+	// solo cuenta como reintento si viene un string.
+	const reintento = typeof preguntaPrevia === 'string';
+	// Sin esto, Enter durante la espera dispara un segundo pedido en paralelo.
+	if (!reintento && agente.enviar.disabled) return;
+
+	const pregunta = reintento ? preguntaPrevia : agente.texto.value.trim();
 	if (!pregunta) return;
-	if (!agente.verificado && !agente.token) {
+	if (!reintento && !agente.verificado && !agente.token) {
 		ponerPuntos(burbuja('agente', t().verificando));
 		return;
 	}
 
-	agente.texto.value = '';
+	if (!reintento) {
+		agente.texto.value = '';
+		burbuja('visitante', pregunta);
+		agente.historial.push({ rol: 'visitante', texto: pregunta });
+	}
 	agente.enviar.disabled = true;
-	burbuja('visitante', pregunta);
-	agente.historial.push({ rol: 'visitante', texto: pregunta });
 	const esperando = burbuja('agente', t().pensando);
 	esperando.classList.add('pensando');
 	ponerPuntos(esperando);
 
+	let espera = 0;
 	try {
 		const r = await fetch(`${API}/consulta`, {
 			method: 'POST',
@@ -392,26 +403,42 @@ async function enviarConsulta() {
 		const data = await r.json();
 		esperando.remove();
 
-		if (data.respuesta) {
+		// Alta demanda en Gemini: el worker ya reintentó por su cuenta y falló.
+		// Se avisa con un contador y se manda una sola vez más. Un reintento
+		// nunca genera otro: por eso la condición !reintento.
+		if (data.codigo === 'demanda' && !reintento) {
+			agente.verificado = true;
+			espera = Number(data.esperar) || 3;
+		} else if (data.respuesta) {
 			burbuja('agente', data.respuesta);
 			agente.historial.push({ rol: 'agente', texto: data.respuesta });
 			agente.verificado = true;
 			if (data.fin) agente.terminado = true;
 			if (agente.historial.length >= 2) agente.redactar.hidden = false;
 		} else {
-			agente.historial.pop();
+			if (!reintento) agente.historial.pop();
 			burbuja('agente', t().falla);
 		}
 	} catch (e) {
 		esperando.remove();
-		agente.historial.pop();
+		if (!reintento) agente.historial.pop();
 		burbuja('agente', t().falla);
 	} finally {
-		agente.enviar.disabled = agente.terminado;
+		agente.enviar.disabled = agente.terminado || espera > 0;
 		agente.token = null;
-		const caja = document.getElementById('gw-turnstile');
-		if (caja) caja.innerHTML = '';
+		// Solo se limpia si ya quedó verificada: si Turnstile falló, borrar el
+		// widget deja al visitante sin forma de reintentar.
+		if (agente.verificado) {
+			const caja = document.getElementById('gw-turnstile');
+			if (caja) caja.innerHTML = '';
+		}
 		guardarEstado();
+	}
+
+	// Fuera del try: así el finally no reactiva el botón antes de tiempo.
+	if (espera > 0) {
+		await cuentaRegresiva(espera);
+		return enviarConsulta(pregunta);
 	}
 }
 
@@ -449,6 +476,23 @@ function nuevaSesion() {
 function ponerPuntos(el) {
 	el.insertAdjacentHTML('beforeend', '<span class="gw-puntos"><i></i><i></i><i></i></span>');
 	return el;
+}
+
+function cuentaRegresiva(segundos) {
+	const linea = burbuja('agente', t().demanda.replace('{s}', segundos));
+	return new Promise((listo) => {
+		let quedan = segundos;
+		const reloj = setInterval(() => {
+			quedan -= 1;
+			if (quedan > 0) {
+				linea.textContent = t().demanda.replace('{s}', quedan);
+				return;
+			}
+			clearInterval(reloj);
+			linea.remove();
+			listo();
+		}, 1000);
+	});
 }
 
 function activarCopiaCorreo() {
