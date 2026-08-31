@@ -337,7 +337,16 @@ function abrirAgente() {
 			turnstile.render('#gw-turnstile', {
 				sitekey: SITEKEY,
 				theme: 'dark',
-				callback: (tk) => { agente.token = tk; },
+				callback: (tk) => {
+					agente.token = tk;
+					// Si el visitante escribió mientras se verificaba, se saca el cartel
+					// y se manda lo que había quedado esperando.
+					const aviso = agente.mensajes.querySelector('.gw-espera-turnstile');
+					if (aviso) {
+						aviso.remove();
+						if (agente.texto.value.trim()) enviarConsulta();
+					}
+				},
 				'expired-callback': () => { agente.token = null; },
 			});
 		});
@@ -374,7 +383,9 @@ async function enviarConsulta(preguntaPrevia) {
 	const pregunta = reintento ? preguntaPrevia : agente.texto.value.trim();
 	if (!pregunta) return;
 	if (!reintento && !agente.verificado && !agente.token) {
-		ponerPuntos(burbuja('agente', t().verificando));
+		const aviso = burbuja('agente', t().verificando);
+		aviso.classList.add('gw-espera-turnstile');
+		ponerPuntos(aviso);
 		return;
 	}
 
