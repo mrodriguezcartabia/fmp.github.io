@@ -7,7 +7,7 @@ const TEXTOS = {
 	es: {
 		titulo: 'Asistente {marca}',
 		aviso: 'Las respuestas son generadas automáticamente por un modelo de IA de terceros (Google Gemini), pueden contener errores y se registran de forma anónima para mejorar el servicio. No ingreses datos personales.',
-		saludo: 'Puedo responder sobre lo que hace Gamma y sobre las tres formas de trabajar juntos. ¿Qué querés saber?',
+		saludo: '¡Hola! Puedo responder sobre lo que hace Gamma y sobre las tres formas de trabajar juntos. ¿Qué querés saber?',
 		abrir: 'Preguntale al asistente',
 		abrirCorto: 'Asistente',
 		enviar: 'Enviar',
@@ -26,7 +26,7 @@ const TEXTOS = {
 	en: {
 		titulo: 'Assistant {marca}',
 		aviso: 'Answers are generated automatically by a third-party AI model (Google Gemini), may contain errors and are logged anonymously to improve the service. Do not enter personal data.',
-		saludo: "I can answer questions about what Gamma does and about the three ways of working together. What would you like to know?",
+		saludo: "Hi! I can answer questions about what Gamma does and about the three ways of working together. What would you like to know?",
 		abrir: 'Ask the assistant',
 		abrirCorto: 'Assistant',
 		enviar: 'Send',
