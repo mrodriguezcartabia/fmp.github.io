@@ -22,6 +22,7 @@ const TEXTOS = {
 		camposForm: 'Completá el nombre, un correo válido y el mensaje.',
 		copiado: 'Copiado',
 		demanda: 'El asistente está con mucha demanda. Reintento en {s} s.',
+		sinVerificacion: 'No se pudo cargar la verificación de seguridad. Probá recargar la página o escribinos a info@gamma.ar.',
 	},
 	en: {
 		titulo: 'Assistant {marca}',
@@ -41,6 +42,7 @@ const TEXTOS = {
 		camposForm: 'Please fill in your name, a valid email and the message.',
 		copiado: 'Copied',
 		demanda: 'The assistant is under heavy load. Retrying in {s}s.',
+		sinVerificacion: 'The security check failed to load. Try reloading the page or write to info@gamma.ar.',
 	},
 };
 
@@ -134,6 +136,7 @@ function activarFormulario() {
 	const aviso = document.getElementById('aviso-form');
 	const boton = form.querySelector('button[type="submit"]');
 	let token = null;
+	let sinTurnstile = false;
 
 	// mensaje redactado por el agente en la otra página
 	try {
@@ -151,6 +154,10 @@ function activarFormulario() {
 			callback: (tk) => { token = tk; },
 			'expired-callback': () => { token = null; },
 		});
+	}, () => {
+		sinTurnstile = true;
+		aviso.textContent = t().sinVerificacion;
+		aviso.classList.add('error');
 	});
 
 	form.addEventListener('submit', async (ev) => {
@@ -170,6 +177,11 @@ function activarFormulario() {
 			return;
 		}
 		if (!token) {
+			if (sinTurnstile) {
+				aviso.textContent = t().sinVerificacion;
+				aviso.classList.add('error');
+				return;
+			}
 			aviso.textContent = t().verificando;
 			ponerPuntos(aviso);
 			return;
@@ -341,11 +353,9 @@ function abrirAgente() {
 					agente.token = tk;
 					// Si el visitante escribió mientras se verificaba, se saca el cartel
 					// y se manda lo que había quedado esperando.
-					const aviso = agente.mensajes.querySelector('.gw-espera-turnstile');
-					if (aviso) {
-						aviso.remove();
-						if (agente.texto.value.trim()) enviarConsulta();
-					}
+					const avisos = agente.mensajes.querySelectorAll('.gw-espera-turnstile');
+					avisos.forEach((a) => a.remove());
+					if (avisos.length && agente.texto.value.trim()) enviarConsulta();
 				},
 				'expired-callback': () => { agente.token = null; },
 			});
@@ -383,9 +393,12 @@ async function enviarConsulta(preguntaPrevia) {
 	const pregunta = reintento ? preguntaPrevia : agente.texto.value.trim();
 	if (!pregunta) return;
 	if (!reintento && !agente.verificado && !agente.token) {
-		const aviso = burbuja('agente', t().verificando);
-		aviso.classList.add('gw-espera-turnstile');
-		ponerPuntos(aviso);
+		// Si ya hay un cartel esperando, no apilar otro por cada click.
+		if (!agente.mensajes.querySelector('.gw-espera-turnstile')) {
+			const aviso = burbuja('agente', t().verificando);
+			aviso.classList.add('gw-espera-turnstile');
+			ponerPuntos(aviso);
+		}
 		return;
 	}
 
@@ -520,10 +533,16 @@ function activarCopiaCorreo() {
 	});
 }
 
-function esperarTurnstile(fn, intentos = 40) {
+function esperarTurnstile(fn, alFallar, intentos = 40) {
 	if (window.turnstile && turnstile.render) return fn();
-	if (intentos <= 0) return;
-	setTimeout(() => esperarTurnstile(fn, intentos - 1), 250);
+	if (intentos <= 0) {
+		// Turnstile no cargó. Sin esto el visitante queda esperando un captcha
+		// que nunca va a aparecer, sin ningún aviso.
+		console.error('turnstile no cargó');
+		if (alFallar) alFallar();
+		return;
+	}
+	setTimeout(() => esperarTurnstile(fn, alFallar, intentos - 1), 250);
 }
 
 /* ------------------------------------------------------------- arranque */
