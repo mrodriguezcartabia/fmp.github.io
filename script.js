@@ -21,7 +21,7 @@ const TEXTOS = {
 		errorForm: 'No pudimos enviar el mensaje. Probá de nuevo o escribinos a info@gamma.ar.',
 		camposForm: 'Completá el nombre, un correo válido y el mensaje.',
 		copiado: 'Copiado',
-		demanda: 'El asistente está con mucha demanda. Reintento en {s} s.',
+		demanda: 'El asistente está con mucha demanda. Reintento en {s} s...',
 		sinVerificacion: 'No se pudo cargar la verificación de seguridad. Probá recargar la página o escribinos a info@gamma.ar.',
 	},
 	en: {
@@ -41,7 +41,7 @@ const TEXTOS = {
 		errorForm: "We couldn't send the message. Try again or write to info@gamma.ar.",
 		camposForm: 'Please fill in your name, a valid email and the message.',
 		copiado: 'Copied',
-		demanda: 'The assistant is under heavy load. Retrying in {s}s.',
+		demanda: 'The assistant is under heavy load. Retrying in {s} s...',
 		sinVerificacion: 'The security check failed to load. Try reloading the page or write to info@gamma.ar.',
 	},
 };
@@ -433,6 +433,13 @@ async function enviarConsulta(preguntaPrevia) {
 		if (data.codigo === 'demanda' && !reintento) {
 			agente.verificado = true;
 			espera = Number(data.esperar) || 3;
+		} else if (data.codigo === 'demanda') {
+			// Segundo fallo seguido: no hay tercera vuelta. Se muestra el texto del
+			// worker, que ya deriva al mail, y se cierra la conversación en vez de
+			// dejar al visitante mandando preguntas que van a fallar igual.
+			burbuja('agente', data.respuesta || t().falla);
+			agente.verificado = true;
+			agente.terminado = true;
 		} else if (data.respuesta) {
 			burbuja('agente', data.respuesta);
 			agente.historial.push({ rol: 'agente', texto: data.respuesta });
