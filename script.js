@@ -23,6 +23,7 @@ const TEXTOS = {
 		copiado: 'Copiado',
 		demanda: 'El asistente está con mucha demanda. Reintento en {s} s...',
 		demandaUltima: 'Intentando una última vez en {s} s. Perdón por la demora: si preferís, escribinos a info@gamma.ar.',
+		lento: 'Está tardando más de lo habitual, seguimos esperando',
 		sinVerificacion: 'No se pudo cargar la verificación de seguridad. Probá recargar la página o escribinos a info@gamma.ar.',
 	},
 	en: {
@@ -44,6 +45,7 @@ const TEXTOS = {
 		copiado: 'Copied',
 		demanda: 'The assistant is under heavy load. Retrying in {s} s...',
 		demandaUltima: 'Trying one last time in {s}s. Sorry for the wait — if you prefer, write to info@gamma.ar.',
+		lento: 'This is taking longer than usual, still waiting',
 		sinVerificacion: 'The security check failed to load. Try reloading the page or write to info@gamma.ar.',
 	},
 };
@@ -410,10 +412,15 @@ async function enviarConsulta(preguntaPrevia, vuelta = 1) {
 		burbuja('visitante', pregunta);
 		agente.historial.push({ rol: 'visitante', texto: pregunta });
 	}
-	agente.enviar.disabled = true;
 	const esperando = burbuja('agente', t().pensando);
 	esperando.classList.add('pensando');
 	ponerPuntos(esperando);
+	// A los 8 s el silencio empieza a parecer un cuelgue. El texto cambia aunque
+	// el cliente no sepa en qué anda el worker: lo único que afirma es que sigue.
+	const avisoLento = setTimeout(() => {
+		esperando.textContent = t().lento;
+		ponerPuntos(esperando);
+	}, 8000);
 
 	let espera = 0;
 	try {
@@ -458,6 +465,7 @@ async function enviarConsulta(preguntaPrevia, vuelta = 1) {
 		agente.historial.pop();
 		burbuja('agente', t().falla);
 	} finally {
+		clearTimeout(avisoLento);
 		agente.enviar.disabled = agente.terminado || espera > 0;
 		agente.token = null;
 		// Solo se limpia si ya quedó verificada: si Turnstile falló, borrar el
@@ -513,7 +521,7 @@ function ponerPuntos(el) {
 }
 
 async function cuentaRegresiva(segundos, vuelta = 1) {
-	const frase = vuelta >= 3 ? t().demandaUltima : t().demanda;
+	const frase = vuelta >= 2 ? t().demandaUltima : t().demanda;
 	const linea = burbuja('agente', frase.replace('{s}', segundos));
 	return new Promise((listo) => {
 		let quedan = segundos;
