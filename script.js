@@ -22,6 +22,7 @@ const TEXTOS = {
 		camposForm: 'Completá el nombre, un correo válido y el mensaje.',
 		copiado: 'Copiado',
 		demanda: 'El asistente está con mucha demanda. Reintento en {s} s...',
+		demandaUltima: 'Intentando una última vez en {s} s. Perdón por la demora: si preferís, escribinos a info@gamma.ar.',
 		sinVerificacion: 'No se pudo cargar la verificación de seguridad. Probá recargar la página o escribinos a info@gamma.ar.',
 	},
 	en: {
@@ -42,6 +43,7 @@ const TEXTOS = {
 		camposForm: 'Please fill in your name, a valid email and the message.',
 		copiado: 'Copied',
 		demanda: 'The assistant is under heavy load. Retrying in {s} s...',
+		demandaUltima: 'Trying one last time in {s}s. Sorry for the wait — if you prefer, write to info@gamma.ar.',
 		sinVerificacion: 'The security check failed to load. Try reloading the page or write to info@gamma.ar.',
 	},
 };
@@ -382,7 +384,8 @@ function burbuja(quien, texto) {
 	return div;
 }
 
-async function enviarConsulta(preguntaPrevia) {
+// vuelta 1 es el intento original; 2 y 3 son los reintentos automáticos.
+async function enviarConsulta(preguntaPrevia, vuelta = 1) {
 	if (agente.terminado) return;
 	// Cuando la llama el listener del botón, el primer argumento es el evento:
 	// solo cuenta como reintento si viene un string.
@@ -427,16 +430,14 @@ async function enviarConsulta(preguntaPrevia) {
 		const data = await r.json();
 		esperando.remove();
 
-		// Alta demanda en Gemini: el worker ya reintentó por su cuenta y falló.
-		// Se avisa con un contador y se manda una sola vez más. Un reintento
-		// nunca genera otro: por eso la condición !reintento.
-		if (data.codigo === 'demanda' && !reintento) {
+		// Tres vueltas con espera creciente. Un 5xx de Gemini no consume cuota, así
+		// que insistir es gratis: medido el 01/09/2026, 3.6 responde bien 1 de cada
+		// 3 veces, y tres intentos lo llevan cerca del 70%.
+		if (data.codigo === 'demanda' && vuelta < 3) {
 			agente.verificado = true;
-			espera = Number(data.esperar) || 3;
+			espera = [4, 8, 16][vuelta - 1];
 		} else if (data.codigo === 'demanda') {
-			// Segundo fallo seguido: no hay tercera vuelta. Se muestra el texto del
-			// worker, que ya deriva al mail, y se cierra la conversación en vez de
-			// dejar al visitante mandando preguntas que van a fallar igual.
+			agente.historial.pop();
 			burbuja('agente', data.respuesta || t().falla);
 			agente.verificado = true;
 			agente.terminado = true;
@@ -447,12 +448,14 @@ async function enviarConsulta(preguntaPrevia) {
 			if (data.fin) agente.terminado = true;
 			if (agente.historial.length >= 2) agente.redactar.hidden = false;
 		} else {
-			if (!reintento) agente.historial.pop();
+			agente.historial.pop();
 			burbuja('agente', t().falla);
 		}
 	} catch (e) {
 		esperando.remove();
-		if (!reintento) agente.historial.pop();
+		// La pregunta se agregó al historial en la vuelta 1 y ninguna vuelta la
+		// saca, así que hay que sacarla acá sin importar en cuál estemos.
+		agente.historial.pop();
 		burbuja('agente', t().falla);
 	} finally {
 		agente.enviar.disabled = agente.terminado || espera > 0;
@@ -468,8 +471,8 @@ async function enviarConsulta(preguntaPrevia) {
 
 	// Fuera del try: así el finally no reactiva el botón antes de tiempo.
 	if (espera > 0) {
-		await cuentaRegresiva(espera);
-		return enviarConsulta(pregunta);
+		await cuentaRegresiva(espera, vuelta);
+		return enviarConsulta(pregunta, vuelta + 1);
 	}
 }
 
@@ -509,14 +512,15 @@ function ponerPuntos(el) {
 	return el;
 }
 
-function cuentaRegresiva(segundos) {
-	const linea = burbuja('agente', t().demanda.replace('{s}', segundos));
+async function cuentaRegresiva(segundos, vuelta = 1) {
+	const frase = vuelta >= 3 ? t().demandaUltima : t().demanda;
+	const linea = burbuja('agente', frase.replace('{s}', segundos));
 	return new Promise((listo) => {
 		let quedan = segundos;
 		const reloj = setInterval(() => {
 			quedan -= 1;
 			if (quedan > 0) {
-				linea.textContent = t().demanda.replace('{s}', quedan);
+				linea.textContent = frase.replace('{s}', quedan);
 				return;
 			}
 			clearInterval(reloj);
