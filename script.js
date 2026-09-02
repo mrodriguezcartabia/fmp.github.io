@@ -23,7 +23,8 @@ const TEXTOS = {
 		copiado: 'Copiado',
 		demanda: 'El asistente está con mucha demanda. Reintento en {s} s...',
 		demandaUltima: 'Intentando una última vez en {s} s. Perdón por la demora: si preferís, escribinos a info@gamma.ar.',
-		lento: 'Está tardando más de lo habitual, seguimos esperando',
+		lento: 'Sigo pensando, dame unos segundos',
+		muyLento: 'Esto está tardando; si preferís no esperar, escribinos a info@gamma.ar',
 		sinVerificacion: 'No se pudo cargar la verificación de seguridad. Probá recargar la página o escribinos a info@gamma.ar.',
 	},
 	en: {
@@ -45,7 +46,8 @@ const TEXTOS = {
 		copiado: 'Copied',
 		demanda: 'The assistant is under heavy load. Retrying in {s} s...',
 		demandaUltima: 'Trying one last time in {s}s. Sorry for the wait — if you prefer, write to info@gamma.ar.',
-		lento: 'This is taking longer than usual, still waiting',
+		lento: 'Still thinking, give me a few seconds',
+		muyLento: 'This is taking a while; if you would prefer not to wait, write to us at info@gamma.ar',
 		sinVerificacion: 'The security check failed to load. Try reloading the page or write to info@gamma.ar.',
 	},
 };
@@ -217,6 +219,7 @@ function activarFormulario() {
 /* ------------------------------------------------------------- agente */
 
 let agente = null;
+let saliendo = false;
 
 function construirAgente() {
 	if (!document.body.dataset.agente) return;
@@ -247,9 +250,9 @@ function construirAgente() {
 		<div class="gw-pie">
 			<div class="gw-fila">
 				<textarea id="gw-texto" rows="2" maxlength="500"></textarea>
-				<button type="button" id="gw-enviar"></button>
+				<button type="button" class="boton" id="gw-enviar"></button>
 			</div>
-			<button type="button" id="gw-redactar" hidden></button>
+			<button type="button" class="boton" id="gw-redactar" hidden></button>
 		</div>`;
 
 	document.body.append(boton, panel);
@@ -291,15 +294,49 @@ function construirAgente() {
 	if (previo) restaurarConversacion(previo);
 }
 
+// El botón de redactar aparece recién cuando el asistente contestó al menos una
+// vez. El saludo no cuenta: no entra en historial.
+function hayIntercambio() {
+	return agente.historial.some((m) => m.rol === 'agente');
+}
 const CLAVE_ESTADO = 'gamma-agente-estado';
 
 function restaurarConversacion(previo) {
 	const saludo = burbuja('agente', t().saludo);
 	saludo.dataset.saludo = '1';
 	agente.historial.forEach((m) => burbuja(m.rol === 'agente' ? 'agente' : 'visitante', m.texto));
-	if (agente.historial.length >= 2) agente.redactar.hidden = false;
+	agente.redactar.hidden = !hayIntercambio();
 	if (agente.terminado) agente.enviar.disabled = true;
 	if (previo?.abierto) abrirAgente();
+	recuperarPerdido();
+}
+
+// Si el worker terminó un turno mientras el visitante cambiaba de página, esa
+// respuesta quedó en D1 y no en el navegador. Se detecta porque el último
+// mensaje del historial es del visitante: nunca queda así si el turno cerró bien.
+function recuperarPerdido() {
+	const h = agente.historial;
+	if (!h.length || h[h.length - 1].rol !== 'visitante') return;
+
+	fetch(`${API}/ultimo`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			sesion: agente.sesion,
+			vistos: h.filter((m) => m.rol === 'agente').length,
+		}),
+	})
+		.then((r) => r.json())
+		.then((d) => {
+			if (!d.turnos || !d.turnos.length) return;
+			d.turnos.forEach((texto) => {
+				burbuja('agente', texto);
+				agente.historial.push({ rol: 'agente', texto });
+			});
+			agente.redactar.hidden = !hayIntercambio();
+			guardarEstado();
+		})
+		.catch(() => {});   // si no se puede, el visitante simplemente repregunta
 }
 
 function leerEstado() {
@@ -312,6 +349,7 @@ function leerEstado() {
 
 function guardarEstado() {
 	if (!agente) return;
+	if (saliendo) return;   // la página se está yendo: no pisar lo último bueno
 	try {
 		sessionStorage.setItem(CLAVE_ESTADO, JSON.stringify({
 			sesion: agente.sesion,
@@ -411,16 +449,24 @@ async function enviarConsulta(preguntaPrevia, vuelta = 1) {
 		agente.texto.value = '';
 		burbuja('visitante', pregunta);
 		agente.historial.push({ rol: 'visitante', texto: pregunta });
+		// Se guarda ya, no en el finally: si el visitante cambia de página mientras
+		// espera, su pregunta tiene que seguir en pantalla al volver.
+		guardarEstado();
 	}
+	agente.enviar.disabled = true;
 	const esperando = burbuja('agente', t().pensando);
 	esperando.classList.add('pensando');
 	ponerPuntos(esperando);
-	// A los 8 s el silencio empieza a parecer un cuelgue. El texto cambia aunque
+	// A los 20 s el silencio empieza a parecer un cuelgue. El texto cambia aunque
 	// el cliente no sepa en qué anda el worker: lo único que afirma es que sigue.
 	const avisoLento = setTimeout(() => {
 		esperando.textContent = t().lento;
 		ponerPuntos(esperando);
-	}, 8000);
+	}, 20000);
+	const avisoMuyLento = setTimeout(() => {
+		esperando.textContent = t().muyLento;
+		ponerPuntos(esperando);
+	}, 40000);
 
 	let espera = 0;
 	try {
@@ -453,12 +499,15 @@ async function enviarConsulta(preguntaPrevia, vuelta = 1) {
 			agente.historial.push({ rol: 'agente', texto: data.respuesta });
 			agente.verificado = true;
 			if (data.fin) agente.terminado = true;
-			if (agente.historial.length >= 2) agente.redactar.hidden = false;
+			agente.redactar.hidden = !hayIntercambio();
 		} else {
 			agente.historial.pop();
 			burbuja('agente', t().falla);
 		}
 	} catch (e) {
+		// Si el visitante cambió de página, el fetch se abortó solo: no es una
+		// falla, y tocar el historial acá es lo que le hace desaparecer la pregunta.
+		if (saliendo) return;
 		esperando.remove();
 		// La pregunta se agregó al historial en la vuelta 1 y ninguna vuelta la
 		// saca, así que hay que sacarla acá sin importar en cuál estemos.
@@ -466,6 +515,7 @@ async function enviarConsulta(preguntaPrevia, vuelta = 1) {
 		burbuja('agente', t().falla);
 	} finally {
 		clearTimeout(avisoLento);
+		clearTimeout(avisoMuyLento);
 		agente.enviar.disabled = agente.terminado || espera > 0;
 		agente.token = null;
 		// Solo se limpia si ya quedó verificada: si Turnstile falló, borrar el
@@ -589,3 +639,11 @@ window.addEventListener('resize', () => {
 	clearTimeout(ajusteTira);
 	ajusteTira = setTimeout(duplicarTira, 250);
 });
+// Cambiar de página aborta el fetch en curso. Sin esta marca, el catch de
+// enviarConsulta lo trata como una falla, borra la pregunta del historial y
+// guarda ese estado mutilado antes de que la página termine de descargarse.
+window.addEventListener('pagehide', () => { saliendo = true; });
+// El navegador puede devolver la página desde el bfcache (botón atrás) con las
+// variables intactas. Sin esto, 'saliendo' queda en true y guardarEstado() deja
+// de guardar para siempre en esa pestaña.
+window.addEventListener('pageshow', () => { saliendo = false; });

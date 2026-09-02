@@ -19,6 +19,10 @@
 	--paso: clamp(3.5rem, 8vw, 7rem);
 }
 
+/* Cualquier clase con display propio le gana a la regla [hidden] del navegador.
+   Sin esto, un elemento con class="boton" y hidden se sigue viendo. */
+[hidden] { display: none !important; }
+
 * { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
@@ -358,21 +362,9 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 1.5rem; }
 	background: var(--fondo); border: 1px solid var(--borde); border-radius: var(--radio);
 	padding: .6rem .8rem; resize: none;
 }
-#gw-enviar {
-	font-family: var(--display); font-size: .72rem; font-weight: 600;
-	letter-spacing: .08em; text-transform: uppercase;
-	background: var(--acento); color: #fff;
-	border: none; border-radius: var(--radio); padding: 0 1rem; cursor: pointer;
-}
-#gw-enviar[disabled] { opacity: .45; cursor: default; }
-#gw-redactar {
-	margin-top: .7rem; width: 100%; background: none;
-	border: 1px solid var(--borde); color: var(--texto-tenue);
-	font-family: var(--display); font-size: .78rem; font-weight: 600;
-	letter-spacing: .08em; text-transform: uppercase;
-	padding: .8rem; border-radius: var(--radio); cursor: pointer;
-}
-#gw-redactar:hover { color: var(--acento-claro); border-color: var(--acento-claro); }
+/* Heredan .boton de la página; acá va solo el ajuste de tamaño del panel. */
+#gw-enviar   { font-size: .72rem; padding: 0 1.1rem; }
+#gw-redactar { margin-top: .7rem; width: 100%; padding: .8rem; }
 
 /* ---------------------------------------------------------- movimiento */
 
