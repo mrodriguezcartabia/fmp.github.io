@@ -7,7 +7,7 @@ const TEXTOS = {
 	es: {
 		titulo: 'Asistente {marca}',
 		aviso: 'Las respuestas son generadas automáticamente por un modelo de IA de terceros (Google Gemini), pueden contener errores y se registran de forma anónima para mejorar el servicio. No ingreses datos personales.',
-		saludo: 'Puedo responder sobre lo que hace Gamma y sobre las tres formas de trabajar juntos. ¿Qué querés saber?',
+		saludo: '¡Hola! Puedo responder sobre lo que hace Gamma y sobre las tres formas de trabajar juntos. ¿Qué querés saber?',
 		abrir: 'Preguntale al asistente',
 		abrirCorto: 'Asistente',
 		enviar: 'Enviar',
@@ -21,11 +21,15 @@ const TEXTOS = {
 		errorForm: 'No pudimos enviar el mensaje. Probá de nuevo o escribinos a info@gamma.ar.',
 		camposForm: 'Completá el nombre, un correo válido y el mensaje.',
 		copiado: 'Copiado',
+		demanda: 'El asistente está con mucha demanda. Reintento en {s} s...',
+		demandaUltima: 'Intentando una última vez en {s} s. Perdón por la demora: si preferís, escribinos a info@gamma.ar.',
+		lento: 'Está tardando más de lo habitual, seguimos esperando',
+		sinVerificacion: 'No se pudo cargar la verificación de seguridad. Probá recargar la página o escribinos a info@gamma.ar.',
 	},
 	en: {
 		titulo: 'Assistant {marca}',
 		aviso: 'Answers are generated automatically by a third-party AI model (Google Gemini), may contain errors and are logged anonymously to improve the service. Do not enter personal data.',
-		saludo: "I can answer questions about what Gamma does and about the three ways of working together. What would you like to know?",
+		saludo: "Hi! I can answer questions about what Gamma does and about the three ways of working together. What would you like to know?",
 		abrir: 'Ask the assistant',
 		abrirCorto: 'Assistant',
 		enviar: 'Send',
@@ -39,6 +43,10 @@ const TEXTOS = {
 		errorForm: "We couldn't send the message. Try again or write to info@gamma.ar.",
 		camposForm: 'Please fill in your name, a valid email and the message.',
 		copiado: 'Copied',
+		demanda: 'The assistant is under heavy load. Retrying in {s} s...',
+		demandaUltima: 'Trying one last time in {s}s. Sorry for the wait — if you prefer, write to info@gamma.ar.',
+		lento: 'This is taking longer than usual, still waiting',
+		sinVerificacion: 'The security check failed to load. Try reloading the page or write to info@gamma.ar.',
 	},
 };
 
@@ -132,6 +140,7 @@ function activarFormulario() {
 	const aviso = document.getElementById('aviso-form');
 	const boton = form.querySelector('button[type="submit"]');
 	let token = null;
+	let sinTurnstile = false;
 
 	// mensaje redactado por el agente en la otra página
 	try {
@@ -149,6 +158,10 @@ function activarFormulario() {
 			callback: (tk) => { token = tk; },
 			'expired-callback': () => { token = null; },
 		});
+	}, () => {
+		sinTurnstile = true;
+		aviso.textContent = t().sinVerificacion;
+		aviso.classList.add('error');
 	});
 
 	form.addEventListener('submit', async (ev) => {
@@ -168,6 +181,11 @@ function activarFormulario() {
 			return;
 		}
 		if (!token) {
+			if (sinTurnstile) {
+				aviso.textContent = t().sinVerificacion;
+				aviso.classList.add('error');
+				return;
+			}
 			aviso.textContent = t().verificando;
 			ponerPuntos(aviso);
 			return;
@@ -335,7 +353,14 @@ function abrirAgente() {
 			turnstile.render('#gw-turnstile', {
 				sitekey: SITEKEY,
 				theme: 'dark',
-				callback: (tk) => { agente.token = tk; },
+				callback: (tk) => {
+					agente.token = tk;
+					// Si el visitante escribió mientras se verificaba, se saca el cartel
+					// y se manda lo que había quedado esperando.
+					const avisos = agente.mensajes.querySelectorAll('.gw-espera-turnstile');
+					avisos.forEach((a) => a.remove());
+					if (avisos.length && agente.texto.value.trim()) enviarConsulta();
+				},
 				'expired-callback': () => { agente.token = null; },
 			});
 		});
@@ -361,23 +386,43 @@ function burbuja(quien, texto) {
 	return div;
 }
 
-async function enviarConsulta() {
+// vuelta 1 es el intento original; 2 y 3 son los reintentos automáticos.
+async function enviarConsulta(preguntaPrevia, vuelta = 1) {
 	if (agente.terminado) return;
-	const pregunta = agente.texto.value.trim();
+	// Cuando la llama el listener del botón, el primer argumento es el evento:
+	// solo cuenta como reintento si viene un string.
+	const reintento = typeof preguntaPrevia === 'string';
+	// Sin esto, Enter durante la espera dispara un segundo pedido en paralelo.
+	if (!reintento && agente.enviar.disabled) return;
+
+	const pregunta = reintento ? preguntaPrevia : agente.texto.value.trim();
 	if (!pregunta) return;
-	if (!agente.verificado && !agente.token) {
-		ponerPuntos(burbuja('agente', t().verificando));
+	if (!reintento && !agente.verificado && !agente.token) {
+		// Si ya hay un cartel esperando, no apilar otro por cada click.
+		if (!agente.mensajes.querySelector('.gw-espera-turnstile')) {
+			const aviso = burbuja('agente', t().verificando);
+			aviso.classList.add('gw-espera-turnstile');
+			ponerPuntos(aviso);
+		}
 		return;
 	}
 
-	agente.texto.value = '';
-	agente.enviar.disabled = true;
-	burbuja('visitante', pregunta);
-	agente.historial.push({ rol: 'visitante', texto: pregunta });
+	if (!reintento) {
+		agente.texto.value = '';
+		burbuja('visitante', pregunta);
+		agente.historial.push({ rol: 'visitante', texto: pregunta });
+	}
 	const esperando = burbuja('agente', t().pensando);
 	esperando.classList.add('pensando');
 	ponerPuntos(esperando);
+	// A los 8 s el silencio empieza a parecer un cuelgue. El texto cambia aunque
+	// el cliente no sepa en qué anda el worker: lo único que afirma es que sigue.
+	const avisoLento = setTimeout(() => {
+		esperando.textContent = t().lento;
+		ponerPuntos(esperando);
+	}, 8000);
 
+	let espera = 0;
 	try {
 		const r = await fetch(`${API}/consulta`, {
 			method: 'POST',
@@ -392,7 +437,18 @@ async function enviarConsulta() {
 		const data = await r.json();
 		esperando.remove();
 
-		if (data.respuesta) {
+		// Tres vueltas con espera creciente. Un 5xx de Gemini no consume cuota, así
+		// que insistir es gratis: medido el 01/09/2026, 3.6 responde bien 1 de cada
+		// 3 veces, y tres intentos lo llevan cerca del 70%.
+		if (data.codigo === 'demanda' && vuelta < 3) {
+			agente.verificado = true;
+			espera = [4, 8, 16][vuelta - 1];
+		} else if (data.codigo === 'demanda') {
+			agente.historial.pop();
+			burbuja('agente', data.respuesta || t().falla);
+			agente.verificado = true;
+			agente.terminado = true;
+		} else if (data.respuesta) {
 			burbuja('agente', data.respuesta);
 			agente.historial.push({ rol: 'agente', texto: data.respuesta });
 			agente.verificado = true;
@@ -404,14 +460,27 @@ async function enviarConsulta() {
 		}
 	} catch (e) {
 		esperando.remove();
+		// La pregunta se agregó al historial en la vuelta 1 y ninguna vuelta la
+		// saca, así que hay que sacarla acá sin importar en cuál estemos.
 		agente.historial.pop();
 		burbuja('agente', t().falla);
 	} finally {
-		agente.enviar.disabled = agente.terminado;
+		clearTimeout(avisoLento);
+		agente.enviar.disabled = agente.terminado || espera > 0;
 		agente.token = null;
-		const caja = document.getElementById('gw-turnstile');
-		if (caja) caja.innerHTML = '';
+		// Solo se limpia si ya quedó verificada: si Turnstile falló, borrar el
+		// widget deja al visitante sin forma de reintentar.
+		if (agente.verificado) {
+			const caja = document.getElementById('gw-turnstile');
+			if (caja) caja.innerHTML = '';
+		}
 		guardarEstado();
+	}
+
+	// Fuera del try: así el finally no reactiva el botón antes de tiempo.
+	if (espera > 0) {
+		await cuentaRegresiva(espera, vuelta);
+		return enviarConsulta(pregunta, vuelta + 1);
 	}
 }
 
@@ -451,6 +520,24 @@ function ponerPuntos(el) {
 	return el;
 }
 
+async function cuentaRegresiva(segundos, vuelta = 1) {
+	const frase = vuelta >= 2 ? t().demandaUltima : t().demanda;
+	const linea = burbuja('agente', frase.replace('{s}', segundos));
+	return new Promise((listo) => {
+		let quedan = segundos;
+		const reloj = setInterval(() => {
+			quedan -= 1;
+			if (quedan > 0) {
+				linea.textContent = frase.replace('{s}', quedan);
+				return;
+			}
+			clearInterval(reloj);
+			linea.remove();
+			listo();
+		}, 1000);
+	});
+}
+
 function activarCopiaCorreo() {
 	document.addEventListener('click', (ev) => {
 		const enlace = ev.target.closest('a[href^="mailto:"]');
@@ -465,10 +552,16 @@ function activarCopiaCorreo() {
 	});
 }
 
-function esperarTurnstile(fn, intentos = 40) {
+function esperarTurnstile(fn, alFallar, intentos = 40) {
 	if (window.turnstile && turnstile.render) return fn();
-	if (intentos <= 0) return;
-	setTimeout(() => esperarTurnstile(fn, intentos - 1), 250);
+	if (intentos <= 0) {
+		// Turnstile no cargó. Sin esto el visitante queda esperando un captcha
+		// que nunca va a aparecer, sin ningún aviso.
+		console.error('turnstile no cargó');
+		if (alFallar) alFallar();
+		return;
+	}
+	setTimeout(() => esperarTurnstile(fn, alFallar, intentos - 1), 250);
 }
 
 /* ------------------------------------------------------------- arranque */
