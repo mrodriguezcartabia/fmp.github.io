@@ -17,7 +17,7 @@ const TEXTOS = {
 		falla: 'Se cortó la conexión con el asistente. Escribinos a info@gamma.ar.',
 		verificando: 'Verificando que no seas un robot',
 		enviando: 'Enviando',
-		enviado: 'Listo, recibimos tu mensaje. Te mandamos una copia a tu correo; si no llega en unos minutos, revisá spam o escribinos directo a info@gamma.ar.',
+		enviado: 'Listo, recibimos tu mensaje. Te mandamos una copia a {correo}; si no llega en unos minutos, revisá spam o escribinos directo a info@gamma.ar.',
 		errorForm: 'No pudimos enviar el mensaje. Probá de nuevo o escribinos a info@gamma.ar.',
 		camposForm: 'Completá el nombre, un correo válido y el mensaje.',
 		copiado: 'Copiado',
@@ -40,7 +40,7 @@ const TEXTOS = {
 		falla: 'The connection to the assistant failed. Write to info@gamma.ar.',
 		verificando: 'Checking that you are not a robot',
 		enviando: 'Sending',
-		enviado: "Thanks, we've got your message. A copy is on its way to your inbox; if it doesn't arrive in a few minutes, check spam or write directly to info@gamma.ar.",
+		enviado: "Thanks, we've got your message. A copy is on its way to {correo}; if it doesn't arrive in a few minutes, check spam or write directly to info@gamma.ar.",
 		errorForm: "We couldn't send the message. Try again or write to info@gamma.ar.",
 		camposForm: 'Please fill in your name, a valid email and the message.',
 		copiado: 'Copied',
@@ -174,6 +174,7 @@ function activarFormulario() {
 			nombre: form.nombre.value.trim(),
 			empresa: form.empresa.value.trim(),
 			correo: form.correo.value.trim(),
+			idioma: document.documentElement.lang === 'en' ? 'en' : 'es',
 			mensaje: form.mensaje.value.trim(),
 			turnstile: token,
 		};
@@ -204,7 +205,7 @@ function activarFormulario() {
 			});
 			if (!r.ok) throw new Error(r.status);
 			form.reset();
-			aviso.textContent = t().enviado;
+			aviso.textContent = t().enviado.replace('{correo}', datos.correo);
 		} catch (e) {
 			aviso.textContent = t().errorForm;
 			aviso.classList.add('error');
@@ -289,7 +290,7 @@ function construirAgente() {
 	agente.texto.addEventListener('keydown', (e) => {
 		if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviarConsulta(); }
 	});
-
+	agente.texto.addEventListener('input', ajustarCaja);
 	actualizarTextosAgente();
 	if (previo) restaurarConversacion(previo);
 }
@@ -305,6 +306,9 @@ function restaurarConversacion(previo) {
 	const saludo = burbuja('agente', t().saludo);
 	saludo.dataset.saludo = '1';
 	agente.historial.forEach((m) => burbuja(m.rol === 'agente' ? 'agente' : 'visitante', m.texto));
+	// Texto escrito y no enviado: vivía solo en el DOM de la página anterior.
+	if (previo?.pendiente) agente.texto.value = previo.pendiente;
+	ajustarCaja();
 	agente.redactar.hidden = !hayIntercambio();
 	if (agente.terminado) agente.enviar.disabled = true;
 	if (previo?.abierto) abrirAgente();
@@ -314,9 +318,18 @@ function restaurarConversacion(previo) {
 // Si el worker terminó un turno mientras el visitante cambiaba de página, esa
 // respuesta quedó en D1 y no en el navegador. Se detecta porque el último
 // mensaje del historial es del visitante: nunca queda así si el turno cerró bien.
-function recuperarPerdido() {
+function recuperarPerdido(intentos = 12, esperando = null) {
 	const h = agente.historial;
 	if (!h.length || h[h.length - 1].rol !== 'visitante') return;
+
+	// Primera vuelta: el visitante llega a la página nueva y ve su pregunta sola.
+	// La burbuja le da la misma señal que tenía antes de navegar, mientras el
+	// worker termina de escribir del otro lado.
+	if (!esperando) {
+		esperando = burbuja('agente', t().pensando);
+		esperando.classList.add('pensando');
+		ponerPuntos(esperando);
+	}
 
 	fetch(`${API}/ultimo`, {
 		method: 'POST',
@@ -328,15 +341,33 @@ function recuperarPerdido() {
 	})
 		.then((r) => r.json())
 		.then((d) => {
-			if (!d.turnos || !d.turnos.length) return;
+			if (!d.turnos || !d.turnos.length) {
+				// El worker puede tardar medio minuto: cuando navegamos, la fila
+				// todavía no existía en D1. Preguntar una sola vez nunca alcanza.
+				if (intentos > 0) {
+					setTimeout(() => recuperarPerdido(intentos - 1, esperando), 3000);
+					return;
+				}
+				// Se agotó el sondeo: el worker no llegó a guardar nada.
+				esperando.remove();
+				burbuja('agente', t().falla);
+				return;
+			}
+			esperando.remove();
 			d.turnos.forEach((texto) => {
 				burbuja('agente', texto);
 				agente.historial.push({ rol: 'agente', texto });
 			});
+			// El turno se completó del lado del worker: la sesión ya tiene filas en
+			// D1 y no va a pedir Turnstile de nuevo.
+			agente.verificado = true;
 			agente.redactar.hidden = !hayIntercambio();
 			guardarEstado();
 		})
-		.catch(() => {});   // si no se puede, el visitante simplemente repregunta
+		.catch(() => {
+			if (intentos > 0) setTimeout(() => recuperarPerdido(intentos - 1, esperando), 3000);
+			else esperando.remove();
+		});
 }
 
 function leerEstado() {
@@ -349,7 +380,11 @@ function leerEstado() {
 
 function guardarEstado() {
 	if (!agente) return;
-	if (saliendo) return;   // la página se está yendo: no pisar lo último bueno
+	if (saliendo) return;
+	// Un historial vacío nunca debe pisar uno con contenido: eso solo pasa cuando
+	// un pop() de una falla espuria dejó el array en cero justo antes de guardar.
+	const anterior = leerEstado();
+	if (!agente.historial.length && anterior?.historial?.length) return;
 	try {
 		sessionStorage.setItem(CLAVE_ESTADO, JSON.stringify({
 			sesion: agente.sesion,
@@ -357,6 +392,7 @@ function guardarEstado() {
 			verificado: agente.verificado,
 			terminado: agente.terminado,
 			abierto: agente.abierto,
+			pendiente: agente.texto.value,
 		}));
 	} catch (e) {}
 }
@@ -386,25 +422,31 @@ function abrirAgente() {
 		const saludo = burbuja('agente', t().saludo);
 		saludo.dataset.saludo = '1';
 	}
-	if (!agente.verificado) {
-		esperarTurnstile(() => {
-			turnstile.render('#gw-turnstile', {
-				sitekey: SITEKEY,
-				theme: 'dark',
-				callback: (tk) => {
-					agente.token = tk;
-					// Si el visitante escribió mientras se verificaba, se saca el cartel
-					// y se manda lo que había quedado esperando.
-					const avisos = agente.mensajes.querySelectorAll('.gw-espera-turnstile');
-					avisos.forEach((a) => a.remove());
-					if (avisos.length && agente.texto.value.trim()) enviarConsulta();
-				},
-				'expired-callback': () => { agente.token = null; },
-			});
-		});
-	}
 	agente.texto.focus();
 	guardarEstado();
+}
+
+// El widget se monta recién cuando hace falta un token, no al abrir el panel. Si
+// se monta al abrir, cada cambio de página previo a la primera respuesta lo
+// vuelve a mostrar, y queda tapando las burbujas. Además el token expira a los
+// pocos minutos, así que pedirlo antes de tiempo no sirve de nada.
+function montarTurnstile() {
+	if (agente.verificado || agente.widgetId) return;
+	esperarTurnstile(() => {
+		agente.widgetId = turnstile.render('#gw-turnstile', {
+			sitekey: SITEKEY,
+			theme: 'dark',
+			callback: (tk) => {
+				agente.token = tk;
+				// Si el visitante escribió mientras se verificaba, se saca el cartel
+				// y se manda lo que había quedado esperando.
+				const avisos = agente.mensajes.querySelectorAll('.gw-espera-turnstile');
+				avisos.forEach((a) => a.remove());
+				if (avisos.length && agente.texto.value.trim()) enviarConsulta();
+			},
+			'expired-callback': () => { agente.token = null; },
+		});
+	});
 }
 
 function cerrarAgente() {
@@ -413,6 +455,13 @@ function cerrarAgente() {
 	document.body.classList.remove('gw-abierto');
 	agente.boton.style.display = '';
 	guardarEstado();
+}
+
+// La caja crece con el contenido hasta el techo que fija el CSS. El 'auto' previo
+// no es opcional: sin él la caja crece pero nunca se achica al borrar texto.
+function ajustarCaja() {
+	agente.texto.style.height = 'auto';
+	agente.texto.style.height = `${agente.texto.scrollHeight}px`;
 }
 
 function burbuja(quien, texto) {
@@ -436,6 +485,7 @@ async function enviarConsulta(preguntaPrevia, vuelta = 1) {
 	const pregunta = reintento ? preguntaPrevia : agente.texto.value.trim();
 	if (!pregunta) return;
 	if (!reintento && !agente.verificado && !agente.token) {
+		montarTurnstile();
 		// Si ya hay un cartel esperando, no apilar otro por cada click.
 		if (!agente.mensajes.querySelector('.gw-espera-turnstile')) {
 			const aviso = burbuja('agente', t().verificando);
@@ -447,6 +497,7 @@ async function enviarConsulta(preguntaPrevia, vuelta = 1) {
 
 	if (!reintento) {
 		agente.texto.value = '';
+		ajustarCaja();
 		burbuja('visitante', pregunta);
 		agente.historial.push({ rol: 'visitante', texto: pregunta });
 		// Se guarda ya, no en el finally: si el visitante cambia de página mientras
@@ -507,7 +558,10 @@ async function enviarConsulta(preguntaPrevia, vuelta = 1) {
 	} catch (e) {
 		// Si el visitante cambió de página, el fetch se abortó solo: no es una
 		// falla, y tocar el historial acá es lo que le hace desaparecer la pregunta.
-		if (saliendo) return;
+		// 'saliendo' depende de que pagehide haya disparado a tiempo, y no siempre
+		// lo hace antes del catch. AbortError es la marca directa de que el fetch
+		// murió porque el documento se está descargando, sin depender del orden.
+		if (saliendo || e.name === 'AbortError' || !navigator.onLine) return;
 		esperando.remove();
 		// La pregunta se agregó al historial en la vuelta 1 y ninguna vuelta la
 		// saca, así que hay que sacarla acá sin importar en cuál estemos.
@@ -521,6 +575,12 @@ async function enviarConsulta(preguntaPrevia, vuelta = 1) {
 		// Solo se limpia si ya quedó verificada: si Turnstile falló, borrar el
 		// widget deja al visitante sin forma de reintentar.
 		if (agente.verificado) {
+			// innerHTML='' saca el HTML pero deja viva la instancia interna: la
+			// librería después no la encuentra y avisa por consola.
+			if (agente.widgetId) {
+				try { turnstile.remove(agente.widgetId); } catch (e) {}
+				agente.widgetId = null;
+			}
 			const caja = document.getElementById('gw-turnstile');
 			if (caja) caja.innerHTML = '';
 		}
@@ -642,8 +702,38 @@ window.addEventListener('resize', () => {
 // Cambiar de página aborta el fetch en curso. Sin esta marca, el catch de
 // enviarConsulta lo trata como una falla, borra la pregunta del historial y
 // guarda ese estado mutilado antes de que la página termine de descargarse.
-window.addEventListener('pagehide', () => { saliendo = true; });
+window.addEventListener('pagehide', () => {
+	// El texto sin enviar solo existe en el DOM. Se guarda acá, antes de la
+	// bandera, porque guardarEstado() sale temprano cuando 'saliendo' es true.
+	if (agente && agente.texto.value.trim()) guardarEstado();
+	saliendo = true;
+});
 // El navegador puede devolver la página desde el bfcache (botón atrás) con las
 // variables intactas. Sin esto, 'saliendo' queda en true y guardarEstado() deja
 // de guardar para siempre en esa pestaña.
 window.addEventListener('pageshow', () => { saliendo = false; });
+// El teclado virtual no achica el layout viewport, así que ni vh ni dvh lo ven:
+// solo visualViewport sabe cuánto espacio queda de verdad. En iOS además desplaza
+// el viewport hacia arriba, por eso hay que seguir también offsetTop.
+if (window.visualViewport) {
+	// Solo en el ancho donde el panel es pantalla completa. En escritorio está
+	// anclado abajo a la derecha y fijarle 'top' lo estira hasta el borde superior.
+	const movil = window.matchMedia('(max-width: 760px)');
+	const ajustarPanel = () => {
+		const panel = document.getElementById('gw-panel');
+		if (!movil.matches) {
+			document.documentElement.style.removeProperty('--gw-alto');
+			if (panel) panel.style.removeProperty('top');
+			return;
+		}
+		const vv = window.visualViewport;
+		document.documentElement.style.setProperty('--gw-alto', `${vv.height}px`);
+		if (panel) panel.style.top = `${vv.offsetTop}px`;
+	};
+	window.visualViewport.addEventListener('resize', ajustarPanel);
+	window.visualViewport.addEventListener('scroll', ajustarPanel);
+	// Al cruzar el breakpoint (rotar el teléfono, achicar la ventana) hay que
+	// limpiar o volver a poner los valores según de qué lado quedó.
+	movil.addEventListener('change', ajustarPanel);
+	ajustarPanel();
+}
