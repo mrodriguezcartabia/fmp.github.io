@@ -7,6 +7,7 @@ const TEXTOS = {
 	es: {
 		titulo: 'Asistente {marca}',
 		aviso: 'Las respuestas son generadas automáticamente por un modelo de IA de terceros (Google Gemini), pueden contener errores y se registran de forma anónima para mejorar el servicio. No ingreses datos personales.',
+		avisoCorto: 'No ingreses datos personales.',
 		saludo: '¡Hola! Puedo responder sobre lo que hace Gamma y sobre las tres formas de trabajar juntos. ¿Qué querés saber?',
 		abrir: 'Preguntale al asistente',
 		abrirCorto: 'Asistente',
@@ -14,7 +15,7 @@ const TEXTOS = {
 		escribi: 'Escribí tu consulta',
 		pensando: 'Pensando',
 		redactar: 'Armar un mensaje para Gamma',
-		falla: 'Se cortó la conexión con el asistente. Escribinos a info@gamma.ar.',
+		falla: 'Perdón, se cortó la conexión con el asistente. Escribinos a info@gamma.ar.',
 		verificando: 'Verificando que no seas un robot',
 		enviando: 'Enviando',
 		enviado: 'Listo, recibimos tu mensaje. Te mandamos una copia a {correo}; si no llega en unos minutos, revisá spam o escribinos directo a info@gamma.ar.',
@@ -26,10 +27,16 @@ const TEXTOS = {
 		lento: 'Sigo pensando, dame unos segundos',
 		muyLento: 'Esto está tardando; si preferís no esperar, escribinos a info@gamma.ar',
 		sinVerificacion: 'No se pudo cargar la verificación de seguridad. Probá recargar la página o escribinos a info@gamma.ar.',
+		redactandoBoton: 'Armando el mensaje...',
+		redactando: 'Estoy armando el mensaje con lo que hablamos',
+		redactandoLento: 'Sigo armando el mensaje, dame unos segundos',
+		redactandoMuyLento: 'Esto está tardando; si preferís no esperar, escribinos a info@gamma.ar',
+		redactarTope: 'Ya armamos varios mensajes en esta sesión. Escribinos directo a info@gamma.ar y te contestamos nosotros.',
 	},
 	en: {
 		titulo: 'Assistant {marca}',
 		aviso: 'Answers are generated automatically by a third-party AI model (Google Gemini), may contain errors and are logged anonymously to improve the service. Do not enter personal data.',
+		avisoCorto: 'Do not enter personal data.',
 		saludo: "Hi! I can answer questions about what Gamma does and about the three ways of working together. What would you like to know?",
 		abrir: 'Ask the assistant',
 		abrirCorto: 'Assistant',
@@ -37,7 +44,7 @@ const TEXTOS = {
 		escribi: 'Type your question',
 		pensando: 'Thinking',
 		redactar: 'Draft a message to Gamma',
-		falla: 'The connection to the assistant failed. Write to info@gamma.ar.',
+		falla: 'Sorry, the connection to the assistant failed. Write to info@gamma.ar.',
 		verificando: 'Checking that you are not a robot',
 		enviando: 'Sending',
 		enviado: "Thanks, we've got your message. A copy is on its way to {correo}; if it doesn't arrive in a few minutes, check spam or write directly to info@gamma.ar.",
@@ -49,6 +56,11 @@ const TEXTOS = {
 		lento: 'Still thinking, give me a few seconds',
 		muyLento: 'This is taking a while; if you would prefer not to wait, write to us at info@gamma.ar',
 		sinVerificacion: 'The security check failed to load. Try reloading the page or write to info@gamma.ar.',
+		redactandoBoton: 'Drafting...',
+		redactando: "I'm drafting the message from what we discussed",
+		redactandoLento: 'Still drafting, give me a few seconds',
+		redactandoMuyLento: 'This is taking a while; if you would prefer not to wait, write to us at info@gamma.ar',
+		redactarTope: "We've drafted several messages in this session already. Write to info@gamma.ar and we'll reply ourselves.",
 	},
 };
 
@@ -221,6 +233,9 @@ function activarFormulario() {
 
 let agente = null;
 let saliendo = false;
+// Se define de verdad al final del archivo, dentro del bloque de visualViewport.
+// Vacía por defecto para los navegadores sin esa API y para escritorio.
+let ajustarPanel = () => {};
 
 function construirAgente() {
 	if (!document.body.dataset.agente) return;
@@ -245,7 +260,8 @@ function construirAgente() {
 				<button type="button" id="gw-cerrar" aria-label="Cerrar">&times;</button>
 			</span>
 		</div>
-		<p class="gw-aviso" id="gw-aviso"></p>
+		<div class="gw-aviso"><p id="gw-aviso-largo"></p></div>
+		<p class="gw-aviso-corto" id="gw-aviso-corto"></p>
 		<div id="gw-mensajes"></div>
 		<div id="gw-turnstile"></div>
 		<div class="gw-pie">
@@ -404,7 +420,8 @@ function actualizarTextosAgente() {
 	agente.boton.setAttribute('aria-label', t().abrir);
 	agente.panel.querySelector('#gw-titulo').innerHTML =
 		t().titulo.replace('{marca}', '<span class="gw-marca">Gamma</span>');
-	agente.panel.querySelector('#gw-aviso').textContent = t().aviso;
+	agente.panel.querySelector('#gw-aviso-largo').textContent = t().aviso;
+	agente.panel.querySelector('#gw-aviso-corto').textContent = t().avisoCorto;
 	agente.enviar.textContent = t().enviar;
 	agente.redactar.textContent = t().redactar;
 	agente.texto.placeholder = t().escribi;
@@ -503,8 +520,14 @@ async function enviarConsulta(preguntaPrevia, vuelta = 1) {
 		// Se guarda ya, no en el finally: si el visitante cambia de página mientras
 		// espera, su pregunta tiene que seguir en pantalla al volver.
 		guardarEstado();
+		// Recién ahora hay conversación que tapar. El teclado ya está abierto, así
+		// que visualViewport no va a disparar nada solo: se evalúa a mano.
+		ajustarPanel();
 	}
 	agente.enviar.disabled = true;
+	// Sin esto se puede pedir la redacción con la consulta en vuelo: /redactar
+	// leería un historial de D1 sin este turno, y su finally reactivaría el enviar.
+	agente.redactar.disabled = true;
 	const esperando = burbuja('agente', t().pensando);
 	esperando.classList.add('pensando');
 	ponerPuntos(esperando);
@@ -571,6 +594,7 @@ async function enviarConsulta(preguntaPrevia, vuelta = 1) {
 		clearTimeout(avisoLento);
 		clearTimeout(avisoMuyLento);
 		agente.enviar.disabled = agente.terminado || espera > 0;
+		agente.redactar.disabled = false;
 		agente.token = null;
 		// Solo se limpia si ya quedó verificada: si Turnstile falló, borrar el
 		// widget deja al visitante sin forma de reintentar.
@@ -596,6 +620,25 @@ async function enviarConsulta(preguntaPrevia, vuelta = 1) {
 
 async function pedirRedaccion() {
 	agente.redactar.disabled = true;
+	agente.enviar.disabled = true;
+	agente.redactar.textContent = t().redactandoBoton;
+
+	// Misma señal que en /consulta: la burbuja en el hilo, no solo el botón. En móvil
+	// el pie puede quedar tapado por el teclado y el cambio del botón no se ve.
+	const esperando = burbuja('agente', t().redactando);
+	esperando.classList.add('pensando');
+	ponerPuntos(esperando);
+	// La redacción normal sale en 2-4 s: a los 8 el silencio ya inquieta. El techo
+	// del worker son 60 s, así que el segundo aviso tiene que llegar bastante antes.
+	const avisoLento = setTimeout(() => {
+		esperando.textContent = t().redactandoLento;
+		ponerPuntos(esperando);
+	}, 8000);
+	const avisoMuyLento = setTimeout(() => {
+		esperando.textContent = t().redactandoMuyLento;
+		ponerPuntos(esperando);
+	}, 25000);
+
 	try {
 		const r = await fetch(`${API}/redactar`, {
 			method: 'POST',
@@ -609,11 +652,21 @@ async function pedirRedaccion() {
 			location.href = 'contacto.html';
 			return;
 		}
-		burbuja('agente', t().falla);
+		esperando.remove();
+		// 'tope' no es una falla de conexión: decirle que se cortó lo manda a
+		// reintentar un botón que ya no le va a funcionar en esta sesión.
+		burbuja('agente', data.error === 'tope' ? t().redactarTope : (data.respuesta || t().falla));
 	} catch (e) {
+		// Igual que en enviarConsulta: cambiar de página aborta el fetch y no es falla.
+		if (saliendo || e.name === 'AbortError') return;
+		esperando.remove();
 		burbuja('agente', t().falla);
 	} finally {
+		clearTimeout(avisoLento);
+		clearTimeout(avisoMuyLento);
 		agente.redactar.disabled = false;
+		agente.redactar.textContent = t().redactar;
+		agente.enviar.disabled = agente.terminado;
 	}
 }
 
@@ -719,16 +772,34 @@ if (window.visualViewport) {
 	// Solo en el ancho donde el panel es pantalla completa. En escritorio está
 	// anclado abajo a la derecha y fijarle 'top' lo estira hasta el borde superior.
 	const movil = window.matchMedia('(max-width: 760px)');
-	const ajustarPanel = () => {
+	ajustarPanel = () => {
 		const panel = document.getElementById('gw-panel');
 		if (!movil.matches) {
 			document.documentElement.style.removeProperty('--gw-alto');
-			if (panel) panel.style.removeProperty('top');
+			if (panel) {
+				panel.style.removeProperty('top');
+				panel.classList.remove('gw-tecleando');
+			}
 			return;
 		}
 		const vv = window.visualViewport;
 		document.documentElement.style.setProperty('--gw-alto', `${vv.height}px`);
 		if (panel) panel.style.top = `${vv.offsetTop}px`;
+
+		// innerHeight es el layout viewport: el teclado no lo toca, pero la rotación
+		// sí, así que sirve de referencia estable. 150 px de umbral porque la barra
+		// de direcciones mueve 60-100 y no tiene que contar como teclado.
+		const teclado = window.innerHeight - vv.height > 150;
+		// El aviso solo estorba cuando hay conversación que tapar. En la primera
+		// apertura la pantalla está vacía, así que se queda entero aunque suba el
+		// teclado: es el único momento en que alguien lo va a leer.
+		const tecleando = teclado && !!agente && agente.historial.length > 0;
+		if (panel && panel.classList.contains('gw-tecleando') !== tecleando) {
+			panel.classList.toggle('gw-tecleando', tecleando);
+			// El aviso al plegarse le devuelve su alto a #gw-mensajes: sin esto el
+			// último mensaje queda a mitad de camino.
+			if (agente && agente.abierto) agente.mensajes.scrollTop = agente.mensajes.scrollHeight;
+		}
 	};
 	window.visualViewport.addEventListener('resize', ajustarPanel);
 	window.visualViewport.addEventListener('scroll', ajustarPanel);
