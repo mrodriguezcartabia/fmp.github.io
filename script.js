@@ -765,13 +765,21 @@ window.addEventListener('pagehide', () => {
 // variables intactas. Sin esto, 'saliendo' queda en true y guardarEstado() deja
 // de guardar para siempre en esa pestaña.
 window.addEventListener('pageshow', () => { saliendo = false; });
-// El teclado virtual no achica el layout viewport, así que ni vh ni dvh lo ven:
-// solo visualViewport sabe cuánto espacio queda de verdad. En iOS además desplaza
-// el viewport hacia arriba, por eso hay que seguir también offsetTop.
+// El teclado virtual no achica el layout viewport en Safari de iOS, así que ni vh
+// ni dvh lo ven: solo visualViewport sabe cuánto espacio queda de verdad. En iOS
+// además desplaza el viewport hacia arriba, por eso hay que seguir también offsetTop.
+// Ojo que Chrome de Android hace lo contrario: sí achica el layout viewport. Por eso
+// abajo no se compara nunca contra innerHeight, que se mueve en un navegador y en
+// el otro no.
 if (window.visualViewport) {
 	// Solo en el ancho donde el panel es pantalla completa. En escritorio está
 	// anclado abajo a la derecha y fijarle 'top' lo estira hasta el borde superior.
 	const movil = window.matchMedia('(max-width: 760px)');
+	// Mayor alto visto: el teclado solo puede achicar el viewport, nunca agrandarlo,
+	// así que el máximo es por definición la medida sin teclado.
+	let altoLibre = 0;
+	// La rotación cambia el ancho y deja obsoleto el alto de referencia.
+	let anchoBase = 0;
 	ajustarPanel = () => {
 		const panel = document.getElementById('gw-panel');
 		if (!movil.matches) {
@@ -785,11 +793,17 @@ if (window.visualViewport) {
 		const vv = window.visualViewport;
 		document.documentElement.style.setProperty('--gw-alto', `${vv.height}px`);
 		if (panel) panel.style.top = `${vv.offsetTop}px`;
+		const titulo = document.getElementById('gw-titulo');
+		if (titulo) titulo.textContent = `${window.innerHeight} · ${Math.round(vv.height)} · ${Math.round(altoLibre)}`;
 
-		// innerHeight es el layout viewport: el teclado no lo toca, pero la rotación
-		// sí, así que sirve de referencia estable. 150 px de umbral porque la barra
-		// de direcciones mueve 60-100 y no tiene que contar como teclado.
-		const teclado = window.innerHeight - vv.height > 150;
+		if (vv.width !== anchoBase) {
+			anchoBase = vv.width;
+			altoLibre = 0;
+		}
+		if (vv.height > altoLibre) altoLibre = vv.height;
+		// 150 px de umbral: la barra de direcciones al aparecer y desaparecer mueve
+		// 60-100 px y no tiene que contar como teclado.
+		const teclado = altoLibre - vv.height > 150;
 		// El aviso solo estorba cuando hay conversación que tapar. En la primera
 		// apertura la pantalla está vacía, así que se queda entero aunque suba el
 		// teclado: es el único momento en que alguien lo va a leer.
