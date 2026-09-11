@@ -793,8 +793,6 @@ if (window.visualViewport) {
 		const vv = window.visualViewport;
 		document.documentElement.style.setProperty('--gw-alto', `${vv.height}px`);
 		if (panel) panel.style.top = `${vv.offsetTop}px`;
-		const titulo = document.getElementById('gw-titulo');
-		if (titulo) titulo.textContent = `${window.innerHeight} · ${Math.round(vv.height)} · ${Math.round(altoLibre)}`;
 
 		if (vv.width !== anchoBase) {
 			anchoBase = vv.width;
