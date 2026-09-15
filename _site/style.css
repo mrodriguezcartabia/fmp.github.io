@@ -64,7 +64,7 @@ a:hover { color: var(--texto); }
 }
 
 .marca { display: flex; align-items: center; gap: .8rem; text-decoration: none; color: inherit; font-size: 2.2rem; }
-.marca img { display: block; height: .85em; width: auto; }
+.marca img { display: block; height: .741em; width: auto; }
 .marca-texto { font-family: var(--display); font-size: 1em; font-weight: 700; letter-spacing: -.02em; line-height: 1; }
 
 .menu { display: flex; gap: 1.6rem; margin-left: auto; flex-wrap: wrap; }
@@ -322,13 +322,32 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 1.5rem; }
 .gw-barra button:hover { color: var(--acento-claro); }
 #gw-tamano { font-size: 1rem; }
 
+/* grid de una fila: 1fr abierto, 0fr plegado. A diferencia de max-height, anima
+   el alto real del texto, sin adivinar un techo ni frenar antes de tiempo. */
 .gw-aviso {
-	padding: .9rem 1.1rem;
+	display: grid; grid-template-rows: 1fr;
 	font-family: var(--display);
 	font-size: .8rem; line-height: 1.5;
 	color: var(--texto); background: var(--superficie);
 	border-bottom: 1px solid var(--borde);
+	transition: grid-template-rows .22s ease;
 }
+.gw-aviso > p {
+	overflow: hidden;   /* imprescindible: es lo que recorta al llegar a 0fr */
+	margin: 0; padding: .9rem 1.1rem;
+	transition: padding .22s ease;
+}
+#gw-panel.gw-tecleando .gw-aviso { grid-template-rows: 0fr; border-bottom-width: 0; }
+#gw-panel.gw-tecleando .gw-aviso > p { padding-top: 0; padding-bottom: 0; }
+
+/* Lo único que queda mientras escribe: ~18 px. */
+.gw-aviso-corto {
+	display: none; margin: 0;
+	font-family: var(--display); font-size: .68rem; letter-spacing: .04em;
+	color: var(--texto-tenue); background: var(--superficie);
+	padding: .4rem 1.1rem; border-bottom: 1px solid var(--borde);
+}
+#gw-panel.gw-tecleando .gw-aviso-corto { display: block; }
 
 #gw-mensajes { flex: 1; overflow-y: auto; padding: 1.1rem; display: flex; flex-direction: column; gap: .9rem; }
 

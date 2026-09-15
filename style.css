@@ -64,7 +64,7 @@ a:hover { color: var(--texto); }
 }
 
 .marca { display: flex; align-items: center; gap: .8rem; text-decoration: none; color: inherit; font-size: 2.2rem; }
-.marca img { display: block; height: .85em; width: auto; }
+.marca img { display: block; height: .741em; width: auto; }
 .marca-texto { font-family: var(--display); font-size: 1em; font-weight: 700; letter-spacing: -.02em; line-height: 1; }
 
 .menu { display: flex; gap: 1.6rem; margin-left: auto; flex-wrap: wrap; }
