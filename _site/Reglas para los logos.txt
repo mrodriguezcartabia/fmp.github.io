@@ -73,6 +73,8 @@ DÓNDE SE AJUSTA LA TIRA
 
 style.css
   .tira-pista { gap }   separación entre repeticiones de la tanda
+                        (en celular la pisa la regla dentro de
+                        @media (max-width: 760px), al final del archivo)
   .tanda      { gap }   separación entre logos de una misma tanda
   .tira-pista img       alto (42px) y ancho máximo de cada logo
 

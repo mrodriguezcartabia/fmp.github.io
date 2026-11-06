@@ -39,6 +39,8 @@ body {
 
 a { color: var(--acento-claro); text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a:hover { color: var(--texto); }
+a[href^="mailto:"] { text-decoration: none; }
+a[href^="mailto:"]:hover { text-decoration: underline; }
 
 :focus-visible { outline: 2px solid var(--acento-claro); outline-offset: 3px; }
 
@@ -142,7 +144,7 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 1.5rem; }
 .tira:hover .tira-pista, .tira:focus-within .tira-pista { animation-play-state: paused; }
 .tira-pista a { flex: none; display: block; }
 .tira-pista img {
-	display: block; height: 42px; width: auto; max-width: 200px;
+	display: block; height: auto; width: auto; max-height: 46px; max-width: 200px;
 	opacity: 1; transition: opacity .2s ease;
 }
 .tira-pista a:hover img { opacity: .65; }
@@ -407,6 +409,7 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 1.5rem; }
 	.idiomas { margin-left: auto; }
 	.declaracion:nth-child(2) { margin-left: 0; }
 	.contacto-doble { grid-template-columns: 1fr; gap: 2.5rem; }
+   .tira-pista { gap: 6rem; }
 	.servicio { flex-direction: column; gap: 1.5rem; }
 	.servicio-titulo, .servicio-cuerpo { flex: none; }
 	#gw-panel, #gw-panel.grande {
