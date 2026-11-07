@@ -34,7 +34,7 @@ const TEXTOS = {
 		redactarTope: 'Ya armamos varios mensajes en esta sesión. Escribinos directo a info@gamma.ar y te contestamos nosotros.',
 	},
 	en: {
-		titulo: 'Assistant {marca}',
+		titulo: '{marca} Assistant',
 		aviso: 'Answers are generated automatically by a third-party AI model (Google Gemini), may contain errors and are logged anonymously to improve the service. Do not enter personal data.',
 		avisoCorto: 'Do not enter personal data.',
 		saludo: "Hi! I can answer questions about what Gamma does and about the three ways of working together. What would you like to know?",
@@ -44,7 +44,7 @@ const TEXTOS = {
 		escribi: 'Type your question',
 		pensando: 'Thinking',
 		redactar: 'Draft a message to Gamma',
-		falla: 'Sorry, the connection to the assistant failed. Write to info@gamma.ar.',
+		falla: 'Sorry, the connection to the assistant failed. Write to us at info@gamma.ar.',
 		verificando: 'Checking that you are not a robot',
 		enviando: 'Sending',
 		enviado: "Thanks, we've got your message. A copy is on its way to {correo}; if it doesn't arrive in a few minutes, check spam or write directly to info@gamma.ar.",
@@ -52,7 +52,7 @@ const TEXTOS = {
 		camposForm: 'Please fill in your name, a valid email and the message.',
 		copiado: 'Copied',
 		demanda: 'The assistant is under heavy load. Retrying in {s} s...',
-		demandaUltima: 'Trying one last time in {s}s. Sorry for the wait — if you prefer, write to info@gamma.ar.',
+		demandaUltima: 'Trying one last time in {s} s. Sorry for the wait — if you prefer, write to info@gamma.ar.',
 		lento: 'Still thinking, give me a few seconds',
 		muyLento: 'This is taking a while; if you would prefer not to wait, write to us at info@gamma.ar',
 		sinVerificacion: 'The security check failed to load. Try reloading the page or write to info@gamma.ar.',
@@ -60,7 +60,7 @@ const TEXTOS = {
 		redactando: "I'm drafting the message from what we discussed",
 		redactandoLento: 'Still drafting, give me a few seconds',
 		redactandoMuyLento: 'This is taking a while; if you would prefer not to wait, write to us at info@gamma.ar',
-		redactarTope: "We've drafted several messages in this session already. Write to info@gamma.ar and we'll reply ourselves.",
+		redactarTope: "We've drafted several messages in this session already. Write to us at info@gamma.ar and we'll reply ourselves.",
 	},
 };
 

@@ -137,7 +137,7 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 1.5rem; }
 	        mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
 }
 .tira-pista {
-	display: flex; align-items: center; width: max-content; gap: 50rem;
+	display: flex; align-items: center; width: max-content; gap: min(50rem, 75vw);
 	animation: desliza 32s linear infinite;
 }
 .tanda { display: flex; align-items: center; gap: 4rem; flex: none; }
@@ -409,7 +409,6 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 1.5rem; }
 	.idiomas { margin-left: auto; }
 	.declaracion:nth-child(2) { margin-left: 0; }
 	.contacto-doble { grid-template-columns: 1fr; gap: 2.5rem; }
-   .tira-pista { gap: 6rem; }
 	.servicio { flex-direction: column; gap: 1.5rem; }
 	.servicio-titulo, .servicio-cuerpo { flex: none; }
 	#gw-panel, #gw-panel.grande {
