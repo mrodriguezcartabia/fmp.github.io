@@ -66,7 +66,7 @@ a[href^="mailto:"]:hover { text-decoration: underline; }
 }
 
 .marca { display: flex; align-items: center; gap: .8rem; text-decoration: none; color: inherit; font-size: 2.2rem; }
-.marca img { display: block; height: .741em; width: auto; }
+.marca img { display: block; height: .7em; width: auto; }
 .marca-texto { font-family: var(--display); font-size: 1em; font-weight: 700; letter-spacing: -.02em; line-height: 1; }
 
 .menu { display: flex; gap: 1.6rem; margin-left: auto; flex-wrap: wrap; }
@@ -141,13 +141,12 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 1.5rem; }
 	animation: desliza 32s linear infinite;
 }
 .tanda { display: flex; align-items: center; gap: 4rem; flex: none; }
-.tira:hover .tira-pista, .tira:focus-within .tira-pista { animation-play-state: paused; }
+.tira:has(a:focus-visible) .tira-pista { animation-play-state: paused; }
 .tira-pista a { flex: none; display: block; }
 .tira-pista img {
 	display: block; height: auto; width: auto; max-height: 46px; max-width: 200px;
 	opacity: 1; transition: opacity .2s ease;
 }
-.tira-pista a:hover img { opacity: .65; }
 
 @keyframes desliza { to { transform: translateX(calc(var(--salto, 50%) * -1)); } }
 
@@ -443,4 +442,8 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 1.5rem; }
 	.persona p { grid-column: 1 / -1; margin-top: 1.2rem; }
 	.persona .enlaces { grid-column: 1 / -1; }
 	.boton { white-space: normal; }
+}
+@media (hover: hover){
+	.tira:hover .tira-pista { animation-play-state: paused; }
+	.tira-pista a:hover img { opacity: .65; }
 }
